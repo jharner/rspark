@@ -1,0 +1,39 @@
+version: '2'
+services:
+  postgres:
+    build: ./postgres
+    image: jh-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/pg-data:/opt/pg-data
+  hive:
+    build: ./hive
+    image: jh-hive
+    ports:
+      - "10000:10000"
+    depends_on:
+      - hadoop
+  hadoop:
+    build: ./hadoop
+    image: jh-hadoop
+    volumes:
+      - ./data/hadoop:/opt/hadoop
+    ports:
+      - "9000:9000" # Hadoop
+      - "50070:50070" # HadoopUI Access
+  rstudio:
+    build: ./rstudio
+    image: jh-rstudio
+    ports:
+      - "8787:8787" # RstudioUI
+    links:
+      - hadoop
+      - postgres
+    volumes:
+      - ./data/rstudio:/home/rstudio
+      - ./willtest:/home/rstudio/tests # TEMPORARY directory of test scripts
+      - ./jhtest:/home/rstudio/jhtest # TEMPORARY directory for Dr. Harner module work
+    depends_on: 
+      - hadoop
+      - hive
