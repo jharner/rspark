@@ -13,7 +13,7 @@ case $key in
 	docker build -t jh-rstudio rstudio
 	;;
 	-r|--reset)
-	echo "resetting data"
+	echo "resetting data directory"
 	docker rm hadoop_hadoop_1 hadoop_hive_1 hadoop_postgres_1 hadoop_rstudio_1
 	rm -rf data/pg-data data/hadoop
 	shift
@@ -27,6 +27,7 @@ done
 
 if [[ ! -e data ]]; then
 	mkdir data
+	# possibly Add Git pull here
 fi
 
 if [[ ! -e data/pg-data ]]; then

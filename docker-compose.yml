@@ -32,8 +32,7 @@ services:
       - postgres
     volumes:
       - ./data/rstudio:/home/rstudio
-      - ./willtest:/home/rstudio/tests # TEMPORARY directory of test scripts
-      - ./jhtest:/home/rstudio/jhtest # TEMPORARY directory for Dr. Harner module work
+      - ./rspark-data:/home/rstudio/rspark-data
     depends_on: 
       - hadoop
       - hive
