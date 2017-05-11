@@ -1,1 +1,5 @@
+rspark-data
+.Rapp.history
 .DS_Store
+derby.log
+metastore_db
