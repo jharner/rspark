@@ -18,7 +18,7 @@ RUN sudo R CMD javareconf
 # HADOOP
 ####################
 # Download and Install Hadoop and set Hadoop environment variable
-RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz && \
+RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz && \
 	tar zxf hadoop-2.7.1.tar.gz && ln -s hadoop-2.7.1 hadoop && rm hadoop-2.7.1.tar.gz
 RUN mkdir native && cd native && wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && tar zxf hadoop-native-64-2.7.1.tgz && rm hadoop-native-64-2.7.1.tgz && cd ..
 RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
@@ -46,7 +46,7 @@ RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 ####################
 # Install Spark
 RUN cd /opt && \
-	wget --quiet http://apache.osuosl.org/spark/spark-2.1.1/spark-2.1.1-bin-hadoop2.7.tgz && \
+	wget --quiet http://apache.mirrors.ionfish.org/spark/spark-2.1.1/spark-2.1.1-bin-hadoop2.7.tgz && \
 	tar zxf spark-2.1.1-bin-hadoop2.7.tgz && \
 	mv spark-2.1.1-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
@@ -57,7 +57,7 @@ RUN cd /opt && \
 # HIVE
 ####################
 RUN cd /opt && \
-	wget --quiet http://apache.mesi.com.ar/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz && \
+	wget --quiet http://apache.mirrors.ionfish.org/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz && \
 	tar zxf apache-hive-2.1.1-bin.tar.gz && \
 	ln -s apache-hive-2.1.1-bin hive && \
 	ln -s /opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar /opt/hive/lib/ && \
