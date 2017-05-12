@@ -46,9 +46,9 @@ RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 ####################
 # Install Spark
 RUN cd /opt && \
-	wget --quiet http://apache.osuosl.org/spark/spark-2.1.0/spark-2.1.0-bin-hadoop2.7.tgz && \
-	tar zxf spark-2.1.0-bin-hadoop2.7.tgz && \
-	mv spark-2.1.0-bin-hadoop2.7 spark && \
+	wget --quiet http://apache.osuosl.org/spark/spark-2.1.1/spark-2.1.1-bin-hadoop2.7.tgz && \
+	tar zxf spark-2.1.1-bin-hadoop2.7.tgz && \
+	mv spark-2.1.1-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
 
