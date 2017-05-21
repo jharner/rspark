@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "\n"
 
 PS3='Choose a container to log in to: '
