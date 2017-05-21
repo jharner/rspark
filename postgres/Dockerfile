@@ -13,13 +13,13 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/
 RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
 
 
-RUN mkdir -p /opt/pgdata; chown -R postgres /opt/pgdata; chmod 700 /opt/pgdata
+RUN mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data
 
 RUN locale-gen en_US.UTF-8
 
 # Delete default cluster and create new cluster
 RUN pg_dropcluster ${pgversion} main
-RUN pg_createcluster -d /opt/pgdata --locale=en_US.UTF-8 ${pgversion} main
+RUN pg_createcluster -d /opt/pg-data --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
 COPY dataexpo.sql /opt/
