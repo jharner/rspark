@@ -33,6 +33,7 @@ services:
     volumes:
       - ./data/rstudio:/home/rstudio
       - ./rspark-data:/home/rstudio/rspark-data
+      - ./rspark-notes:/home/rstudio/rspark-notes
     depends_on: 
       - hadoop
       - hive
