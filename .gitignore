@@ -1,5 +1,6 @@
 rspark-data
 data
+*.html
 .Rapp.history
 .DS_Store
 derby.log
