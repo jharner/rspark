@@ -1,5 +1,9 @@
 ## Versions Info
 
+Operating Systems:
+Mac OS 10.11 or greater
+Windows 10 Professional
+
 - Java		OpenJDK 8
 - Hadoop 	2.7.1
 - Hive 		2.1.1
