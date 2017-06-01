@@ -4,6 +4,10 @@ MAINTAINER Mark Lilback <mark@lilback.com>
 # Define Postgres Versions
 ARG pgversion=9.4
 
+ENV PGDATA /opt/pg-data
+ENV PGDIR /usr/lib/postgresql/${pgversion}/bin/
+ENV PGVERSION ${pgversion}
+
 # Add the PostgreSQL PGP key to verify their Debian packages.
 RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 # Add PostgreSQL's repository.
@@ -19,10 +23,14 @@ RUN locale-gen en_US.UTF-8
 
 # Delete default cluster and create new cluster
 RUN pg_dropcluster ${pgversion} main
-RUN pg_createcluster -d /opt/pg-data --locale=en_US.UTF-8 ${pgversion} main
+#RUN pg_createcluster -D $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
 COPY dataexpo.sql /opt/
+
+
+
+
 
 # Become user Postgres (superuser)
 USER postgres
@@ -30,8 +38,30 @@ USER postgres
 # Copy connection configuration file
 COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
 
-# Copy runpg shell script
+
+# Postgres Setup
+
+RUN $PGDIR/initdb -D $PGDATA &&\
+	$PGDIR/pg_ctl -D $PGDATA start &&\
+    echo "**Creating Postgres user roles.**" &&\
+    sleep 3 &&\
+    psql --command "CREATE USER rstudio createdb" &&\
+    createdb -O rstudio rstudio &&\
+	psql --command "CREATE USER hive" &&\
+	createdb -O hive hive &&\
+	createdb -O rstudio dataexpo &&\
+	createdb -O rstudio testdb &&\
+	service postgresql stop
+
+#RUN $PGDIR/pg_ctl -D $PGDATA start &&\
+#	sleep 3 &&\
+#	echo "**Populating databases, this may take a moment.**" &&\
+#	psql -U rstudio dataexpo </opt/dataexpo.sql >/dev/null &&\
+#	psql --command "GRANT ALL PRIVILEGES ON DATABASE dataexpo TO rstudio" &&\
+#	service postgresql stop
+
 COPY runpg.sh /var/lib/postgresql/runpg.sh
+
 
 # Define environment variables
 ENV LANG en_US.UTF-8
@@ -42,3 +72,7 @@ EXPOSE 5432
 
 # Execute Postgres setup script "runpg.sh"
 CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
+
+# CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
+# CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
+
