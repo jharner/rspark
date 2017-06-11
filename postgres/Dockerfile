@@ -10,6 +10,7 @@ ENV PGVERSION ${pgversion}
 
 # Add the PostgreSQL PGP key to verify their Debian packages.
 RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+
 # Add PostgreSQL's repository.
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
@@ -23,11 +24,10 @@ RUN locale-gen en_US.UTF-8
 
 # Delete default cluster and create new cluster
 RUN pg_dropcluster ${pgversion} main
-#RUN pg_createcluster -D $PGDATA --locale=en_US.UTF-8 ${pgversion} main
+RUN pg_createcluster -D $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
 COPY dataexpo.sql /opt/
-
 
 
 
@@ -41,17 +41,17 @@ COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
 
 # Postgres Setup
 
-RUN $PGDIR/initdb -D $PGDATA &&\
-	$PGDIR/pg_ctl -D $PGDATA start &&\
-    echo "**Creating Postgres user roles.**" &&\
-    sleep 3 &&\
-    psql --command "CREATE USER rstudio createdb" &&\
-    createdb -O rstudio rstudio &&\
-	psql --command "CREATE USER hive" &&\
-	createdb -O hive hive &&\
-	createdb -O rstudio dataexpo &&\
-	createdb -O rstudio testdb &&\
-	service postgresql stop
+#RUN $PGDIR/initdb -D $PGDATA &&\
+#	$PGDIR/pg_ctl -D $PGDATA start &&\
+#    echo "**Creating Postgres user roles.**" &&\
+#    sleep 3 &&\
+#    psql --command "CREATE USER rstudio createdb" &&\
+#    createdb -O rstudio rstudio &&\
+#	psql --command "CREATE USER hive" &&\
+#	createdb -O hive hive &&\
+#	createdb -O rstudio dataexpo &&\
+#	createdb -O rstudio testdb &&\
+#	service postgresql stop
 
 #RUN $PGDIR/pg_ctl -D $PGDATA start &&\
 #	sleep 3 &&\
@@ -61,7 +61,7 @@ RUN $PGDIR/initdb -D $PGDATA &&\
 #	service postgresql stop
 
 COPY runpg.sh /var/lib/postgresql/runpg.sh
-
+CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
 
 # Define environment variables
 ENV LANG en_US.UTF-8
@@ -71,8 +71,6 @@ ENV LC_ALL en_US.UTF-8
 EXPOSE 5432
 
 # Execute Postgres setup script "runpg.sh"
-CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
-
-# CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
+CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
 # CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
 

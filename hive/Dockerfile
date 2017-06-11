@@ -25,6 +25,10 @@ ADD hive-site.xml /opt/hive/conf/
 
 RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
 
+RUN mkdir /scripts
+COPY waitfor.sh /scripts/
+RUN chmod 777 /scripts/waitfor.sh
+
 RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar" >> /.bashrc && \
 	echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /.bashrc && \
 	echo "export PATH=/opt/hive/bin:/opt/hadoop/bin:$PATH" >> /.bashrc

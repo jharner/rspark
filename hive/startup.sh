@@ -8,10 +8,11 @@ export HADOOP_HOME=/opt/hadoop
 
 sleep 10
 
-until psql -h postgres -U hive -c 'select 1' >/dev/null 2>&1; do
-	>2& echo "waiting on postgres"
-	sleep 4
-done
+echo "** Checking Postgres Connection **"
+/scripts/waitfor.sh -h postgres -p 5432
+
+# Add code to more effectively wait on hadoop
+sleep 40
 
 psql -h postgres -U hive -c 'select count(*) from BUCKETING_COLS' >/dev/null 2>&1
 if [ $? -gt 0 ]; then

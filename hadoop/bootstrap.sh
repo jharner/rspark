@@ -1,5 +1,11 @@
 #!/bin/bash
 
+sleep 10
+echo "** Checking Postgres Connection **"
+/scripts/waitfor.sh -h postgres -p 5432
+
+sleep 10
+
 : ${HADOOP_PREFIX:=/usr/local/hadoop}
 
 $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
