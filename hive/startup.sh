@@ -23,6 +23,6 @@ fi
 
 /opt/hadoop/bin/hdfs dfs -chown -R rstudio:rstudio /user/hive
 
-echo "starrting hiveserver2"
+echo "starting hiveserver2"
 
 su -lc /opt/hive/bin/hiveserver2 rstudio

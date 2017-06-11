@@ -79,6 +79,8 @@ ENV HADOOP_BIN /opt/hadoop/bin
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 
 
+# RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
+ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
 
 EXPOSE 8787
 #VOLUME /home/rstudio
