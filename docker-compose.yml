@@ -31,9 +31,8 @@ services:
       - hadoop
       - postgres
     volumes:
-      - ./data/rstudio:/home/rstudio
-      - ./rspark-data:/home/rstudio/rspark-data
       - ./rspark-notes:/home/rstudio/rspark-notes
+      - ./rspark-tests:/home/rstudio/rspark-tests
     depends_on: 
       - hadoop
       - hive

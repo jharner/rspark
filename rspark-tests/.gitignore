@@ -1,0 +1,6 @@
+.DS_Store
+derby.log
+metastore_db
+*.html
+.Rhistory
+.rstudio
