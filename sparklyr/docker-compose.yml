@@ -8,9 +8,15 @@ services:
     ports:
       - "8787:8787" #rstudio webUI
     volumes:
-      - ../data/rstudio:/home/rstudio
-      - ../willtest:/home/rstudio/tests # TEMPORARY directory of test scripts
-      - ../jhtest:/home/rstudio/jhtest # TEMPORARY directory for Dr. Harner module work
+      - ../rspark-notes:/home/rstudio/rspark-notes
+      - ../rspark-tests:/home/rstudio/rspark-tests
+  hive:
+    build: ./hive
+    image: sparklyr-hive
+    ports:
+      - "10000:10000"
+    depends_on:
+      - hadoop
   postgres:
       build: ../postgres
       image: jh-postgres
