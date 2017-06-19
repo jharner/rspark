@@ -6,6 +6,7 @@ if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
   Sys.setenv(SPARK_HOME = "/opt/spark")
 }
 library(sparklyr)
+library(dplyr)
 
 # start the sparklyr session
 sc <- spark_connect(master = "local")
