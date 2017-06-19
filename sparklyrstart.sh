@@ -8,5 +8,4 @@ if [[ ! -e sparklyr/data/rstudio ]]; then
 	mkdir sparklyr/data/rstudio
 fi
 
-cd sparklyr
-docker-compose up
+docker-compose -f sparklyr.yml up
