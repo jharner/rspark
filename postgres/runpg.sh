@@ -31,3 +31,5 @@ if [ ! -d "${PGDATA}/base" ]; then
 	service postgresql stop
 	cd /usr/share/postgresql/${pgversion}
 fi
+
+/usr/bin/pg_ctlcluster 9.4 main start --foreground

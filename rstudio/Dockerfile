@@ -1,4 +1,4 @@
-FROM rocker/verse
+FROM rocker/verse:3.3.2
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 # Update machine and install 
 RUN apt-get update && apt-get install -y postgresql-client-9.4 libicu-dev && apt-get clean

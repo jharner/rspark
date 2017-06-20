@@ -61,7 +61,6 @@ COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
 #	service postgresql stop
 
 COPY runpg.sh /var/lib/postgresql/runpg.sh
-CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
 
 # Define environment variables
 ENV LANG en_US.UTF-8
@@ -71,6 +70,8 @@ ENV LC_ALL en_US.UTF-8
 EXPOSE 5432
 
 # Execute Postgres setup script "runpg.sh"
-CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
+CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
+
+# CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
 # CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
 
