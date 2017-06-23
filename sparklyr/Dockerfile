@@ -33,7 +33,7 @@ RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
 # R PACKAGES
 ####################
 # Install R packages (removed hbase)
-RUN Rscript -e "install.packages(c(\"rsparkling\", \"sparklyr\", \"rJava\", \"flexdashboard\"))"
+RUN Rscript -e "install.packages(c(\"rsparkling\", \"sparklyr\", \"rJava\", \"flexdashboard\", \"RJDBC\"))"
 # Install rhdfs
 ADD rhdfs.tar.gz /tmp/pkgs/
 RUN cd /tmp/pkgs && R CMD INSTALL rhdfs
