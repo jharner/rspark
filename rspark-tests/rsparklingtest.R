@@ -14,11 +14,7 @@ options(rsparkling.sparklingwater.version = "2.0.3")
 # if using SparkR
 sc <- sparkR.session(master = "local")
 
-
-# if using sparklyR
-# sc <- spark_connect(master = "local")
-
-
+library(sparklyR)
 library(rsparkling)
 library(h2o)
 library(dplyr)
