@@ -21,7 +21,7 @@ ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 ENV HADOOP_VERSION		2.7.2
 ENV HADOOP_CMD 			/opt/hadoop/bin/hadoop
 # Download Hadoop
-RUN cd /opt && wget http://apache.mirrors.hoobly.com/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
+RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
 	tar zxf hadoop-$HADOOP_VERSION.tar.gz && \
 	ln -s hadoop-$HADOOP_VERSION hadoop && rm hadoop-$HADOOP_VERSION.tar.gz
 # Download and inject native library
@@ -43,9 +43,9 @@ RUN cd /tmp/pkgs && R CMD INSTALL rhdfs
 # SPARK
 ####################
 RUN cd /opt && \
-	wget --quiet http://apache.osuosl.org/spark/spark-2.0.1/spark-2.0.1-bin-hadoop2.7.tgz && \
-	tar zxf spark-2.0.1-bin-hadoop2.7.tgz && \
-	mv spark-2.0.1-bin-hadoop2.7 spark && \
+	wget --quiet http://apache.osuosl.org/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.7.tgz && \
+	tar zxf spark-2.0.2-bin-hadoop2.7.tgz && \
+	mv spark-2.0.2-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
 
