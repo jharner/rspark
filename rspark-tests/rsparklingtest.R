@@ -11,9 +11,6 @@ if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
 
 options(rsparkling.sparklingwater.version = "2.0.3")
 
-# if using SparkR
-sc <- sparkR.session(master = "local")
-
 library(sparklyr)
 library(rsparkling)
 library(h2o)

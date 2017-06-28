@@ -22,18 +22,17 @@ RUN mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-dat
 
 RUN locale-gen en_US.UTF-8
 
-# Delete default cluster and create new cluster
+# Delete default cluster
 RUN pg_dropcluster ${pgversion} main
-RUN pg_createcluster -D $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
 COPY dataexpo.sql /opt/
 
-
-
-
 # Become user Postgres (superuser)
 USER postgres
+
+# Create new cluster
+RUN pg_createcluster -D $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy connection configuration file
 COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/

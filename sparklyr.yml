@@ -11,7 +11,7 @@ services:
       - ./rspark-notes:/home/rstudio/rspark-notes
       - ./rspark-tests:/home/rstudio/rspark-tests
   postgres:
-      build: postgres
+      build: ./postgres
       image: jh-postgres
       ports:
         - "5432:5432"
