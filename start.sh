@@ -23,7 +23,7 @@ case $key in
 	exit 1
 	;;
 esac
-done
+done 
 
 if [[ ! -e data ]]; then
 	mkdir data
