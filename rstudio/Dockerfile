@@ -1,4 +1,4 @@
-FROM rocker/verse:3.3.2
+FROM rocker/verse:3.3.3
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 # Update machine and install 
 RUN apt-get update && apt-get install -y postgresql-client-9.4 libicu-dev && apt-get clean
@@ -24,31 +24,14 @@ RUN mkdir native && cd native && wget --quiet https://github.com/sequenceiq/dock
 RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
 ENV HADOOP_CMD /opt/hadoop/bin/hadoop
 
-
-####################
-# R PACKAGES
-####################
-# Set environment variable for rJava package installation
-ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
-# Install R packages (removed hbase)
-RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"sparklyr\", \"XML\", \"housingData\", \"flexdashboard\"))"
-#Copy repository packages to filesystem
-ADD rhdfs.tar.gz ravro.tar.gz rmr.tar.gz plyrmr.tar.gz rjava.tar.gz /tmp/pkgs/
-# Install repository packages
-RUN cd /tmp/pkgs && R CMD INSTALL rJava ravro rmr2 plyrmr rhdfs
-
-ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
-RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-*
-RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
-
 ####################
 # SPARK
 ####################
 # Install Spark
 RUN cd /opt && \
-	wget --quiet http://apache.mirrors.ionfish.org/spark/spark-2.1.1/spark-2.1.1-bin-hadoop2.7.tgz && \
-	tar zxf spark-2.1.1-bin-hadoop2.7.tgz && \
-	mv spark-2.1.1-bin-hadoop2.7 spark && \
+	wget --quiet http://apache.mirrors.ionfish.org/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.7.tgz && \
+	tar zxf spark-2.0.2-bin-hadoop2.7.tgz && \
+	mv spark-2.0.2-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
 
@@ -62,6 +45,38 @@ RUN cd /opt && \
 	ln -s apache-hive-2.1.1-bin hive && \
 	ln -s /opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar /opt/hive/lib/ && \
 	rm apache-hive-2.1.1-bin.tar.gz
+
+####################
+# R PACKAGES
+####################
+# Switch to rstudio CRAN mirror (untested)
+#RUN R CMD options(repos = c(CRAN = "https://cran.rstudio.com"))
+# Set environment variable for rJava package installation
+ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
+# Install R packages (removed hbase)
+RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
+#Copy repository packages to filesystem
+ADD rhdfs.tar.gz ravro.tar.gz rmr.tar.gz plyrmr.tar.gz rjava.tar.gz /tmp/pkgs/
+# Install repository packages
+RUN cd /tmp/pkgs && R CMD INSTALL rJava ravro rmr2 plyrmr rhdfs
+
+ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
+RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-*
+RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
+
+##RUN R CMD "devtools::install_github("rstudio/sparklyr")"
+#RUN R CMD options(repos = c(CRAN = "http://cran.rstudio.com"))
+
+#RUN Rscript -e "devtools::install_github("tidyverse/dbplyr")"
+#RUN Rscript -e "install.packages(c(\"dplyr\"))"
+#RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
+RUN R -e "install.packages('dbplyr', repos = 'http://cran.rstudio.com')"
+
+ADD sparklyr-master.zip /tmp/
+RUN mkdir /tmp/sparklyr
+RUN unzip -d /tmp/sparklyr /tmp/sparklyr-master.zip
+RUN cd /tmp/sparklyr/ && R CMD build sparklyr-master
+RUN cd /tmp/sparklyr && R CMD INSTALL sparklyr-master
 
 
 ####################
