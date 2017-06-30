@@ -1,7 +1,7 @@
 version: '2'
 services:
   rstudio:
-    build: sparklyr
+    build: ./sparklyr
     image: sparklyrstudio
     links: 
       - postgres
