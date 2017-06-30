@@ -43,7 +43,7 @@ RUN cd /tmp/pkgs && R CMD INSTALL rhdfs
 # SPARK
 ####################
 RUN cd /opt && \
-	wget --quiet http://apache.osuosl.org/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.7.tgz && \
+wget --quiet http://apache.osuosl.org/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.7.tgz && \
 	tar zxf spark-2.0.2-bin-hadoop2.7.tgz && \
 	mv spark-2.0.2-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
