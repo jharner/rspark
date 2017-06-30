@@ -1,5 +1,9 @@
-drv = JDBC("org.apache.hive.jdbc.HiveDriver"
-           , "hive-jdbc.jar" )
+library("RJDBC")
+library("DBI")
+library("rJava")
+
+drv <- JDBC("org.apache.hive.jdbc.HiveDriver", "/opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar", identifier.quote = "'")
+
 conn = dbConnect(drv
                  , "jdbc:hive2://hive:10000/rstudio"
                  , "rstudio", "")
