@@ -16,6 +16,8 @@ library(rsparkling)
 library(h2o)
 library(dplyr)
 
+h2o.init()
+
 # start the sparklyr session
 sc <- spark_connect(master = "local")
 
