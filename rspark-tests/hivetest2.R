@@ -2,7 +2,7 @@ library("RJDBC")
 library("DBI")
 library("rJava")
 
-drv <- JDBC("org.apache.hive.jdbc.HiveDriver", "/opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar", identifier.quote = "'")
+drv <- JDBC("org.apache.hive.jdbc.HiveDriver", "/opt/apache-hive-2.1.1-bin/jdbc/hive-jdbc-2.1.1-standalone.jar", identifier.quote = "'")
 
 conn = dbConnect(drv
                  , "jdbc:hive2://hive:10000/rstudio"
@@ -21,3 +21,4 @@ Sys.time()
 ukcrimesum <- dbGetQuery(conn, "select * from test1")
 Sys.time()
 dim(ukcrimesum)
+
