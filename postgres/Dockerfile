@@ -17,7 +17,6 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/
 # Install packages and Postgres
 RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
 
-
 RUN mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data
 
 RUN locale-gen en_US.UTF-8
@@ -29,37 +28,11 @@ RUN pg_createcluster -D $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 # Copy data file
 COPY dataexpo.sql /opt/
 
-
-
-
 # Become user Postgres (superuser)
 USER postgres
 
 # Copy connection configuration file
 COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
-
-
-# Postgres Setup
-
-#RUN $PGDIR/initdb -D $PGDATA &&\
-#	$PGDIR/pg_ctl -D $PGDATA start &&\
-#    echo "**Creating Postgres user roles.**" &&\
-#    sleep 3 &&\
-#    psql --command "CREATE USER rstudio createdb" &&\
-#    createdb -O rstudio rstudio &&\
-#	psql --command "CREATE USER hive" &&\
-#	createdb -O hive hive &&\
-#	createdb -O rstudio dataexpo &&\
-#	createdb -O rstudio testdb &&\
-#	service postgresql stop
-
-#RUN $PGDIR/pg_ctl -D $PGDATA start &&\
-#	sleep 3 &&\
-#	echo "**Populating databases, this may take a moment.**" &&\
-#	psql -U rstudio dataexpo </opt/dataexpo.sql >/dev/null &&\
-#	psql --command "GRANT ALL PRIVILEGES ON DATABASE dataexpo TO rstudio" &&\
-#	service postgresql stop
-
 COPY runpg.sh /var/lib/postgresql/runpg.sh
 
 # Define environment variables
