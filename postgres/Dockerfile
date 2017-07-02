@@ -23,7 +23,7 @@ RUN locale-gen en_US.UTF-8
 
 # Delete default cluster and create new cluster
 RUN pg_dropcluster ${pgversion} main
-RUN pg_createcluster -D $PGDATA --locale=en_US.UTF-8 ${pgversion} main
+RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
 COPY dataexpo.sql /opt/

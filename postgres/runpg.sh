@@ -12,6 +12,8 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+chown postgres /opt/pg-data
+ls -ld $PGDATA
 if [ ! -d "${PGDATA}/base" ]; then
 	echo "$PGDATA does not exist. creating database."
 	${appdir}/initdb -D $PGDATA
