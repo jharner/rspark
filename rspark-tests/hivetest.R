@@ -9,4 +9,3 @@ dbSendUpdate(con, "insert into test1 (a,b) values (1, 'foo')")
 dbSendUpdate(con, "insert into test1 (a,b) values (2, 'bar')")
 
 # print(dbReadTable(con, "test1"))
-dbReadTable(con, "test1")

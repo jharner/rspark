@@ -17,7 +17,7 @@ if [ ! -d "${PGDATA}/base" ]; then
 	${appdir}/initdb -D $PGDATA
 	${appdir}/pg_ctl -o "-p ${tmpport}" -D $PGDATA start
 	#need to wait for it to start
-	sleep 3;
+	sleep 5;
 	psql -p ${tmpport} --command "CREATE USER rstudio createdb"
 	createdb -p ${tmpport} -O rstudio rstudio
 	psql -p ${tmpport} --command "CREATE USER hive"

@@ -6,13 +6,13 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 export HIVE_HOME=/opt/hive
 export HADOOP_HOME=/opt/hadoop 
 
-sleep 10
+sleep 25
 
 echo "** Checking Postgres Connection **"
 /scripts/waitfor.sh -h postgres -p 5432 -t 120
 
 # Add code to more effectively wait on hadoop
-sleep 40
+sleep 50
 
 psql -h postgres -U hive -c 'select count(*) from BUCKETING_COLS' >/dev/null 2>&1
 if [ $? -gt 0 ]; then
