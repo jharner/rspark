@@ -2,6 +2,7 @@ rspark-data
 rspark-notes
 data
 *.html
+*.log
 .Rapp.history
 .DS_Store
 derby.log
