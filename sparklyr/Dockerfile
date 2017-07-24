@@ -25,8 +25,8 @@ RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoo
 	tar zxf hadoop-$HADOOP_VERSION.tar.gz && \
 	ln -s hadoop-$HADOOP_VERSION hadoop && rm hadoop-$HADOOP_VERSION.tar.gz
 # Download and inject native library
-RUN mkdir native && cd native && wget https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && tar zxf hadoop-native-64-2.7.1.tgz && rm hadoop-native-64-2.7.1.tgz && cd ..
-RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
+# RUN mkdir native && cd native && wget https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-#64-2.7.1.tgz && tar zxf hadoop-native-64-2.7.1.tgz && rm hadoop-native-64-2.7.1.tgz && cd #..
+# RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
 
 
 ####################
@@ -34,10 +34,6 @@ RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
 ####################
 # Install R packages (removed hbase)
 RUN Rscript -e "install.packages(c(\"sparklyr\", \"rsparkling\", \"rJava\", \"flexdashboard\", \"RJDBC\"))"
-# Install rhdfs
-ADD rhdfs.tar.gz /tmp/pkgs/
-RUN cd /tmp/pkgs && R CMD INSTALL rhdfs
-
 
 ####################
 # SPARK
