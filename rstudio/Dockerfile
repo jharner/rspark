@@ -64,6 +64,11 @@ ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
 RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-*
 RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 
+ADD h2o_3.10.5.4.tar.gz /tmp/
+RUN cd /tmp/h2o && R CMD INSTALL .
+
+
+
 ##RUN R CMD "devtools::install_github("rstudio/sparklyr")"
 #RUN R CMD options(repos = c(CRAN = "http://cran.rstudio.com"))
 
@@ -92,6 +97,22 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_BIN /opt/hadoop/bin
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
+
+
+
+####################
+# NOTES
+####################
+#
+# comment out native hadoop and switch to 2.7.2
+#
+# spark up to 2.2 in both containers
+#
+#
+##
+#
+
+
 
 
 # RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
