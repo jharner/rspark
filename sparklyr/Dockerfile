@@ -69,6 +69,10 @@ ADD Renviron /usr/local/lib/R/etc/
 RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 
 
+# uncomment to run sparklyr rstudio on port 8989
+# ADD rserver.conf /etc/rstudio/
+
+
 
 EXPOSE 8787
 #VOLUME /home/rstudio
