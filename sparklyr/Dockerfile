@@ -18,7 +18,7 @@ ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 ####################
 # HADOOP
 ####################
-ENV HADOOP_VERSION		2.7.2
+ENV HADOOP_VERSION		2.7.1
 ENV HADOOP_CMD 			/opt/hadoop/bin/hadoop
 # Download Hadoop
 RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
