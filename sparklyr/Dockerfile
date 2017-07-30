@@ -70,7 +70,7 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 
 
 # uncomment to run sparklyr rstudio on port 8989
-# ADD rserver.conf /etc/rstudio/
+ADD rserver.conf /etc/rstudio/
 
 
 

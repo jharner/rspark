@@ -36,17 +36,17 @@ services:
     depends_on: 
       - hadoop
       - hive
-#  sparklyrstudio:
-#    build: ./sparklyr
-#    image: jh-sparklyrstudio
-#    ports:
-#      - "8989:8989" #RstudioUI2
-#    links:
-#      - hadoop
-#      - postgres
-#    volumes:
-#      - ./rspark-notes:/home/rstudio/rspark-notes
-#      - ./rspark-tests:/home/rstudio/rspark-tests
-#    depends_on:
-#      - hadoop
-#      - hive
+  sparklyrstudio:
+    build: ./sparklyr
+    image: jh-sparklyrstudio
+    ports:
+      - "8989:8989" #RstudioUI2
+    links:
+      - hadoop
+      - postgres
+    volumes:
+      - ./rspark-notes:/home/rstudio/rspark-notes
+      - ./rspark-tests:/home/rstudio/rspark-tests
+    depends_on:
+      - hadoop
+      - hive
