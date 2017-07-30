@@ -18,10 +18,10 @@ RUN sudo R CMD javareconf
 # HADOOP
 ####################
 # Download and Install Hadoop and set Hadoop environment variable
-RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hadoop-2.7.2/hadoop-2.7.2.tar.gz && \
-	tar zxf hadoop-2.7.2.tar.gz && ln -s hadoop-2.7.2 hadoop && rm hadoop-2.7.2.tar.gz
-#RUN mkdir native && cd native && wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && tar zxf hadoop-native-64-2.7.1.tgz && rm hadoop-native-64-2.7.1.tgz && cd ..
-#RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
+RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz && \
+	tar zxf hadoop-2.7.1.tar.gz && ln -s hadoop-2.7.1 hadoop && rm hadoop-2.7.1.tar.gz
+RUN mkdir native && cd native && wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && tar zxf hadoop-native-64-2.7.1.tgz && rm hadoop-native-64-2.7.1.tgz && cd ..
+RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
 ENV HADOOP_CMD /opt/hadoop/bin/hadoop
 
 ####################
@@ -29,9 +29,9 @@ ENV HADOOP_CMD /opt/hadoop/bin/hadoop
 ####################
 # Install Spark
 RUN cd /opt && \
-	wget --quiet http://apache.mirrors.ionfish.org/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.7.tgz && \
-	tar zxf spark-2.0.2-bin-hadoop2.7.tgz && \
-	mv spark-2.0.2-bin-hadoop2.7 spark && \
+	wget --quiet http://apache.mirrors.ionfish.org/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz && \
+	tar zxf spark-2.2.0-bin-hadoop2.7.tgz && \
+	mv spark-2.2.0-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
 
