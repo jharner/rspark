@@ -23,17 +23,22 @@ RUN locale-gen en_US.UTF-8
 
 # Delete default cluster and create new cluster
 RUN pg_dropcluster ${pgversion} main
-RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
+#RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
 COPY dataexpo.sql /opt/
+
+# Copy start script
+COPY runpg.sh /var/lib/postgresql/runpg.sh
+RUN chown postgres:postgres /var/lib/postgresql/runpg.sh
+RUN chmod 777 /var/lib/postgresql
 
 # Become user Postgres (superuser)
 USER postgres
 
 # Copy connection configuration file
 COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
-COPY runpg.sh /var/lib/postgresql/runpg.sh
+
 
 # Define environment variables
 ENV LANG en_US.UTF-8
@@ -43,8 +48,8 @@ ENV LC_ALL en_US.UTF-8
 EXPOSE 5432
 
 # Execute Postgres setup script "runpg.sh"
-CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
-
-# CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
-# CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
+RUN var/lib/postgresql/runpg.sh ${pgversion}
+#CMD ["bin/bash"]
+CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
+#CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
 
