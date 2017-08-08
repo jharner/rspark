@@ -9,7 +9,7 @@ export HADOOP_HOME=/opt/hadoop
 sleep 25
 
 echo "** Checking Postgres Connection **"
-/scripts/waitfor.sh -h postgres -p 5432 -t 120
+/scripts/waitfor.sh -h postgres -p 5432 -t 240
 
 # Add code to more effectively wait on hadoop
 sleep 50

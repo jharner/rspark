@@ -12,7 +12,9 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-chown postgres /opt/pg-data
+chown postgres:postgres /opt/pg-data
+chmod 777 /opt/pg-data
+
 ls -ld $PGDATA
 if [ ! -d "${PGDATA}/base" ]; then
 	echo "$PGDATA does not exist. creating database."
@@ -26,11 +28,12 @@ if [ ! -d "${PGDATA}/base" ]; then
 	createdb -p ${tmpport} -O hive hive
 	createdb -p ${tmpport} -O rstudio dataexpo
 	createdb -p ${tmpport} -O rstudio testdb
-
+	echo "Populating database. This may take a few minutes..."
 	psql -p ${tmpport} -U rstudio dataexpo </opt/dataexpo.sql >/dev/null
 	#just to be sure, as there were problems accessing this once
 	psql -p ${tmpport} --command "GRANT ALL PRIVILEGES ON DATABASE dataexpo TO rstudio"
 	service postgresql stop
 	cd /usr/share/postgresql/${pgversion}
 fi
-
+ls -ld $PGDATA
+/usr/bin/pg_ctlcluster 9.4 main start --foreground

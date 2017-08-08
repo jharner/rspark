@@ -2,7 +2,7 @@
 
 sleep 10
 echo "** Checking Postgres Connection **"
-/scripts/waitfor.sh -h postgres -p 5432 -t 120
+/scripts/waitfor.sh -h postgres -p 5432 -t 240
 
 sleep 10
 

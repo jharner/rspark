@@ -23,7 +23,7 @@ RUN locale-gen en_US.UTF-8
 
 # Delete default cluster and create new cluster
 RUN pg_dropcluster ${pgversion} main
-#RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
+#RUN pg_createcluster -d /opt/pgdata --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
 COPY dataexpo.sql /opt/
@@ -48,8 +48,8 @@ ENV LC_ALL en_US.UTF-8
 EXPOSE 5432
 
 # Execute Postgres setup script "runpg.sh"
-RUN var/lib/postgresql/runpg.sh ${pgversion}
+CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
 #CMD ["bin/bash"]
-CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
+#CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
 #CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
 
