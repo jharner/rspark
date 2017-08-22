@@ -3,7 +3,7 @@
 PGDATA="/opt/pg-data"
 pgversion="9.4"
 appdir=/usr/lib/postgresql/${pgversion}/bin/
-#when setting up the database, we need to not allow external connections 
+# when setting up the database, we need to not allow external connections 
 # that assume everything is setup. We do this by running the server with
 # a non-standard port during setup.
 tmpport=5431
