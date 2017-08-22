@@ -68,7 +68,7 @@ HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 YARN_CONF_DIR=$HADOOP_PREFIX/etc/hadoop
 HADOOP_USER_NAME=rstudio
 HADOOP_STREAMING=/opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.7.1.jar
-CLASSPATH='/opt/hive/jdbc/hive-jdbc-2.1.0-standalone.jar:/opt/hadoop/share/hadoop/common/hadoop-common-2.7.1.jar'
+CLASSPATH='/opt/postgresql-42.1.4.jar:/opt/hive/jdbc/hive-jdbc-2.1.0-standalone.jar:/opt/hadoop/share/hadoop/common/hadoop-common-2.7.1.jar'
 
 PATH=/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 

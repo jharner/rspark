@@ -80,6 +80,7 @@ RUN unzip -d /tmp/sparklyr /tmp/sparklyr-master.zip
 RUN cd /tmp/sparklyr/ && R CMD build sparklyr-master
 RUN cd /tmp/sparklyr && R CMD INSTALL sparklyr-master
 
+ADD postgresql-42.1.4.jar /opt
 
 ####################
 # ENVIRONMENT CONFIG
