@@ -96,22 +96,6 @@ ENV HADOOP_BIN /opt/hadoop/bin
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 
 
-
-####################
-# NOTES
-####################
-#
-# comment out native hadoop and switch to 2.7.2
-#
-# spark up to 2.2 in both containers
-#
-#
-##
-#
-
-
-
-
 # RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
 ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
 
