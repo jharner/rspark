@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y -t jessie-backports openjdk-8-jdk
 # config Java within R for rJava installation
 RUN sudo R CMD javareconf
 # Install Google Protocol Buffer
-#ADD protobuf-2.5.0.tar.gz /tmp
-#RUN cd /tmp/protobuf-2.5.0 && ./configure && make -j4 && make install && cd .. && rm -rf protobuf-*
+# ADD protobuf-2.5.0.tar.gz /tmp
+# RUN cd /tmp/protobuf-2.5.0 && ./configure && make -j4 && make install && cd .. && rm -rf protobuf-*
 
 ####################
 # HADOOP
@@ -55,7 +55,7 @@ RUN cd /opt && \
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 # Install R packages (removed hbase)
 RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
-#Copy repository packages to filesystem
+# Copy repository packages to filesystem
 ADD rhdfs.tar.gz ravro.tar.gz rmr.tar.gz plyrmr.tar.gz rjava.tar.gz /tmp/pkgs/
 # Install repository packages
 RUN cd /tmp/pkgs && R CMD INSTALL rJava ravro rmr2 plyrmr rhdfs
@@ -83,7 +83,7 @@ ADD postgresql-42.1.4.jar /opt
 ####################
 # ENVIRONMENT CONFIG
 ####################
-#add necessary mods to Renviron file
+# Add necessary mods to Renviron file
 ADD Renviron /usr/local/lib/R/etc/
 ADD hdfs-site.xml /opt/hadoop/etc/hadoop/
 ADD core-site.xml /opt/hadoop/etc/hadoop/
@@ -98,7 +98,7 @@ ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
 
 EXPOSE 8787
-#VOLUME /home/rstudio
+# VOLUME /home/rstudio
 
 CMD ["/init"]
 
