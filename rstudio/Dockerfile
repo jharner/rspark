@@ -64,14 +64,12 @@ ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
 RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-*
 RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 
+# RUN R CMD "devtools::install_github("rstudio/sparklyr")"
+# RUN R CMD options(repos = c(CRAN = "http://cran.rstudio.com"))
 
-
-##RUN R CMD "devtools::install_github("rstudio/sparklyr")"
-#RUN R CMD options(repos = c(CRAN = "http://cran.rstudio.com"))
-
-#RUN Rscript -e "devtools::install_github("tidyverse/dbplyr")"
-#RUN Rscript -e "install.packages(c(\"dplyr\"))"
-#RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
+# RUN Rscript -e "devtools::install_github("tidyverse/dbplyr")"
+# RUN Rscript -e "install.packages(c(\"dplyr\"))"
+# RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
 RUN R -e "install.packages('dbplyr', repos = 'http://cran.rstudio.com')"
 
 ADD sparklyr-master.zip /tmp/
@@ -95,7 +93,6 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_BIN /opt/hadoop/bin
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
-
 
 # RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
 ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
