@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y -t jessie-backports openjdk-8-jdk
 RUN sudo R CMD javareconf
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 
-
 ####################
 # HADOOP
 ####################
@@ -27,7 +26,6 @@ RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoo
 # Download and inject native library
 # RUN mkdir native && cd native && wget https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-#64-2.7.1.tgz && tar zxf hadoop-native-64-2.7.1.tgz && rm hadoop-native-64-2.7.1.tgz && cd #..
 # RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
-
 
 ####################
 # R PACKAGES
@@ -45,7 +43,6 @@ wget --quiet http://apache.osuosl.org/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
 
-
 ####################
 # HIVE
 ####################
@@ -55,7 +52,6 @@ wget --quiet http://apache.osuosl.org/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.
 #	ln -s apache-hive-2.1.1-bin hive && \
 #	ln -s /opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar /opt/hive/lib/ && \
 #	rm apache-hive-2.1.1-bin.tar.gz
-
 
 ####################
 # ENVIRONMENT CONFIG
@@ -68,11 +64,8 @@ ADD Renviron /usr/local/lib/R/etc/
 # Create symlink to actual Rscript
 RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 
-
 # uncomment to run sparklyr rstudio on port 8989
 ADD rserver.conf /etc/rstudio/
-
-
 
 EXPOSE 8787
 #VOLUME /home/rstudio

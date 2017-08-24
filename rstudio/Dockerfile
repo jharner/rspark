@@ -50,7 +50,7 @@ RUN cd /opt && \
 # R PACKAGES
 ####################
 # Switch to rstudio CRAN mirror (untested)
-#RUN R CMD options(repos = c(CRAN = "https://cran.rstudio.com"))
+# RUN R CMD options(repos = c(CRAN = "https://cran.rstudio.com"))
 # Set environment variable for rJava package installation
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 # Install R packages (removed hbase)

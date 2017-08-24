@@ -6,10 +6,15 @@ library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
 
 # start the SparkR session
 sparkR.session(master = "local",
-               sparkConfig = list(spark.driver.memory = '4g'))
+               sparkConfig = list(spark.driver.memory = '4g'),
+               sparkJars = "/opt/postgresql-42.1.4.jar")
 
-df <- as.DataFrame(faithful)
-head(df)
+faithful_sdf <- as.DataFrame(faithful)
+head(faithful_sdf)
+
+# meas_sdf <- read.jdbc("jdbc:postgresql://rstudio@postgres/dataexpo",
+#                       tableName = "measure_table")
+# head(meas_sdf)
 
 # stop the SparkR session
 sparkR.session.stop()

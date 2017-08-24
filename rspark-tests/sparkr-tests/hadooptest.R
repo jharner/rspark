@@ -1,5 +1,4 @@
 options(warn=-1)
-
 library(rhdfs)
 library(rmr2)
 

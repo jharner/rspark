@@ -41,7 +41,7 @@ TAR=${TAR-'/bin/tar'}
 R_SYSTEM_ABI='linux,gcc,gxx,gfortran,?'
 
 R_LIBS_USER=${R_LIBS_USER-'~/R/x86_64-pc-linux-gnu-library/3.3'}
-#R_LIBS_USER=${R_LIBS_USER-'~/Library/R/3.3/library'}
+# R_LIBS_USER=${R_LIBS_USER-'~/Library/R/3.3/library'}
 
 # edd Apr 2003  Allow local install in /usr/local, also add a directory for
 #               Debian packaged CRAN packages, and finally the default dir 
@@ -68,7 +68,7 @@ HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 YARN_CONF_DIR=$HADOOP_PREFIX/etc/hadoop
 HADOOP_USER_NAME=rstudio
 HADOOP_STREAMING=/opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.7.1.jar
-CLASSPATH='/opt/hive/jdbc/hive-jdbc-2.1.0-standalone.jar:/opt/postgresql-42.1.4.jar:/opt/hadoop/share/hadoop/common/hadoop-common-2.7.1.jar'
+CLASSPATH='/opt/hive/jdbc/hive-jdbc-2.1.0-standalone.jar:/opt/hadoop/share/hadoop/common/hadoop-common-2.7.1.jar'
 
 PATH=/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
