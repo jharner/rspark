@@ -10,6 +10,7 @@ sparkR.session(master = "local",
                sparkJars = "/opt/postgresql-42.1.4.jar")
 
 faithful_sdf <- as.DataFrame(faithful)
+
 head(faithful_sdf)
 
 # meas_sdf <- read.jdbc("jdbc:postgresql://rstudio@postgres/dataexpo",
