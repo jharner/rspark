@@ -54,7 +54,9 @@ RUN cd /opt && \
 # Set environment variable for rJava package installation
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 # Install R packages (removed hbase)
-RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
+RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\",\"sparklyr\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
+RUN R -e "install.packages('dbplyr', repos = 'http://cran.rstudio.com')"
+RUN R -e "install.packages('sparklyr', repos = 'http://cran.rstudio.com')"
 # Copy repository packages to filesystem
 ADD rhdfs.tar.gz ravro.tar.gz rmr.tar.gz plyrmr.tar.gz rjava.tar.gz /tmp/pkgs/
 # Install repository packages
@@ -69,14 +71,19 @@ RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 
 # RUN Rscript -e "devtools::install_github("tidyverse/dbplyr")"
 # RUN Rscript -e "install.packages(c(\"dplyr\"))"
-# RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\", \"rsparkling\", \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
-RUN R -e "install.packages('dbplyr', repos = 'http://cran.rstudio.com')"
+# RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",
+\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",
+\"RPostgreSQL\",\"RJDBC\",\"testthat\",\"roxygen2\",\"XML\",\"housingData\",
+\"flexdashboard\"))"
+# RUN R -e "install.packages('rsparkling', repos = 'http://cran.rstudio.com')"
+# RUN R -e "install.packages('h2o', repos = 'http://cran.rstudio.com')"
+# RUN R -e "install.packages('tensorflow', repos = 'http://cran.rstudio.com')"
 
-ADD sparklyr-master.zip /tmp/
-RUN mkdir /tmp/sparklyr
-RUN unzip -d /tmp/sparklyr /tmp/sparklyr-master.zip
-RUN cd /tmp/sparklyr/ && R CMD build sparklyr-master
-RUN cd /tmp/sparklyr && R CMD INSTALL sparklyr-master
+# ADD sparklyr-master.zip /tmp/
+# RUN mkdir /tmp/sparklyr
+# RUN unzip -d /tmp/sparklyr /tmp/sparklyr-master.zip
+# RUN cd /tmp/sparklyr/ && R CMD build sparklyr-master
+# RUN cd /tmp/sparklyr && R CMD INSTALL sparklyr-master
 
 ADD postgresql-42.1.4.jar /opt
 

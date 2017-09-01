@@ -31,7 +31,7 @@ RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoo
 # R PACKAGES
 ####################
 # Install R packages (removed hbase)
-RUN Rscript -e "install.packages(c(\"sparklyr\", \"rsparkling\", \"rJava\", \"flexdashboard\", \"RJDBC\"))"
+RUN Rscript -e "install.packages(c(\"sparklyr\", \"rJava\", \"flexdashboard\", \"RJDBC\"))"
 
 ####################
 # SPARK
