@@ -54,7 +54,7 @@ RUN cd /opt && \
 # Set environment variable for rJava package installation
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 # Install R packages (removed hbase)
-RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\",\"sparklyr\",  \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
+RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\",\"glmnet\",  \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
 RUN R -e "install.packages('dbplyr', repos = 'http://cran.rstudio.com')"
 RUN R -e "install.packages('sparklyr', repos = 'http://cran.rstudio.com')"
 # Copy repository packages to filesystem
