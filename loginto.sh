@@ -2,7 +2,7 @@
 echo "\n"
 
 PS3='Choose a container to log in to: '
-options=("Rstudio" "Hadoop" "Postgres" "Hive" "Sparklyr" "Cancel" )
+options=("Rstudio" "Hadoop" "Postgres" "Hive" "Cancel" )
 select opt in "${options[@]}"
 do
     case $opt in
@@ -20,10 +20,6 @@ do
             ;;
         "Hive")
             docker exec -ti rspark_hive_1 bash
-            break
-            ;;
-        "Sparklyr")
-            docker exec -ti rspark_sparklyrstudio_1 bash
             break
             ;;
         "Cancel")
