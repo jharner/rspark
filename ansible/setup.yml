@@ -1,0 +1,76 @@
+---
+- hosts: localhost
+  sudo: yes
+  tasks:
+
+#- include: install-docker.yml
+
+  - name: install base packages
+    apt: pkg={{item}} state=present update_cache=yes cache_valid_time=604800
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+      - git
+      - cloud-init
+
+  - git:
+      repo: git://github.com/jharner/rspark
+      dest: /opt/rspark
+      clone: yes
+
+  - group:
+      name: docker
+      state: present
+
+  - name: install docker
+    command: apt-get install docker.io
+
+#  - name: Download docker cloudinit
+#    get_url:
+#      url: http://get.docker.com
+#      dest: /get-docker.sh
+#      mode: 0440
+
+#  - name: cloud-init Docker
+#    command: sh get-docker.sh
+
+#  - user:
+#      name: ubuntu
+#      shell: /bin/bash
+#      groups: docker
+#      append: yes
+
+#  - service: name=docker state=restarted
+
+#  - name: Give ubuntu Docker permission
+#    command: usermod -aG docker ubuntu
+
+# install docker-compose
+
+
+#sudo apt-get update
+
+#curl -fsSL get.docker.com -o get-docker.sh
+
+#sh get-docker.sh
+
+#sudo usermod -aG docker ubuntu &&
+
+#sudo service docker restart &&
+
+#git clone https://github.com/jharner/rspark.git &&
+
+#sudo apt-get install docker-compose &&
+
+#cd rspark/ &&
+
+#sudo ./start.sh 
+
+
+
+
+
+...
