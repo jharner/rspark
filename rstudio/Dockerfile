@@ -19,9 +19,16 @@ RUN sudo R CMD javareconf
 ####################
 # Download and Install Hadoop and set Hadoop environment variable
 RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz && \
-	tar zxf hadoop-2.7.1.tar.gz && ln -s hadoop-2.7.1 hadoop && rm hadoop-2.7.1.tar.gz
-RUN mkdir native && cd native && wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && tar zxf hadoop-native-64-2.7.1.tgz && rm hadoop-native-64-2.7.1.tgz && cd ..
-RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib
+	tar zxf hadoop-2.7.1.tar.gz && \
+	ln -s hadoop-2.7.1 hadoop && \
+	rm hadoop-2.7.1.tar.gz && \
+	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-2.7.1.jar hadoop-streaming.jar)
+RUN mkdir native && cd native && \
+	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && \
+	tar zxf hadoop-native-64-2.7.1.tgz && \
+	rm hadoop-native-64-2.7.1.tgz && \
+	cd ..
+RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib && chown -R rstudio:rstudio /opt/hadoop
 ENV HADOOP_CMD /opt/hadoop/bin/hadoop
 
 ####################
