@@ -1,5 +1,6 @@
 rspark-data
 rspark-notes
+/ansible/ansyaccess.yml
 data
 *.html
 *.log
