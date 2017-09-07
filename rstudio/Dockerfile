@@ -1,7 +1,16 @@
 FROM rocker/verse:3.3.3
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+
+
+ARG pgversion=9.4
+ARG hadoopversion=2.7.1
+ARG sparkversion=2.2.0
+ARG hiveversion=2.1.1
+
+
+
 # Update machine and install 
-RUN apt-get update && apt-get install -y postgresql-client-9.4 libicu-dev && apt-get clean
+RUN apt-get update && apt-get install -y postgresql-client-${pgversion} libicu-dev && apt-get clean
 
 ####################
 # JAVA
@@ -18,15 +27,15 @@ RUN sudo R CMD javareconf
 # HADOOP
 ####################
 # Download and Install Hadoop and set Hadoop environment variable
-RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz && \
-	tar zxf hadoop-2.7.1.tar.gz && \
-	ln -s hadoop-2.7.1 hadoop && \
-	rm hadoop-2.7.1.tar.gz && \
-	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-2.7.1.jar hadoop-streaming.jar)
+RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
+	tar zxf hadoop-${hadoopversion}.tar.gz && \
+	ln -s hadoop-${hadoopversion} hadoop && \
+	rm hadoop-${hadoopversion}.tar.gz && \
+	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar)
 RUN mkdir native && cd native && \
-	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && \
-	tar zxf hadoop-native-64-2.7.1.tgz && \
-	rm hadoop-native-64-2.7.1.tgz && \
+	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v${hadoopversion}/hadoop-native-64-${hadoopversion}.tgz && \
+	tar zxf hadoop-native-64-${hadoopversion}.tgz && \
+	rm hadoop-native-64-${hadoopversion}.tgz && \
 	cd ..
 RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib && chown -R rstudio:rstudio /opt/hadoop
 ENV HADOOP_CMD /opt/hadoop/bin/hadoop
@@ -36,9 +45,9 @@ ENV HADOOP_CMD /opt/hadoop/bin/hadoop
 ####################
 # Install Spark
 RUN cd /opt && \
-	wget --quiet http://apache.mirrors.ionfish.org/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz && \
-	tar zxf spark-2.2.0-bin-hadoop2.7.tgz && \
-	mv spark-2.2.0-bin-hadoop2.7 spark && \
+	wget --quiet http://apache.mirrors.ionfish.org/spark/spark-${sparkversion}/spark-${sparkversion}-bin-hadoop2.7.tgz && \
+	tar zxf spark-${sparkversion}-bin-hadoop2.7.tgz && \
+	mv spark-${sparkversion}-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
 
@@ -47,11 +56,11 @@ RUN cd /opt && \
 # HIVE
 ####################
 RUN cd /opt && \
-	wget --quiet http://apache.mirrors.ionfish.org/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz && \
-	tar zxf apache-hive-2.1.1-bin.tar.gz && \
-	ln -s apache-hive-2.1.1-bin hive && \
-	ln -s /opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar /opt/hive/lib/ && \
-	rm apache-hive-2.1.1-bin.tar.gz
+	wget --quiet http://apache.mirrors.ionfish.org/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
+	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
+	ln -s apache-hive-${hiveversion}-bin hive && \
+	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
+	rm apache-hive-${hiveversion}-bin.tar.gz
 
 ####################
 # R PACKAGES
@@ -110,6 +119,15 @@ ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 
 # RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
 ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
+
+
+# Install Python3
+# NOTE: python 3 uses the command 'python3'
+RUN easy_install pip
+RUN apt-get install -y python3
+RUN pip install virtualenv
+
+RUN R -e "install.packages(\"tensorflow\")"
 
 EXPOSE 8787
 # VOLUME /home/rstudio
