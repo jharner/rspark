@@ -3,6 +3,8 @@ ec2.yml
 # Launch instances, runs some tasks
 # and then terminate them
 
+
+
 - name: Create a sandbox instance
   hosts: localhost
   gather_facts: False
@@ -40,6 +42,8 @@ ec2.yml
         state: started
       with_items: "{{ ec2.instances }}"
 
+
+
 - name: Configure instance(s)
   hosts: launched
   become: True
@@ -47,6 +51,8 @@ ec2.yml
   roles:
     - my_awesome_role
     - my_awesome_test
+
+
 
 - name: Terminate instances
   hosts: localhost
