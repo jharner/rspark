@@ -5,10 +5,10 @@ RUN apt-get update && \
 	apt-get install -y wget default-jre libpostgresql-jdbc-java postgresql-client && \
 	apt-get clean
 
-RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz && \
-	tar zxf hadoop-2.7.1.tar.gz && \
-	ln -s hadoop-2.7.1 hadoop && \
-	rm hadoop-2.7.1.tar.gz
+RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz && \
+	tar zxf hadoop-2.7.4.tar.gz && \
+	ln -s hadoop-2.7.4 hadoop && \
+	rm hadoop-2.7.4.tar.gz
 
 RUN cd /opt && \
 	wget --quiet http://apache.mirrors.hoobly.com/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz && \
