@@ -3,7 +3,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 
 ARG pgversion=9.4
-ARG hadoopversion=2.7.1
+ARG hadoopversion=2.7.4
 ARG sparkversion=2.2.0
 ARG hiveversion=2.1.1
 
@@ -33,9 +33,9 @@ RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hado
 	rm hadoop-${hadoopversion}.tar.gz && \
 	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar)
 RUN mkdir native && cd native && \
-	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v${hadoopversion}/hadoop-native-64-${hadoopversion}.tgz && \
-	tar zxf hadoop-native-64-${hadoopversion}.tgz && \
-	rm hadoop-native-64-${hadoopversion}.tgz && \
+	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && \
+	tar zxf hadoop-native-64-2.7.1.tgz && \
+	rm hadoop-native-64-2.7.1.tgz && \
 	cd ..
 RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib && chown -R rstudio:rstudio /opt/hadoop
 ENV HADOOP_CMD /opt/hadoop/bin/hadoop
