@@ -3,7 +3,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 
 ARG pgversion=9.4
-ARG hadoopversion=2.7.4
+ARG hadoopversion=2.7.1
 ARG sparkversion=2.2.0
 ARG hiveversion=2.1.1
 
@@ -27,7 +27,7 @@ RUN sudo R CMD javareconf
 # HADOOP
 ####################
 # Download and Install Hadoop and set Hadoop environment variable
-RUN cd /opt && wget --quiet http://apache.mirrors.ionfish.org/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
+RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	ln -s hadoop-${hadoopversion} hadoop && \
 	rm hadoop-${hadoopversion}.tar.gz && \
