@@ -1,6 +1,0 @@
-#!/bin/sh
-
-docker build -t testplop .
-
-docker run -ti testplop
-

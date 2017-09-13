@@ -89,10 +89,13 @@
 
 
 #### NOTES
-#scp -R ./rspark-notes ubuntu@${IP}:/home/ubuntu
 #
-#expose 8787!
 #
+# expose 8787!
+#
+# scp -i ./ansible/ansibletest.pem -r ./rspark-notes/* ubuntu@{IP}:/home/ubuntu/rspark/rspark-notes/
+#
+
 
 
 ...
