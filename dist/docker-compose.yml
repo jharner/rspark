@@ -1,0 +1,34 @@
+version: '2'
+services:
+  postgres:
+    image: jharner/rspark-postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/pg-data:/opt/pg-data
+  hive:
+    image: jharner/rspark-hive:latest
+    ports:
+      - "10000:10000"
+    depends_on:
+      - hadoop
+  hadoop:
+    image: jharner/rspark-hadoop
+    volumes:
+      - ./data/hadoop:/opt/hadoop:latest
+    ports:
+      - "9000:9000" # Hadoop
+      - "50070:50070" # HadoopUI Access
+  rstudio:
+    image: jhrner/rspark-rstudio:latest
+    ports:
+      - "8787:8787" # RstudioUI
+    links:
+      - hadoop
+      - postgres
+    volumes:
+      - ./rspark-notes:/home/rstudio/rspark-notes
+      - ./rspark-tests:/home/rstudio/rspark-tests
+    depends_on: 
+      - hadoop
+      - hive
