@@ -5,8 +5,8 @@ services:
     image: jh-postgres
     ports:
       - "5432:5432"
-    volumes:
-      - ./data/pg-data:/opt/pg-data
+#    volumes:
+#      - ./data/pg-data:/opt/pg-data
   hive:
     build: ./hive
     image: jh-hive
