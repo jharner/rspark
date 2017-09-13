@@ -15,6 +15,7 @@
       - software-properties-common
       - git
       - cloud-init
+      - docker-compose
 
   - git:
       repo: git://github.com/jharner/rspark
@@ -25,8 +26,24 @@
       name: docker
       state: present
 
-  - name: install docker
-    command: apt-get install docker.io
+#  - name: install docker
+#    command: curl -fsSL get.docker.com -o get-docker.sh
+
+  - name: docker cloudinit 1 of 2
+    command: curl -fsSL get.docker.com -o get-docker.sh
+
+  - name: docker cloudinit 2 of 2
+    command: sh get-docker.sh
+
+  - name: add user to docker group
+    command: usermod -aG docker ubuntu
+
+  - name: restart dockre
+    command: service docker restart
+
+  - name: build and run containers
+    command: /rspark/start.sh build
+
 
 #  - name: Download docker cloudinit
 #    get_url:
