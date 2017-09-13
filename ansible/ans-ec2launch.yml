@@ -11,7 +11,8 @@
       image: ami-cd0f5cb6 # This is an AMI i created myself
       keypair: ansibletest # This is one of my keys that i already have in AWS
       region: us-east-1 # Change the Region
-      count: 3
+      count: 1
+      volumesize: 16
 
     # Task that will be used to Launch/Create an EC2 Instance
     tasks:
