@@ -38,11 +38,11 @@
   - name: add user to docker group
     command: usermod -aG docker ubuntu
 
-  - name: restart dockre
+  - name: restart docker
     command: service docker restart
 
-  - name: build and run containers
-    command: /home/ubuntu/rspark/start.sh build
+#  - name: build and run containers
+#    command: /home/ubuntu/rspark/start.sh build
 
 
 #  - name: Download docker cloudinit
