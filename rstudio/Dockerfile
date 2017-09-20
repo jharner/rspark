@@ -38,7 +38,7 @@ RUN mkdir native && cd native && \
 	rm hadoop-native-64-2.7.1.tgz && \
 	cd ..
 RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib && chown -R rstudio:rstudio /opt/hadoop
-ENV HADOOP_CMD /opt/hadoop/bin/hadoop
+ENV HADOOP_CMD=/opt/hadoop/bin/hadoop HADOOP_HOME=/opt/hadoop HADOOP_BIN=/opt/hadoop/bin HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 
 ####################
 # SPARK
@@ -70,36 +70,15 @@ RUN cd /opt && \
 # Set environment variable for rJava package installation
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 # Install R packages (removed hbase)
-RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\",\"glmnet\",  \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\"))"
-RUN R -e "install.packages('dbplyr', repos = 'http://cran.rstudio.com')"
-RUN R -e "install.packages('sparklyr', repos = 'http://cran.rstudio.com')"
+RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\",\"glmnet\",  \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\", \"dbplyr\", \"sparklyr\"))"
 # Copy repository packages to filesystem
 ADD rhdfs.tar.gz ravro.tar.gz rmr.tar.gz plyrmr.tar.gz rjava.tar.gz /tmp/pkgs/
 # Install repository packages
 RUN cd /tmp/pkgs && R CMD INSTALL rJava ravro rmr2 plyrmr rhdfs
 
 ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
-RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-*
-RUN cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
-
-# RUN R CMD "devtools::install_github("rstudio/sparklyr")"
-# RUN R CMD options(repos = c(CRAN = "http://cran.rstudio.com"))
-
-# RUN Rscript -e "devtools::install_github("tidyverse/dbplyr")"
-# RUN Rscript -e "install.packages(c(\"dplyr\"))"
-# RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",
-# \"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",
-# \"RPostgreSQL\",\"RJDBC\",\"testthat\",\"roxygen2\",\"XML\",\"housingData\",
-# \"flexdashboard\"))"
-# RUN R -e "install.packages('rsparkling', repos = 'http://cran.rstudio.com')"
-# RUN R -e "install.packages('h2o', repos = 'http://cran.rstudio.com')"
-# RUN R -e "install.packages('tensorflow', repos = 'http://cran.rstudio.com')"
-
-# ADD sparklyr-master.zip /tmp/
-# RUN mkdir /tmp/sparklyr
-# RUN unzip -d /tmp/sparklyr /tmp/sparklyr-master.zip
-# RUN cd /tmp/sparklyr/ && R CMD build sparklyr-master
-# RUN cd /tmp/sparklyr && R CMD INSTALL sparklyr-master
+RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-* && \
+	cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 
 ADD postgresql-42.1.4.jar /opt
 
@@ -108,24 +87,19 @@ ADD postgresql-42.1.4.jar /opt
 ####################
 # Add necessary mods to Renviron file
 ADD Renviron /usr/local/lib/R/etc/
-ADD hdfs-site.xml /opt/hadoop/etc/hadoop/
-ADD core-site.xml /opt/hadoop/etc/hadoop/
-ADD log4j.properties /opt/hadoop/etc/hadoop/
+ADD hdfs-site.xml core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
 # Create symlink to actual Rscript
 RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
-ENV HADOOP_HOME /opt/hadoop
-ENV HADOOP_BIN /opt/hadoop/bin
-ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
 
-# RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
-ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
+# Add path to profile so commands are found if attach to the container
+RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
+# this is useless because it only sets it for the following commands in the Dockerfile
+#ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
 
 
 # Install Python3
 # NOTE: python 3 uses the command 'python3'
-RUN easy_install pip
-RUN apt-get install -y python3
-RUN pip install virtualenv
+RUN easy_install pip && apt-get install -y python3 && pip install virtualenv
 
 RUN R -e "install.packages(\"tensorflow\")"
 
