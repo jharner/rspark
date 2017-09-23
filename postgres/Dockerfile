@@ -26,7 +26,7 @@ RUN pg_dropcluster ${pgversion} main
 #RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
-COPY dataexpo.sql /opt/
+COPY dataexpo.sql init.sh /opt/
 
 # Become user Postgres (superuser)
 USER postgres
@@ -34,6 +34,7 @@ USER postgres
 # Copy connection configuration file
 COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
 COPY runpg.sh /var/lib/postgresql/runpg.sh
+RUN /opt/init.sh
 
 # Define environment variables
 ENV LANG en_US.UTF-8
