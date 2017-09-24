@@ -103,6 +103,8 @@ RUN easy_install pip && apt-get install -y python3 && pip install virtualenv
 
 RUN R -e "install.packages(\"tensorflow\")"
 
+ADD rspark-tests /home/rstudio/
+
 EXPOSE 8787
 # VOLUME /home/rstudio
 
