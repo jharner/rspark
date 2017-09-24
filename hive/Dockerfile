@@ -18,7 +18,7 @@ RUN cd /opt && \
 	ln -s /usr/share/java/postgresql-jdbc4.jar /opt/hive/lib/postgresql-jdbc4.jar && \
 	ln -s /opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar /opt/hive/lib/
 
-ADD core-site.xml /opt/hadoop/etc/hadoop/
+ADD core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
 ADD startup.sh /
 ADD hive-env.sh /etc/profile.d/
 ADD hive-site.xml /opt/hive/conf/
