@@ -6,13 +6,12 @@
     tags: provisioning
     # Necessary Variables for creating/provisioning the EC2 Instance
     vars:
-      instance_type: t2.micro
-      security_group: ansibletestgroup # Change the security group name here
-      image: ami-cd0f5cb6 # This is an AMI i created myself
+      instance_type: t2.large
+      security_group: ansibletestgroup # Custom security group here
+      image: ami-220feb58 # This is an AMI i created myself
       keypair: ansibletest # This is one of my keys that i already have in AWS
       region: us-east-1 # Change the Region
-      count: 1
-      volumesize: 16
+      count: 0
 
     # Task that will be used to Launch/Create an EC2 Instance
     tasks:
@@ -30,7 +29,7 @@
 
       - name: Add the newly created EC2 instance(s) to the local host group (located inside the directory)
         local_action: lineinfile 
-                      dest="./hosts" 
+                      dest="./easthosts" 
                       regexp={{ item.public_ip }} 
                       insertafter="[webserver]" line={{ item.public_ip }}
         with_items: "{{ ec2.instances }}"
@@ -48,4 +47,4 @@
         with_items: "{{ ec2.instances }}"
         args:
           tags:
-            Name: webserver
+            Name: ansibletest

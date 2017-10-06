@@ -3,8 +3,6 @@
   sudo: yes
   tasks:
 
-#- include: install-docker.yml
-
   - name: install base packages
     apt: pkg={{item}} state=present update_cache=yes cache_valid_time=604800
     with_items:
@@ -17,74 +15,34 @@
       - cloud-init
       - docker-compose
 
+      # clone rspark repo to machine
   - git:
       repo: git://github.com/jharner/rspark
       dest: /opt/rspark
       clone: yes
 
+      # create docker group
   - group:
       name: docker
       state: present
 
-#  - name: install docker
-#    command: curl -fsSL get.docker.com -o get-docker.sh
-
+      # install docker using cloudinit
   - name: docker cloudinit 1 of 2
     command: curl -fsSL get.docker.com -o get-docker.sh
-
   - name: docker cloudinit 2 of 2
     command: sh get-docker.sh
 
+      # add default user 'ubuntu' to group 'docker'
   - name: add user to docker group
     command: usermod -aG docker ubuntu
 
+      # restart docker to commit changes
   - name: restart docker
     command: service docker restart
 
 #  - name: build and run containers
 #    command: /home/ubuntu/rspark/start.sh build
 
-
-#  - name: Download docker cloudinit
-#    get_url:
-#      url: http://get.docker.com
-#      dest: /get-docker.sh
-#      mode: 0440
-
-#  - name: cloud-init Docker
-#    command: sh get-docker.sh
-
-#  - user:
-#      name: ubuntu
-#      shell: /bin/bash
-#      groups: docker
-#      append: yes
-
-#  - service: name=docker state=restarted
-
-#  - name: Give ubuntu Docker permission
-#    command: usermod -aG docker ubuntu
-
-# install docker-compose
-
-
-#sudo apt-get update
-
-#curl -fsSL get.docker.com -o get-docker.sh
-
-#sh get-docker.sh
-
-#sudo usermod -aG docker ubuntu &&
-
-#sudo service docker restart &&
-
-#git clone https://github.com/jharner/rspark.git &&
-
-#sudo apt-get install docker-compose &&
-
-#cd rspark/ &&
-
-#sudo ./start.sh 
 
 
 
