@@ -30,6 +30,7 @@ if [ ! -d "${PGDATA}/base" ]; then
 	psql -p ${tmpport} -U rstudio dataexpo </opt/dataexpo.sql >/dev/null
 	#just to be sure, as there were problems accessing this once
 	psql -p ${tmpport} --command "GRANT ALL PRIVILEGES ON DATABASE dataexpo TO rstudio"
+	psql -p ${tmpport} --command "GRANT ALL PRIVILEGES ON DATABASE testdb TO rstudio"
 	service postgresql stop
 	cd /usr/share/postgresql/${pgversion}
 fi
