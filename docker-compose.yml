@@ -5,8 +5,8 @@ services:
     image: jh-postgres
     ports:
       - "5432:5432"
-#    volumes:
-#      - ./data/pg-data:/opt/pg-data
+    volumes:
+      - rspark_pgdata:/opt/pg-data
   hive:
     build: ./hive
     image: jh-hive
@@ -17,8 +17,8 @@ services:
   hadoop:
     build: ./hadoop
     image: jh-hadoop
-#    volumes:
-#      - ./data/hadoop:/opt/hadoop
+    volumes:
+      - rspark_hadoopdata:/opt/hadoop
     ports:
       - "9000:9000" # Hadoop
       - "50070:50070" # HadoopUI Access
@@ -30,9 +30,13 @@ services:
     links:
       - hadoop
       - postgres
- #   volumes:
- #     - ./rspark-notes:/home/rstudio/rspark-notes
- #     - ./rspark-tests:/home/rstudio/rspark-tests
+    volumes:
+      - rspark_rstudio:/home/rstudio
     depends_on: 
       - hadoop
       - hive
+
+volumes:
+  rspark_hadoopdata:
+  rspark_rstudio:
+  rspark_pgdata:
