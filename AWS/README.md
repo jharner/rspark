@@ -12,33 +12,49 @@ Prerequisites:
 
 ![Step 1](https://github.com/jharner/rspark/blob/master/AWS/Image%201.jpg)
 
+
+
 3. Once logged in, click the 'All Services' dropdown and select 'EC2' from the section titled 'Compute'.
 
- ![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image%202.jpg)
+![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image%2013.jpg)
+
+
 
 4. Click 'Instances' located in the left sidebar under the 'Instances' header.
+
+	![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image%202.jpg)
 
 5. Ensure that have the 'N. Virginia' region selected in the top-right toolbar and click the blue 'Launch Instance' button.
 
 ![Step 3](https://github.com/jharner/rspark/blob/master/AWS/Image%203.jpg)
 ![Step 4](https://github.com/jharner/rspark/blob/master/AWS/Image%204.jpg)
 
+
+
 6. On the left sidebar, click 'Community AMIs'.
 
  ![Step 5](https://github.com/jharner/rspark/blob/master/AWS/Image%205.jpg)
 
+
+
 7. Enter 'rsparkbox' (without quotes) into the search bar labeled 'Search community AMIs'.
 
  ![Step 6](https://github.com/jharner/rspark/blob/master/AWS/Image%206.jpg)
+
+
 		
 8. Click the blue 'Select' button to choose the rspark image.
 
  ![Step 7](https://github.com/jharner/rspark/blob/master/AWS/Image%207.jpg)
 
 
+
+
 9. Next, we choose the computing power we want our EC2 instance to have.  Select 't2.medium'.
 
  ![Step 8](https://github.com/jharner/rspark/blob/master/AWS/Image%208.jpg)
+
+
 
 10. Click the blue 'Review and Launch' button in the bottom-right.
 
@@ -47,6 +63,8 @@ Prerequisites:
 12. When asked to select a key, select "Continue without a key pair"
 
 ![Step 9](https://github.com/jharner/rspark/blob/master/AWS/Image%209.jpg)
+
+
 
 13. Click 'Launch instance'.
 
@@ -58,9 +76,13 @@ In order to connect to our running instance, we will need to expose the necessar
 
 ![Step 11](https://github.com/jharner/rspark/blob/master/AWS/Image%2011.jpg)
 
+
+
 17. Select 'launch-wizard-1' from the list of security groups.
 
 ![Step 12 and Step 13](https://github.com/jharner/rspark/blob/master/AWS/Image%2012.jpg)
+
+
 
 18. On the lower half of the screen, select the 'Inbound' tab.
 
@@ -71,6 +93,9 @@ In order to connect to our running instance, we will need to expose the necessar
 21. For the new rule, select 'Custom TCP' on the left-most dropdown menu.
 
  ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/Image%2010.jpg)
+
+
+ 
 22. Enter '8787' for the Port Range.
 
 23. Select 'Anywhere' under the 'Source' column dropdown.
