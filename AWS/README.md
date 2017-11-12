@@ -22,7 +22,7 @@ Prerequisites:
 
 4. Click 'Instances' located in the left sidebar under the 'Instances' header.
 
-	![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image%202.jpg)
+![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image%202.jpg)
 
 5. Ensure that have the 'N. Virginia' region selected in the top-right toolbar and click the blue 'Launch Instance' button.
 
@@ -95,7 +95,7 @@ In order to connect to our running instance, we will need to expose the necessar
  ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/Image%2010.jpg)
 
 
- 
+
 22. Enter '8787' for the Port Range.
 
 23. Select 'Anywhere' under the 'Source' column dropdown.
