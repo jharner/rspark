@@ -10,49 +10,49 @@ Prerequisites:
 
 2. Log into your account by clicking the 'My Account' dropdown at the top-right of the page and selecting the 'AWS Management Console' option. If you do not have an AWS account, click the "Create account" button at the top-right of the page.
 
-![Step 1](https://github.com/jharner/rspark/blob/master/AWS/Image%201.jpg)
+![Step 1](https://github.com/jharner/rspark/blob/master/AWS/Image1.jpg)
 
 
 
 3. Once logged in, click the 'All Services' dropdown and select 'EC2' from the section titled 'Compute'.
 
-![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image%2013.jpg)
+![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image13.jpg)
 
 
 
 4. Click 'Instances' located in the left sidebar under the 'Instances' header.
 
-![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image%202.jpg)
+![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image2.jpg)
 
 5. Ensure that have the 'N. Virginia' region selected in the top-right toolbar and click the blue 'Launch Instance' button.
 
-![Step 3](https://github.com/jharner/rspark/blob/master/AWS/Image%203.jpg)
-![Step 4](https://github.com/jharner/rspark/blob/master/AWS/Image%204.jpg)
+![Step 3](https://github.com/jharner/rspark/blob/master/AWS/Image3.jpg)
+![Step 4](https://github.com/jharner/rspark/blob/master/AWS/Image4.jpg)
 
 
 
 6. On the left sidebar, click 'Community AMIs'.
 
- ![Step 5](https://github.com/jharner/rspark/blob/master/AWS/Image%205.jpg)
+ ![Step 5](https://github.com/jharner/rspark/blob/master/AWS/Image5.jpg)
 
 
 
 7. Enter 'rsparkbox' (without quotes) into the search bar labeled 'Search community AMIs'.
 
- ![Step 6](https://github.com/jharner/rspark/blob/master/AWS/Image%206.jpg)
+ ![Step 6](https://github.com/jharner/rspark/blob/master/AWS/Image6.jpg)
 
 
 		
 8. Click the blue 'Select' button to choose the rspark image.
 
- ![Step 7](https://github.com/jharner/rspark/blob/master/AWS/Image%207.jpg)
+ ![Step 7](https://github.com/jharner/rspark/blob/master/AWS/Image7.jpg)
 
 
 
 
 9. Next, we choose the computing power we want our EC2 instance to have.  Select 't2.medium'.
 
- ![Step 8](https://github.com/jharner/rspark/blob/master/AWS/Image%208.jpg)
+ ![Step 8](https://github.com/jharner/rspark/blob/master/AWS/Image8.jpg)
 
 
 
@@ -62,7 +62,7 @@ Prerequisites:
 
 12. When asked to select a key, select "Continue without a key pair"
 
-![Step 9](https://github.com/jharner/rspark/blob/master/AWS/Image%209.jpg)
+![Step 9](https://github.com/jharner/rspark/blob/master/AWS/Image9.jpg)
 
 
 
@@ -74,13 +74,14 @@ In order to connect to our running instance, we will need to expose the necessar
 
 16. On the left sidebar, click 'Security Groups' under the 'Network & Security' subheader.
 
-![Step 11](https://github.com/jharner/rspark/blob/master/AWS/Image%2011.jpg)
+![Step 11](https://github.com/jharner/rspark/blob/master/AWS/Image11.jpg)
+
 
 
 
 17. Select 'launch-wizard-1' from the list of security groups.
 
-![Step 12 and Step 13](https://github.com/jharner/rspark/blob/master/AWS/Image%2012.jpg)
+![Step 12 and Step 13](https://github.com/jharner/rspark/blob/master/AWS/Image12.jpg)
 
 
 
@@ -92,7 +93,7 @@ In order to connect to our running instance, we will need to expose the necessar
 
 21. For the new rule, select 'Custom TCP' on the left-most dropdown menu.
 
- ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/Image%2010.jpg)
+ ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/Image10.jpg)
 
 
 
