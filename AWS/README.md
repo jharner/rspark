@@ -16,7 +16,7 @@ Prerequisites:
 
 3. Once logged in, click the 'All Services' dropdown and select 'EC2' from the section titled 'Compute'.
 
-![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image13.jpg)
+![Step 2](https://github.com/jharner/rspark/blob/master/AWS/image13.jpg)
 
 
 
@@ -74,14 +74,14 @@ In order to connect to our running instance, we will need to expose the necessar
 
 16. On the left sidebar, click 'Security Groups' under the 'Network & Security' subheader.
 
-![Step 11](https://github.com/jharner/rspark/blob/master/AWS/Image11.jpg)
+![Step 11](https://github.com/jharner/rspark/blob/master/AWS/image11.jpg)
 
 
 
 
 17. Select 'launch-wizard-1' from the list of security groups.
 
-![Step 12 and Step 13](https://github.com/jharner/rspark/blob/master/AWS/Image12.jpg)
+![Step 12 and Step 13](https://github.com/jharner/rspark/blob/master/AWS/image12.jpg)
 
 
 
