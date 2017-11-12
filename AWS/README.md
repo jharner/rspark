@@ -22,7 +22,7 @@ Prerequisites:
 
 4. Click 'Instances' located in the left sidebar under the 'Instances' header.
 
-![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image2.jpg)
+![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image2.jpg | width=100)
 
 5. Ensure that have the 'N. Virginia' region selected in the top-right toolbar and click the blue 'Launch Instance' button.
 
