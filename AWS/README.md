@@ -10,7 +10,7 @@ Prerequisites:
 
 2. Log into your account by clicking the 'My Account' dropdown at the top-right of the page and selecting the 'AWS Management Console' option. If you do not have an AWS account, click the "Create account" button at the top-right of the page.
 
-![Step 1](https://github.com/jharner/rspark/blob/master/AWS/Image1.jpg)
+![Step 1](https://github.com/jharner/rspark/blob/master/AWS/Image1.jpg | width=100)
 
 
 
