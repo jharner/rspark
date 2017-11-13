@@ -45,7 +45,7 @@ Prerequisites:
 		
 8. Click the blue 'Select' button to choose the rspark image.
 
- ![Step 7](https://github.com/jharner/rspark/blob/master/AWS/Image7.jpg)
+ ![Step 7](https://github.com/jharner/rspark/blob/master/AWS/image7.jpg)
 
 
 
