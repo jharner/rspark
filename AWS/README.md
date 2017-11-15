@@ -6,12 +6,11 @@ Prerequisites:
 	-	 Amazon Web Services Account
 	-  Modern Browser (Edge, Chrome, or Firefox)
 
-1. Navigate to AWS https://aws.amazon.com/
+1. Navigate to [Amazon Web Servces](https://aws.amazon.com/)
 
 2. Log into your account by clicking the 'My Account' dropdown at the top-right of the page and selecting the 'AWS Management Console' option. If you do not have an AWS account, click the "Create account" button at the top-right of the page.
 
-![Step 1](https://github.com/jharner/rspark/blob/master/AWS/Image1.jpg)
-
+![Step 1](https://github.com/jharner/rspark/blob/master/AWS/image1.jpg)
 
 
 3. Once logged in, click the 'All Services' dropdown and select 'EC2' from the section titled 'Compute'.
@@ -19,104 +18,93 @@ Prerequisites:
 ![Step 2](https://github.com/jharner/rspark/blob/master/AWS/image13.jpg)
 
 
-
 4. Click 'Instances' located in the left sidebar under the 'Instances' header.
 
-![Step 2](https://github.com/jharner/rspark/blob/master/AWS/Image2.jpg)
+![Step 2](https://github.com/jharner/rspark/blob/master/AWS/image2.jpg)
 
 5. Ensure that have the 'N. Virginia' region selected in the top-right toolbar and click the blue 'Launch Instance' button.
 
-![Step 3](https://github.com/jharner/rspark/blob/master/AWS/Image3.jpg)
-![Step 4](https://github.com/jharner/rspark/blob/master/AWS/Image4.jpg)
-
+![Step 3](https://github.com/jharner/rspark/blob/master/AWS/image3.jpg)
+![Step 4](https://github.com/jharner/rspark/blob/master/AWS/image4.jpg)
 
 
 6. On the left sidebar, click 'Community AMIs'.
 
- ![Step 5](https://github.com/jharner/rspark/blob/master/AWS/Image5.jpg)
-
+ ![Step 5](https://github.com/jharner/rspark/blob/master/AWS/image5.jpg)
 
 
 7. Enter 'rsparkbox' (without quotes) into the search bar labeled 'Search community AMIs'.
 
- ![Step 6](https://github.com/jharner/rspark/blob/master/AWS/Image6.jpg)
+ ![Step 6](https://github.com/jharner/rspark/blob/master/AWS/image6.jpg)
 
 
-		
 8. Click the blue 'Select' button to choose the rspark image.
 
  ![Step 7](https://github.com/jharner/rspark/blob/master/AWS/image7.jpg)
 
 
-
-
 9. Next, we choose the computing power we want our EC2 instance to have.  Select 't2.medium'.
 
- ![Step 8](https://github.com/jharner/rspark/blob/master/AWS/Image8.jpg)
+ ![Step 8](https://github.com/jharner/rspark/blob/master/AWS/image8.jpg)
 
 
 
-10. Click the blue 'Review and Launch' button in the bottom-right.
+10. At the top of of the screen, just below the dark blue navbar, click '6. Configure Security Group'.
 
-11. Click the blue 'Launch' button in the bottom-right.
-
-12. When asked to select a key, select "Continue without a key pair"
-
-![Step 9](https://github.com/jharner/rspark/blob/master/AWS/Image9.jpg)
+![Step 10](https://github.com/jharner/rspark/blob/master/AWS/image14.jpg)
 
 
+11. Ensure that 'Create a new security group' is selected. Then, in the bottom left corner click the dropdown labelled 'ssh' and select 'custom TCP'
 
-13. Click 'Launch instance'.
+ ![Step 13](https://github.com/jharner/rspark/blob/master/AWS/image15.jpg)
 
-14. Click 'View Instances' in the bottom right.
+12. Change the options for this rule.
+		- Enter '8787' for the Port Range. 
+		- Select 'Anywhere' under the 'Source' column dropdown.
+		- Click the blue 'Save' button on the bottom right.
 
-In order to connect to our running instance, we will need to expose the necessary port through the AWS security group. 
+13. Click 'Review and Launch' in the bottom right. Again Click 'Launch' in the bottom right.
 
-16. On the left sidebar, click 'Security Groups' under the 'Network & Security' subheader.
-
-![Step 11](https://github.com/jharner/rspark/blob/master/AWS/image11.jpg)
-
-
-
-
-17. Select 'launch-wizard-1' from the list of security groups.
-
-![Step 12 and Step 13](https://github.com/jharner/rspark/blob/master/AWS/image12.jpg)
+14. In the resulting popup, select "proceed without a key pair" from the dropdown.  Ensure the box labeled 'I acknowledge...' and click 'Launch Instance' in the bottom right.
+	
+ ![Step 17](https://github.com/jharner/rspark/blob/master/AWS/image9.jpg)
 
 
+15. On the next page, click 'View Instances' on the very bottom right of the page.
 
-18. On the lower half of the screen, select the 'Inbound' tab.
-
-19. To add a rule, click the 'Edit' button within the 'Inbound' tab.
-
-20. Click 'Add Rule' on the left side of the pop-up.
-
-21. For the new rule, select 'Custom TCP' on the left-most dropdown menu.
-
- ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/Image10.jpg)
+ ![Step 18](https://github.com/jharner/rspark/blob/master/AWS/image16.jpg)
 
 
+16. On the instances screen, click on your newly created instance and copy down the IP address listed for your instance under the 'IPv4 Public IP' which can be found on the lower half of the screen.
 
-22. Enter '8787' for the Port Range.
+![Step 19](https://github.com/jharner/rspark/blob/master/AWS/image18.jpg)
 
-23. Select 'Anywhere' under the 'Source' column dropdown.
-
-24. Click the blue 'Save' button on the bottom right.
-
-25. Again click 'Instances' on the left sidebar.
-
-26. Make a note of the IP address listed for your instance under the 'IPv4 Public IP' column or simply copy it to your computer's clipboard.
 
 You may now connect to your Rspark server through a web browser:
 
-27. Into a browser's URL bar, enter 'http://0.0.0.0:8787' replacing '0.0.0.0' with the IP address of your instance copied from step 26
+17. Into a browser's URL bar, enter 'http://0.0.0.0:8787' replacing '0.0.0.0' with the IP address of your instance copied from step 16
 
-33. Log into Rstudio with the credentials:
+18. Log into Rstudio with the credentials:
 
 		username: rstudio
 		password: rstudio
 
 IMPORTANT:  When you have finished using Rspark and saved any needed files to your personal computer's filesystem, terminate your EC2 instance by selecting the instance in AWS and clicking the button labeled 'Actions' then clicking 'Instance State' and finally 'Terminate'.  If you neglect to terminate your EC2 instance you will be charged by Amazon for the duration it is left running.
 
+Notes:
+
+When you are finished working with Rspark, be sure to download all important work to your local computer and follow these steps to suspend the machine so that you are not charged for server runtime while it is not actively being used.  
+
+1. Return to your [personal AWS Instances Dashboard](https://console.aws.amazon.com/ec2/v2/#Instances:sort=instanceId)
+
+2. Select your running Rspark instance
+
+3. Once your instance is selected, click 'Action' above the Instances list.
+
+![Step 19](https://github.com/jharner/rspark/blob/master/AWS/image17.jpg)
+
+4. Next click 'Instance State' from the dropdown and then click 'Stop'.
+
+NOTE: The next time you Start the instance, using these same steps, but replacing the final 'Stop' with 'Start', your instance will have a NEW IP address for connecting to Rstudio.  Be sure to copy down the new IP and connecting just as you did in steps 16 - 18.
 
 
