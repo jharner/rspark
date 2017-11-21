@@ -1,3 +1,5 @@
+![logo](./rsparklogo.jpg)
+
 ## Versions Info
 
 Operating Systems:
