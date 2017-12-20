@@ -21,7 +21,7 @@ services:
       - rspark_hadoopdata:/opt/hadoop
     ports:
       - "9000:9000" # Hadoop
-      - "50070:50070" # HadoopUI Access
+#      - "50070:50070" # HadoopUI Access
   rstudio:
     build: ./rstudio
     image: jh-rstudio
@@ -30,13 +30,35 @@ services:
     links:
       - hadoop
       - postgres
+      - master
     volumes:
       - rspark_rstudio:/home/rstudio
     depends_on: 
       - hadoop
       - hive
+  master:
+    image: singularities/spark:2.2
+    command: start-spark master
+    hostname: master
+    volumes:
+      - rspark_sparkdata:/opt/hdfs
+    ports:
+      - "6066:6066"
+      - "7070:7070"
+      - "7077:7077"
+      - "8080:8080"
+      - "50070:50070"
+  worker:
+    image: singularities/spark:2.2
+    command: start-spark worker master
+    environment:
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 2g
+    links:
+      - master
 
 volumes:
   rspark_hadoopdata:
   rspark_rstudio:
   rspark_pgdata:
+  rspark_sparkdata:
