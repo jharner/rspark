@@ -91,8 +91,6 @@ You may now connect to your Rspark server through a web browser:
 		username: rstudio
 		password: rstudio
 
-IMPORTANT:  When you have finished using Rspark and saved any needed files to your personal computer's filesystem, terminate your EC2 instance by selecting the instance in AWS and clicking the button labeled 'Actions' then clicking 'Instance State' and finally 'Terminate'.  If you neglect to terminate your EC2 instance you will be charged by Amazon for the duration it is left running.
-
 
 ## Shutting Down ##
 
@@ -109,7 +107,7 @@ In order to preserve your workspace and leave your files on the instance itself:
 
 This will suspend your instance, rather than terminate it.  You will be charged a small amount per hour that your instance remains suspended (typically fractions of a cent per day.)
 
-When you are ready to work again:
+Next time you are ready to work again:
 
 1. Return to the [AWS instance screen](https://console.aws.amazon.com/ec2)
 2. Ensure your rspark instance is selected
@@ -130,8 +128,6 @@ _IMPORTANT: Be sure to download all important files to your local computer and f
 
 ![Step 19](https://github.com/jharner/rspark/blob/master/AWS/image17.jpg)
 
-4. Next click 'Instance State' from the dropdown and then click 'Stop'.
-
-NOTE: The next time you Start the instance, using these same steps, but replacing the final 'Stop' with 'Start', your instance will have a NEW IP address for connecting to Rstudio.  Be sure to copy down the new IP and connecting just as you did in steps 16 - 18.
+4. Next click 'Instance State' from the dropdown and then click 'Terminate'.
 
 
