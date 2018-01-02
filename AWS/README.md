@@ -54,7 +54,7 @@ Prerequisites:
 ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/image14.jpg)
 
 
-11. Ensure that 'Create a new security group' is selected. Then, in the bottom left corner click the dropdown labelled 'ssh' and select 'custom TCP'
+11. Ensure that 'Create a new security group' is selected. Then, in the bottom left corner click the dropdown labelled 'ssh' and select 'custom TCP rule'
 
  ![Step 13](https://github.com/jharner/rspark/blob/master/AWS/image15.jpg)
 
@@ -62,6 +62,8 @@ Prerequisites:
 		- Enter '8787' for the Port Range. 
 		- Select 'Anywhere' under the 'Source' column dropdown.
 		- Click the blue 'Save' button on the bottom right.
+
+		_NOTE: If you receieve any warning messages regarding SSH, disregard them, as we will not be connecting to our instance through ssh_
 
 13. Click 'Review and Launch' in the bottom right. Again Click 'Launch' in the bottom right.
 
@@ -91,14 +93,39 @@ You may now connect to your Rspark server through a web browser:
 
 IMPORTANT:  When you have finished using Rspark and saved any needed files to your personal computer's filesystem, terminate your EC2 instance by selecting the instance in AWS and clicking the button labeled 'Actions' then clicking 'Instance State' and finally 'Terminate'.  If you neglect to terminate your EC2 instance you will be charged by Amazon for the duration it is left running.
 
-Notes:
 
-When you are finished working with Rspark, be sure to download all important work to your local computer and follow these steps to suspend the machine so that you are not charged for server runtime while it is not actively being used.  
+## Shutting Down ##
 
-1. Return to your [personal AWS Instances Dashboard](https://console.aws.amazon.com/ec2/v2/#Instances:sort=instanceId)
+You have two primary options when shutting down an AWS instance of Rspark. The difference between the two options is determined by your need to preserve the workspace. 
 
+#### Preserve Rspark Workspace ####
+In order to preserve your workspace and leave your files on the instance itself:
+
+1. Return to the [AWS instance screen](https://console.aws.amazon.com/ec2)
+2. Ensure your rspark instance is selected
+3. Click Actions
+4. Click Instance State
+5. Select Stop
+
+This will suspend your instance, rather than terminate it.  You will be charged a small amount per hour that your instance remains suspended (typically fractions of a cent per day.)
+
+When you are ready to work again:
+
+1. Return to the [AWS instance screen](https://console.aws.amazon.com/ec2)
+2. Ensure your rspark instance is selected
+3. Click Actions
+4. Click Instance State
+5. Select Start
+The IP address of your instance will have changed after being restarted. Repeat step 17 from the guide above to connect to your instance using this new IP address.
+
+#### Dispose of Workspace ####
+
+If you instead do not need to preserve the state and workspace of your Rspark instance, be sure to fully terminate the instance when you are finished with the following steps:
+
+_IMPORTANT: Be sure to download all important files to your local computer and follow these steps to suspend the machine so that you are not charged for server runtime while it is not actively being used._  
+
+1. Return to your [personal AWS Instances Dashboard](https://console.aws.amazon.com/ec2)
 2. Select your running Rspark instance
-
 3. Once your instance is selected, click 'Action' above the Instances list.
 
 ![Step 19](https://github.com/jharner/rspark/blob/master/AWS/image17.jpg)
