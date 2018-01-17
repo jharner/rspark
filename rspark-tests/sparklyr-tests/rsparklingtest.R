@@ -20,7 +20,7 @@ library(sparklyr)
 # h2o.init()
 
 # start the sparklyr session
-sc <- spark_connect(master = "local")
+sc <- spark_connect(master = "spark://master:7077")
 
 mtcars_tbl <- copy_to(sc, mtcars, "mtcars")
 mtcars_tbl
