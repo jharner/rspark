@@ -5,9 +5,7 @@ if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
 library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
 
 # start the SparkR session
-sparkR.session(master = "local",
-               sparkConfig = list(spark.driver.memory = '4g'),
-               sparkJars = "/opt/postgresql-42.1.4.jar")
+sparkR.session(master = "spark://master:7077")
 
 faithful_sdf <- as.DataFrame(faithful)
 
