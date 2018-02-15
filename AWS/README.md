@@ -1,10 +1,10 @@
 ## Running Rspark on AWS  ##
 DISCLAIMER: 
-Amazon Web Services (AWS) allows users the ability to, among other services, create virtual machines in the AWS cloud.  Using AWS services will cost the user a rate based upon computing power and reservation duration.  In order to use Rspark with AWS, you will need to be prepared to pay for the cloud services you utilize.
+Amazon Web Services (AWS) allows users the ability to, among other services, create virtual machines in the AWS cloud.  Using AWS services will cost the user a rate based upon computing power and reservation duration.  In order to use rspark with AWS, you will need to be prepared to pay for the cloud services you utilize.
 
 Prerequisites:
-	-	 Amazon Web Services Account
-	-  Modern Browser (Edge, Chrome, or Firefox)
+	-   Amazon Web Services Account
+	-   Modern Browser (Safari, Chrome, or Firefox)
 
 1. Navigate to [Amazon Web Servces](https://aws.amazon.com/)
 
@@ -48,7 +48,6 @@ Prerequisites:
  ![Step 8](https://github.com/jharner/rspark/blob/master/AWS/image8.jpg)
 
 
-
 10. At the top of of the screen, just below the dark blue navbar, click '6. Configure Security Group'.
 
 ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/image14.jpg)
@@ -84,12 +83,12 @@ You may now connect to your Rspark server through a web browser:
 
 17. Into a browser's URL bar, enter 'http://0.0.0.0:8787' replacing '0.0.0.0' with the IP address of your instance copied from step 16
 
-18. Log into Rstudio with the credentials:
+18. Log into RStudio with the credentials:
 
 		username: rstudio
 		password: rstudio
 
-IMPORTANT:  When you have finished using Rspark and saved any needed files to your personal computer's filesystem, terminate your EC2 instance by selecting the instance in AWS and clicking the button labeled 'Actions' then clicking 'Instance State' and finally 'Terminate'.  If you neglect to terminate your EC2 instance you will be charged by Amazon for the duration it is left running.
+IMPORTANT:  When you have finished using rspark and saved any needed files to your personal computer's filesystem, terminate your EC2 instance by selecting the instance in AWS and clicking the button labeled 'Actions' then clicking 'Instance State' and finally 'Terminate'.  If you neglect to terminate your EC2 instance you will be charged by Amazon for the duration it is left running.
 
 
 ## Shutting Down ##
@@ -123,7 +122,7 @@ If you instead do not need to preserve the state and workspace of your Rspark in
 _IMPORTANT: Be sure to download all important files to your local computer and follow these steps to suspend the machine so that you are not charged for server runtime while it is not actively being used._  
 
 1. Return to your [personal AWS Instances Dashboard](https://console.aws.amazon.com/ec2)
-2. Select your running Rspark instance
+2. Select your running rspark instance
 3. Once your instance is selected, click 'Action' above the Instances list.
 
 ![Step 19](https://github.com/jharner/rspark/blob/master/AWS/image17.jpg)
