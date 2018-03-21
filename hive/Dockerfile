@@ -1,22 +1,25 @@
 FROM library/ubuntu:xenial
 MAINTAINER Mark Lilback <mark@lilback.com>
 
+ARG hadoopversion=2.7.5
+ARG hiveversion=2.1.1
+
 RUN apt-get update && \
 	apt-get install -y wget default-jre libpostgresql-jdbc-java postgresql-client && \
 	apt-get clean
 
-RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz && \
-	tar zxf hadoop-2.7.4.tar.gz && \
-	ln -s hadoop-2.7.4 hadoop && \
-	rm hadoop-2.7.4.tar.gz
+RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
+	tar zxf hadoop-${hadoopversion}.tar.gz && \
+	ln -s hadoop-${hadoopversion} hadoop && \
+	rm hadoop-${hadoopversion}.tar.gz
 
 RUN cd /opt && \
-	wget --quiet http://apache.mirrors.hoobly.com/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz && \
-	tar zxf apache-hive-2.1.1-bin.tar.gz && \
-	ln -s apache-hive-2.1.1-bin hive && \
-	rm apache-hive-2.1.1-bin.tar.gz && \
+	wget --quiet http://apache.mirrors.hoobly.com/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
+	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
+	ln -s apache-hive-${hiveversion}-bin hive && \
+	rm apache-hive-${hiveversion}-bin.tar.gz && \
 	ln -s /usr/share/java/postgresql-jdbc4.jar /opt/hive/lib/postgresql-jdbc4.jar && \
-	ln -s /opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar /opt/hive/lib/
+	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/
 
 ADD core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
 ADD startup.sh /
@@ -29,7 +32,7 @@ RUN mkdir /scripts
 COPY waitfor.sh /scripts/
 RUN chmod 777 /scripts/waitfor.sh
 
-RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar" >> /.bashrc && \
+RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar" >> /.bashrc && \
 	echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /.bashrc && \
 	echo "export PATH=/opt/hive/bin:/opt/hadoop/bin:$PATH" >> /.bashrc
 

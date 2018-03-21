@@ -1,15 +1,14 @@
 FROM rocker/verse:3.3.3
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
-
 ARG pgversion=9.4
 ARG hadoopversion=2.7.1
-ARG sparkversion=2.2.0
+ARG sparkversion=2.2.1
 ARG hiveversion=2.1.1
 
 
-
 # Update machine and install 
+# RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 RUN apt-get update && apt-get install -y postgresql-client-${pgversion} libicu-dev && apt-get clean
 
 ####################
