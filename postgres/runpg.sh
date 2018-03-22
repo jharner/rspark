@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PGDATA="/opt/pg-data"
-pgversion="9.4"
+pgversion="9.6"
 appdir=/usr/lib/postgresql/${pgversion}/bin/
 # When setting up the database, we need to not allow external connections 
 # that assume everything is setup. We do this by running the server with
@@ -35,4 +35,4 @@ if [ ! -d "${PGDATA}/base" ]; then
 	cd /usr/share/postgresql/${pgversion}
 fi
 
-/usr/bin/pg_ctlcluster 9.4 main start --foreground
+/usr/bin/pg_ctlcluster 9.6 main start --foreground

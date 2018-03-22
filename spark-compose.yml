@@ -21,7 +21,7 @@ services:
       - rspark_hadoopdata:/opt/hadoop
     ports:
       - "9000:9000" # Hadoop
-#      - "50070:50070" # HadoopUI Access
+      - "50070:50070" # HadoopUI Access
   rstudio:
     build: ./rstudio
     image: rsprk-rstudio
@@ -55,7 +55,7 @@ services:
       - "8081:8081"
     environment:
       SPARK_CONF_DIR: /conf
-      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_CORES: 2
       SPARK_WORKER_MEMORY: 2g
       #SPARK_WORKER_PORT: 8881
       #SPARK_WORKER_WEBUI_PORT: 8081

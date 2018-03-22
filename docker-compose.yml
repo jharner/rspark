@@ -21,7 +21,7 @@ services:
       - rspark_hadoopdata:/opt/hadoop
     ports:
       - "9000:9000" # Hadoop
-#      - "50070:50070" # HadoopUI Access
+      - "50070:50070" # HadoopUI Access
   rstudio:
     build: ./rstudio
     image: rsprk-rstudio

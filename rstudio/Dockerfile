@@ -1,7 +1,7 @@
-FROM rocker/verse:3.3.3
+FROM rocker/verse:3.4.4
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
-ARG pgversion=9.4
+ARG pgversion=9.6
 ARG hadoopversion=2.7.1
 ARG sparkversion=2.2.1
 ARG hiveversion=2.1.1
@@ -79,7 +79,7 @@ ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
 RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-* && \
 	cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 
-ADD postgresql-42.1.4.jar /opt
+ADD postgresql-42.2.2.jar /opt
 
 ####################
 # ENVIRONMENT CONFIG
@@ -102,8 +102,11 @@ RUN easy_install pip && apt-get install -y python3 && pip install virtualenv
 
 RUN R -e "install.packages(\"tensorflow\")"
 
+# USER rstudio
 ADD rspark-tests /home/rstudio/
+# RUN chown -R rstudio:rstudio /home/rstudio
 
+# USER root
 EXPOSE 8787
 # VOLUME /home/rstudio
 

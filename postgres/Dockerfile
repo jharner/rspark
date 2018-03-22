@@ -2,7 +2,7 @@ FROM library/ubuntu:xenial
 MAINTAINER Mark Lilback <mark@lilback.com>
 
 # Define Postgres Versions
-ARG pgversion=9.4
+ARG pgversion=9.6
 
 ENV PGDATA /opt/pg-data
 ENV PGDIR /usr/lib/postgresql/${pgversion}/bin/
