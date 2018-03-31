@@ -48,7 +48,7 @@ RUN cd /opt && \
 	tar zxf spark-${sparkversion}-bin-hadoop2.7.tgz && \
 	mv spark-${sparkversion}-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
-	echo "export SPARK_DIST_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
+	echo "export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.2.jar:$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
 
 
 ####################
@@ -100,11 +100,12 @@ RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/pro
 # NOTE: python 3 uses the command 'python3'
 RUN easy_install pip && apt-get install -y python3 && pip install virtualenv
 
+# Install TensorFlow
 RUN R -e "install.packages(\"tensorflow\")"
 
 # USER rstudio
 ADD rspark-tests /home/rstudio/
-# RUN chown -R rstudio:rstudio /home/rstudio
+RUN chown -R rstudio:rstudio /home/rstudio
 
 # USER root
 EXPOSE 8787

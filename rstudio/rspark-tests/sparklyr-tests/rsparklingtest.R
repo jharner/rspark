@@ -3,6 +3,7 @@ if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
   Sys.setenv(SPARK_HOME = "/opt/spark")
 }
 
+# rsparkling does not work with this version of R/Spark
 # if ("h2o" %in% search()) { detach("h2o", unload = TRUE) }
 # if (isNamespaceLoaded("h2o")){ unloadNamespace("h2o") }
 # remove.packages("h2o")
