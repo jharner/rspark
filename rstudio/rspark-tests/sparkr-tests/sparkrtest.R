@@ -5,7 +5,10 @@ if (nchar(Sys.getenv("SPARK_HOME")) < 1) {
 library(SparkR, lib.loc = c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib")))
 
 # start the SparkR session
-sparkR.session(master = "spark://master:7077")
+## spark included w rstudio
+sparkR.session(master = "local")
+## spark in its own container
+#sparkR.session(master = "spark://master:7077")
 
 faithful_sdf <- as.DataFrame(faithful)
 
