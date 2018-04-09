@@ -2,6 +2,7 @@ version: '2'
 services:
   postgres:
     build: ./postgres
+    restart: always
     image: rsprk-postgres
     ports:
       - "5432:5432"
@@ -9,6 +10,7 @@ services:
       - rspark_pgdata:/opt/pg-data
   hive:
     build: ./hive
+    restart: always
     image: rsprk-hive
     ports:
       - "10000:10000"
@@ -16,6 +18,7 @@ services:
       - hadoop
   hadoop:
     build: ./hadoop
+    restart: always
     image: rsprk-hadoop
     volumes:
       - rspark_hadoopdata:/opt/hadoop
@@ -24,6 +27,7 @@ services:
       - "50070:50070" # HadoopUI Access
   rstudio:
     build: ./rstudio
+    restart: always
     image: rsprk-rstudio
     ports:
       - "8787:8787" # RstudioUI
