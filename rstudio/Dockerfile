@@ -105,7 +105,7 @@ RUN R -e "install.packages(\"tensorflow\")"
 
 # USER rstudio
 ADD rspark-tests /home/rstudio/
-ADD rspark-notes /home/rstudio/
+# ADD rspark-notes /home/rstudio/
 RUN chown -R rstudio:rstudio /home/rstudio
 
 # USER root
