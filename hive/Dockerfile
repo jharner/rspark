@@ -1,20 +1,20 @@
 FROM library/ubuntu:xenial
 MAINTAINER Mark Lilback <mark@lilback.com>
 
-ARG hadoopversion=2.7.6
+ARG hadoopversion=2.7.1
 ARG hiveversion=2.1.1
 
 RUN apt-get update && \
 	apt-get install -y wget default-jre libpostgresql-jdbc-java postgresql-client && \
 	apt-get clean
 
-RUN cd /opt && wget --quiet http://apache.mirrors.hoobly.com/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
+RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	ln -s hadoop-${hadoopversion} hadoop && \
 	rm hadoop-${hadoopversion}.tar.gz
 
 RUN cd /opt && \
-	wget --quiet http://apache.mirrors.hoobly.com/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
+	wget --quiet http://archive.apache.org/dist/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
 	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
 	ln -s apache-hive-${hiveversion}-bin hive && \
 	rm apache-hive-${hiveversion}-bin.tar.gz && \
