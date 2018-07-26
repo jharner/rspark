@@ -2,7 +2,7 @@ FROM library/ubuntu:xenial
 MAINTAINER Mark Lilback <mark@lilback.com>
 
 ARG hadoopversion=2.7.6
-ARG hiveversion=2.1.1
+ARG hiveversion=2.3.3
 
 RUN apt-get update && \
 	apt-get install -y wget default-jre libpostgresql-jdbc-java postgresql-client && \
