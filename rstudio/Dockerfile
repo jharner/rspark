@@ -4,7 +4,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ARG pgversion=9.6
 ARG hadoopversion=2.7.1
 ARG sparkversion=2.2.2
-ARG hiveversion=2.1.1
+ARG hiveversion=2.3.3
 
 
 # Update machine and install 
@@ -44,7 +44,7 @@ ENV HADOOP_CMD=/opt/hadoop/bin/hadoop HADOOP_HOME=/opt/hadoop HADOOP_BIN=/opt/ha
 ####################
 # Install Spark
 RUN cd /opt && \
-	wget http://apache.mirrors.ionfish.org/spark/spark-${sparkversion}/spark-${sparkversion}-bin-hadoop2.7.tgz && \
+	wget http://apache.mirrors.pair.com/spark/spark-${sparkversion}/spark-${sparkversion}-bin-hadoop2.7.tgz && \
 	tar zxf spark-${sparkversion}-bin-hadoop2.7.tgz && \
 	mv spark-${sparkversion}-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
@@ -55,7 +55,7 @@ RUN cd /opt && \
 # HIVE
 ####################
 RUN cd /opt && \
-	wget http://apache.mirrors.ionfish.org/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
+	wget http://apache.mirrors.pair.com/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
 	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
 	ln -s apache-hive-${hiveversion}-bin hive && \
 	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
