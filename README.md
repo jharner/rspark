@@ -2,7 +2,7 @@
 
 ## RSpark Development Repository
 
-This repo is used to build docker images for R/RStudio, Postgres, Hadoop, Hive, and Spark.  
+This repo is used to build docker images for R/RStudio, Postgres, Hadoop, Hive, and Spark. Building the images and deploying the images as Docker containers can be done in several ways as described below.  
 
 ### Versions info
 
@@ -83,11 +83,15 @@ https://github.com/jharner/rspark-docker
 
 The `start` shell script will download the Docker images from DockerHub and launch the containers. If any of the Docker images have been upgraded, the newer version will be used.
 
+### Building `rspark` using Vagrant
+
+In Development.
+
 ### Future plans
 
 Building the docker images needs to be more robust. In particular, the container dependencies can be violated depending on the processing power of the installation computer and the network speeds among other issues not under the control of the developer.
 
-The plan is to scale `rspark` up, e.g., the size of the Spark cluster. and to mangage dependencies using Kubernetes.  Kubernetes is being built into Spark by the core team and a external team is working on scaling up HDFS for distributed storage. 
+The plan is to scale `rspark` up, e.g., the size of the Spark cluster, and to mangage dependencies using Kubernetes.  Kubernetes is being built into Spark by the core team and a external team is working on scaling up HDFS for distributed storage. 
 
 
 
