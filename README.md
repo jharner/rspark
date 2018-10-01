@@ -4,7 +4,7 @@
 
 This repo is used to build docker images for R/RStudio, Postgres, Hadoop, Hive, and Spark.  
 
-### Versions Info
+### Versions info
 
 Operating Systems Requirements:  
 
@@ -21,11 +21,11 @@ Versions built:
 
 ### Building `rspark` from this repo
 
-Clone this `rspark` repo first using the following `git` command:  
+Clone this `rspark` repo using the following `git` command:  
 
 git clone https://github.com/jharner/rspark.git
 
-`rspark` can then be built in one of two ways on your local computer (assumig you meet the system requirements):
+`rspark` can then be built in one of two ways on your local computer (assuming you meet the system requirements):
 
 1. Spark integrated into the `rstudio` container as a single node
 
@@ -39,7 +39,7 @@ This "cluster" Spark environment can be built by running the following `bash` sc
 
 ./startspark.sh build
 
-Once the build is done (leave the shell script running in your terminal), open a browser with `localhost:8787` and login with credential `rstudio` for both the user name and password.
+Building the images and launching the containers will take time, but once complete, leave the shell script running in your terminal, i.e., do not quit or close the terminal window. Open a browser and enter `localhost:8787` as the URL:port and login with credential `rstudio` for both the user name and password.
 
 Use Control-C to stop the containers.
 
@@ -55,12 +55,44 @@ If you are modifying Dockerfiles, which are used to build images, and something 
 
 ./dockill.sh
 
-Click on the return or enter key for interactive choices. Note that containers are running instances of images. Therefore, you should stop and delete containers before deleting images and volumes.
+Click on the return or the enter key for interactive choices. Note that containers are running instances of images. Therefore, you should stop and delete containers before deleting images and volumes.
 
-At this point, you will need to rebuild `rspark` from scratch, i.e., execute `.start.sh build`.
+At this point, you will need to rebuild `rspark` from scratch, i.e., execute `./start.sh build`.
+
+### Debugging containers
+
+You can `ssh` into any container and run a bash shell to debug issues within the container. First you meed to identify the name or ID of the container you wish to enter. The following Docker command provides this information: 
+
+docker ps
+
+Then you can run an interactive bash shell by the `docker exec` command by specifying the container name and the program name `bash`. For example, to run bash inside the `rstudio` container, execute the following: 
+
+docker exec -it rspark_rstudio_1 bash
+
+which provides you root access.
 
 ### Building `rspark` from the DockerHub Images.
 
-The `rspark` Docker images are available on DockerHub. Go to [DockerHub](https://hub.docker.com) and search for `jharner`.
+The method presented in this section is the preferred way to run `rspark` The above approaches are primarily for development purposes. However, using the pre-built images in DockerHub only allows a single node version of Spark to be built. The "cluster" version must be built from scratch, at least for now.
+
+The `rspark` Docker images, built from the `rspark` repo, are available on DockerHub. Go to [DockerHub](https://hub.docker.com) and search for `jharner`.
+
+However, it is not necessary to manually download the tagged images from DockerHub. The `rspark-docker` repo will do this for you. The directions for building and launching the Docker containers are available in the README file here:  
+
+https://github.com/jharner/rspark-docker  
+
+The `start` shell script will download the Docker images from DockerHub and launch the containers. If any of the Docker images have been upgraded, the newer version will be used.
+
+### Future plans
+
+Building the docker images needs to be more robust. In particular, the container dependencies can be violated depending on the processing power of the installation computer and the network speeds among other issues not under the control of the developer.
+
+The plan is to scale `rspark` up, e.g., the size of the Spark cluster. and to mangage dependencies using Kubernetes.  Kubernetes is being built into Spark by the core team and a external team is working on scaling up HDFS for distributed storage. 
+
+
+
+ 
+
+
 
 
