@@ -87,6 +87,28 @@ The `start` shell script will download the Docker images from DockerHub and laun
 
 In Development.
 
+### Running `rspark` on AWS
+
+Amazon Web Services (AWS) allows users to create virtual machines in the AWS cloud among other services. The cost of using AWS services is based on the computing power required, the amount of storage, and the run-time of the service. However, this cost is minimal for the services needed in this course. Thus, to use `rspark` with AWS, you need to be prepared to pay for the cloud services you utilize unless you have received an academic free allocation.
+
+Prerequisites:  
+
+* Amazon Web Services Account  
+* Modern Browser (Safari, Chrome, or Firefox)
+
+Detailed instructions for running `rspark` an AWS are available here:  
+
+[rspark on AWS](https://github.com/jharner/rspark/blob/master/AWS/README.md)
+
+The pre-built image on AWS is called `rsparkbox` and it contains the `rspark-tutorial`. Once you follow the steps in the README, connect to your `rspark` server through a web browser.
+
+**Note** If you are given an IP address for you instance, enter it into your browser's URL bar as 'http://0.0.0.0:8787' replacing '0.0.0.0' with the IP address of your instance. In this case you do not need an AWS account. Log into RStudio with the credentials:
+
+		username: rstudio
+		password: rstudio
+
+**IMPORTANT:** When you have finished using `rspark`, you need to stop or terminate your EC2 instance. If you neglect to do this, you will be charged by Amazon for the duration it is left running.
+
 ### Future plans
 
 Building the docker images needs to be more robust. In particular, the container dependencies can be violated depending on the processing power of the installation computer and the network speeds among other issues not under the control of the developer.
