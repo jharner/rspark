@@ -1,14 +1,19 @@
+# Create rspark box
+
+These are instructions to Create a vagrant box with the rspark docker images ready to run on a system without a hypervisor (windows home)
+
 ## create a vagrant VM to use as a template
 
-1. Copy the Vagrantfile to a new directory
+1. In the same rspark directory (should be parent of the directory with this file), `docker-compose build`.
 
-2. In that directory, run `vagrant up` followed by `vagrant ssh`
+2. Copy the Vagrantfile to a new directory outside the git tree
+
+3. In that directory, run `vagrant up` followed by `vagrant ssh`
 
 ## Run the following commands inside the vagrant VM:
 
 		sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-		sudo vi /etc/apt/sources.list.d/docker.list
-			deb https://apt.dockerproject.org/repo ubuntu-xenial main
+		sudo echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" > /etc/apt/sources.list.d/docker.list
 		sudo apt-get update
 		sudo apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual
 		sudo apt-get install docker-engine
@@ -18,37 +23,41 @@
 
 You should now be back at the macOS terminal.
 
+execute `PATH=$PATH:/Applications/VirtualBox.app/Contents/MacOS/` to aid in next steps.
+
+## increase capacity of VM disk
+
+1. Find the filename for the VM: it will be in a subfolder of `~/VirtualBox VMs/` It should end in `.vmdk` and be 10 GB in size. For example, `VirtualBox VMs/rstest_default_1540829755384_89632/ubuntu-xenial-16.04-cloudimg.vmdk'`
+
+2. Note the UUID for the drive: `VBoxManage showhdinfo <PATH from #1>`, first line of output.
+
+3. Clone the drive to vdi format. `VBoxManage clonehd <PATH from #1> cloned.vdi --format vdi`
+
+4. Resize it: `VBoxManage modifyhd cloned.vdi --resize 20000`
+
+5. Convert back to vmdk: `VBoxmManager clonehd cloned.vdi cloned.vmdk --format vmdk`
+
+6. Reset the UUID: `VBoxManage internalcommands sethduuid cloned.vmdk <UUID from #2>`
+
+7. Copy back modified drive: `cp cloned.vmdk <PATH from #1>`
+
+8. Delete cloned.vmdk, cloned.vdi
+
+9. Step 2 should now show the drive size being 20 GB.
+
 ## transfer images to vagrant
 
-		docker save -o images.tar rsprk-hadoop rsprk-hive rsprk-postgres rsprk-rstudio`	
+		docker save -o images.tar rsprk-hadoop rsprk-hive rsprk-postgres rsprk-rstudio
+		vagrant up
 		vagrant ssh
 		docker load -i /vagrant/images.tar
-		sudo dd if=/dev/zero of=wipefile bs=1024*1024; rm wipefile (#to free up disk space)
 		exit
 
-## build the .box (all on macOS)
+## build the .box
 
-1. `vagrant halt`
+1. `vagrant package --output rspark.box`
 	
-2. `/Applications/VirtualBox.app/Contents/MacOS/VBoxManage showhdinfo /Users/mlilback/VirtualBox\ VMs/vagrant_default_1505941216004_67319/ubuntu-16.04-amd64-disk001.vmdk`
-
-	*(use the appropriate path for your machine. Note the UUID for later.)*
-
-3.  `vboxmanage clonehd /Users/mlilback/VirtualBox\ VMs/vagrant_default_1505941216004_67319/ubuntu-16.04-amd64-disk001.vmdk clone.vdi --format vdi` *(to create clone.vdi)*
-
-4. Use `vboxmanage modifyhd clone.vdi --compact` to minimize the size
-
-5. `vboxmanage clonehd clone.vdi new.vmdk --format vmdk` will convert it back.
-
-6. Update the UUID with the one noted in step 1: `vboxmanage internalcommands sethduuid new.vmdk a19b892d-684b-418c-96fa-c8768bdb9958`
-
-7. Replace the original vmdk file with new.vmdk, using the original name.
-
-8. `vagrant up`
-
-9. `vagrant package --output rspark.box`
-
-10. Upload the box to vagrantcloud.com
+2. Upload the box to vagrantcloud.com
 
 
 
