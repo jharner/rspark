@@ -113,7 +113,7 @@ The pre-built image on AWS is called `rsparkbox` and it contains the `rspark-tut
 
 Building the docker images needs to be more robust. In particular, the container dependencies can be violated depending on the processing power of the installation computer and the network speeds among other issues not under the control of the developer.
 
-The plan is to scale `rspark` up, e.g., the size of the Spark cluster, and to mangage dependencies using Kubernetes.  Kubernetes is being built into Spark by the core team and a external team is working on scaling up HDFS for distributed storage. 
+The plan is to scale `rspark` up, e.g., the size of the Spark cluster, and to mangage dependencies using Kubernetes.  Kubernetes is being built into Spark by the core team and an external team is working on scaling up HDFS for distributed storage. 
 
 
 
