@@ -1,9 +1,9 @@
-FROM rocker/verse:3.4.4
+FROM rocker/verse:3.5.2
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 ARG pgversion=9.6
 ARG hadoopversion=2.7.1
-ARG sparkversion=2.2.1
+ARG sparkversion=2.4.0
 ARG hiveversion=2.1.1
 
 
@@ -68,12 +68,12 @@ RUN cd /opt && \
 # RUN R CMD options(repos = c(CRAN = "https://cran.rstudio.com"))
 # Set environment variable for rJava package installation
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
-# Install R packages (removed hbase)
-RUN Rscript -e "install.packages(c(\"rjson\",\"bit64\",\"bit\",\"functional\",\"RJSONIO\",\"R.methodsS3\",\"reshape2\",\"datadr\",\"trelliscope\",\"DBI\",\"RPostgreSQL\",\"RJDBC\",\"glmnet\",  \"testthat\", \"roxygen2\", \"XML\", \"housingData\", \"flexdashboard\", \"dbplyr\", \"sparklyr\"), repos = 'http://cran.rstudio.com')"
+# Install R packages
+RUN Rscript -e "install.packages(c(\"rjson\", \"RJSONIO\", \"jsonlite\", \"bit64\", \"bit\", \"functional\", \"R.methodsS3\", \"reshape2\", \"httr\", \"rvest\", \"datadr\", \"trelliscope\", \"DBI\", \"RPostgreSQL\", \"RJDBC\", \"dbplyr\", \"glmnet\", \"testthat\", \"roxygen2\", \"XML\", \"xml2\", \"housingData\", \"Lahman\", \"nycflights13", \"flexdashboard\", \"sparklyr\"), repos = 'http://cran.rstudio.com')"
 # Copy repository packages to filesystem
-ADD rhdfs.tar.gz ravro.tar.gz rmr.tar.gz plyrmr.tar.gz rjava.tar.gz /tmp/pkgs/
+ADD rjava.tar.gz rhdfs.tar.gz rmr.tar.gz /tmp/pkgs/
 # Install repository packages
-RUN cd /tmp/pkgs && R CMD INSTALL rJava ravro rmr2 plyrmr rhdfs
+RUN cd /tmp/pkgs && R CMD INSTALL rJava rmr2 rhdfs
 
 ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
 RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-* && \
