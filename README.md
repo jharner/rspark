@@ -85,11 +85,21 @@ The `start` shell script will download the Docker images from DockerHub and laun
 
 ### Building `rspark` using Vagrant
 
-In Development.
+Running `rspark` in Docker containers is only possible if a hypervisor is available. All platforms have a hypervisor, e.g., Hypervisor in macOS and Hyper-V in Windows. However, Hyper-V is only available for the Professional and Enterprise versions of Windows 10. 
+
+An alternative is to run `rspark` in Docker containers within a virtual machine (VirtualBox here) running Linux provisioned by Vagrant. VirtualBox and Vagrant run on recent versions of all platforms. 
+
+The directions for running `rspark` using Vagrant are found in the README file of the `rspark-vagrant` repo found here:
+
+https://github.com/jharner/rspark-vagrant
+
+The docker images are pre-loaded within the virtual machine. Thus, it is only necessary to run the `start` shell script.
+
+This may be be the best option for Windows users. Another option is to run `rspark` using Amazon Web Services (AWS). Here, only a modern web browser is needed.
 
 ### Running `rspark` on AWS
 
-Amazon Web Services (AWS) allows users to create virtual machines in the AWS cloud among other services. The cost of using AWS services is based on the computing power required, the amount of storage, and the run-time of the service. However, this cost is minimal for the services needed in this course. Thus, to use `rspark` with AWS, you need to be prepared to pay for the cloud services you utilize unless you have received an academic free allocation.
+AWS allows users to create virtual machines in the AWS cloud among other services. The cost of using AWS services is based on the computing power required, the amount of storage, and the run-time of the service. However, this cost is minimal for the services needed in this course. Thus, to use `rspark` with AWS, you need to be prepared to pay for the cloud services you utilize unless you have received an academic free allocation.
 
 Prerequisites:  
 
