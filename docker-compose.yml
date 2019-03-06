@@ -29,6 +29,8 @@ services:
     build: ./rstudio
     restart: always
     image: rsprk-rstudio
+    environment:
+      - PASSWORD=rstudiojh
     ports:
       - "8787:8787" # RstudioUI
     links:
