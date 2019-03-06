@@ -69,7 +69,7 @@ RUN cd /opt && \
 # Set environment variable for rJava package installation
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 # Install R packages
-RUN Rscript -e "install.packages(c(\"rjson\", \"RJSONIO\", \"jsonlite\", \"bit64\", \"bit\", \"functional\", \"R.methodsS3\", \"reshape2\", \"httr\", \"rvest\", \"datadr\", \"trelliscope\", \"DBI\", \"RPostgreSQL\", \"RJDBC\", \"dbplyr\", \"glmnet\", \"testthat\", \"roxygen2\", \"XML\", \"xml2\", \"housingData\", \"Lahman\", \"nycflights13", \"flexdashboard\", \"sparklyr\"), repos = 'http://cran.rstudio.com')"
+RUN Rscript -e "install.packages(c(\"rjson\", \"RJSONIO\", \"jsonlite\", \"bit64\", \"bit\", \"functional\", \"R.methodsS3\", \"reshape2\", \"httr\", \"rvest\", \"datadr\", \"trelliscope\", \"DBI\", \"RPostgreSQL\", \"RJDBC\", \"dbplyr\", \"glmnet\", \"testthat\", \"roxygen2\", \"XML\", \"xml2\", \"housingData\", \"Lahman\", \"nycflights13\", \"flexdashboard\", \"sparklyr\"), repos = 'http://cran.rstudio.com')"
 # Copy repository packages to filesystem
 ADD rjava.tar.gz rhdfs.tar.gz rmr.tar.gz /tmp/pkgs/
 # Install repository packages
