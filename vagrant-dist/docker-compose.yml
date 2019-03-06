@@ -1,0 +1,36 @@
+version: '2'
+services:
+  postgres:
+    image: rsprk-postgres
+    ports:
+      - "5432:5432"
+#    volumes:
+#      - ./data/pg-data:/opt/pg-data
+  hive:
+    image: rsprk-hive
+    ports:
+      - "10000:10000"
+    depends_on:
+      - hadoop
+  hadoop:
+    image: rsprk-hadoop
+#    volumes:
+#      - ./data/hadoop:/opt/hadoop
+    depends_on:
+      - postgres 
+    ports:
+      - "9000:9000" # Hadoop
+      - "50070:50070" # HadoopUI Access
+  rstudio:
+    image: rsprk-rstudio
+    ports:
+      - "8787:8787" # RstudioUI
+    links:
+      - hadoop
+      - postgres
+    volumes:
+      - ./rspark-notes:/home/rstudio/rspark-notes
+      - ./rspark-tests:/home/rstudio/rspark-tests
+    depends_on: 
+      - hadoop
+      - hive
