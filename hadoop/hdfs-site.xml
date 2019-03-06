@@ -27,11 +27,11 @@
 </property>
 <property>
 	<name>dfs.name.dir</name>
-	<value>file:///opt/hadoop/nn</value>
+	<value>file:///usr/local/hadoop/nn</value>
 </property>
 <property>
 	<name>dfs.data.dir</name>
-	<value>file:///opt/hadoop/dfs</value>
+	<value>file:///usr/local/hadoop/dfs</value>
 </property>
 <property>
 	<name>dfs.replication</name>
