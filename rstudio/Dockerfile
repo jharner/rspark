@@ -2,7 +2,7 @@ FROM rocker/verse:3.5.2
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 ARG pgversion=9.6
-ARG hadoopversion=2.7.1
+ARG hadoopversion=2.9.1
 ARG sparkversion=2.4.0
 ARG hiveversion=2.1.1
 
@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y postgresql-client-${pgversion} libicu-d
 ####################
 # JAVA
 ####################
-RUN echo "deb http://http.debian.net/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
-RUN apt-get update && apt-get install -y -t jessie-backports openjdk-8-jdk
+RUN echo "deb http://http.debian.net/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list
+RUN apt-get update && apt-get install -y -t stretch-backports openjdk-8-jdk
 # config Java within R for rJava installation
 RUN sudo R CMD javareconf
 # Install Google Protocol Buffer
@@ -30,13 +30,14 @@ RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	ln -s hadoop-${hadoopversion} hadoop && \
 	rm hadoop-${hadoopversion}.tar.gz && \
-	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar)
-RUN mkdir native && cd native && \
-	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && \
-	tar zxf hadoop-native-64-2.7.1.tgz && \
-	rm hadoop-native-64-2.7.1.tgz && \
-	cd ..
-RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib && chown -R rstudio:rstudio /opt/hadoop
+	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar) && \
+	chown -R rstudio:rstudio /opt/hadoop
+# RUN mkdir native && cd native && \
+# 	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && \
+# 	tar zxf hadoop-native-64-2.7.1.tgz && \
+# 	rm hadoop-native-64-2.7.1.tgz && \
+# 	cd ..
+# RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib && 
 ENV HADOOP_CMD=/opt/hadoop/bin/hadoop HADOOP_HOME=/opt/hadoop HADOOP_BIN=/opt/hadoop/bin HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 
 ####################
