@@ -1,4 +1,4 @@
-FROM rocker/verse:3.5.2
+FROM rocker/verse:3.5.3
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 ARG pgversion=9.6
@@ -32,12 +32,6 @@ RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${
 	rm hadoop-${hadoopversion}.tar.gz && \
 	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar) && \
 	chown -R rstudio:rstudio /opt/hadoop
-# RUN mkdir native && cd native && \
-# 	wget --quiet https://github.com/sequenceiq/docker-hadoop-build/releases/download/v2.7.1/hadoop-native-64-2.7.1.tgz && \
-# 	tar zxf hadoop-native-64-2.7.1.tgz && \
-# 	rm hadoop-native-64-2.7.1.tgz && \
-# 	cd ..
-# RUN rm -rf /opt/hadoop/lib/native && mv native /opt/hadoop/lib && 
 ENV HADOOP_CMD=/opt/hadoop/bin/hadoop HADOOP_HOME=/opt/hadoop HADOOP_BIN=/opt/hadoop/bin HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 
 ####################
