@@ -5,6 +5,7 @@
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 export HIVE_HOME=/opt/hive
 export HADOOP_HOME=/opt/hadoop 
+export HADOOP=/opt/hadoop/bin/hadoop
 
 sleep 25
 

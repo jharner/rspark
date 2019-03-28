@@ -59,7 +59,11 @@ execute `PATH=$PATH:/Applications/VirtualBox.app/Contents/MacOS/` to aid in next
 	
 2. Upload the box to vagrantcloud.com
 
+## test locally
+
+vagrant box remove jharner/rspark
+vagrant box add rspark.box --name jharner/rspark.box
 
 
-
+# TODO: download docker-compose binary
 
