@@ -1,4 +1,6 @@
 FROM rocker/verse:3.5.3
+MAINTAINER Jim Harner <ejharner@gmail.com>
+
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 ARG pgversion=9.6
@@ -90,12 +92,11 @@ RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/pro
 # this is useless because it only sets it for the following commands in the Dockerfile
 #ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
 
-
 # Install Python3
 # NOTE: python 3 uses the command 'python3'
 RUN easy_install pip && apt-get install -y python3 && pip install virtualenv
 
-# Install TensorFlow
+# Install TensorFlow Package
 RUN R -e "install.packages(\"tensorflow\")"
 
 # USER rstudio
