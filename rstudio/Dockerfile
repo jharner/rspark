@@ -5,7 +5,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 ARG pgversion=9.6
 ARG hadoopversion=2.9.1
-ARG sparkversion=2.4.0
+ARG sparkversion=2.4.3
 ARG hiveversion=2.1.1
 
 

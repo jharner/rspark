@@ -1,6 +1,6 @@
 FROM ubuntu:xenial
 
-ARG hadoopversion=2.9.2
+ARG hadoopversion=2.9.1
 
 RUN apt-get update && apt-get install -y wget curl default-jre openssh-client openssh-server postgresql-client libpostgresql-jdbc-java vim && apt-get clean
 RUN curl -s http://apache.mirrors.hoobly.com/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz | tar -xz -C /usr/local
