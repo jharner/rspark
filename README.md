@@ -13,11 +13,12 @@ Operating Systems Requirements:
 
 Versions built:  
 
+* R			3.5.3  
 * Java		OpenJDK 8  
-* Hadoop 	2.7.4  
+* Hadoop 	2.9.1  
 * Hive 		2.1.1  
-* Postgres	2.4  
-* Spark		2.2.1 (for Hadoop 2.7.1 or greater)  
+* Postgres	9.6   
+* Spark		2.4.3 (for Hadoop 2.7.1 or greater)  
 
 ### Building `rspark` from this repo
 
@@ -39,7 +40,7 @@ This "cluster" Spark environment can be built by running the following `bash` sc
 
 ./startspark.sh build
 
-Building the images and launching the containers will take time, but once complete, leave the shell script running in your terminal, i.e., do not quit or close the terminal window. Open a browser and enter `localhost:8787` as the URL:port and login with credential `rstudio` for both the user name and password.
+Building the images and launching the containers will take time, but once complete, leave the shell script running in your terminal, i.e., do not quit or close the terminal window. Open a browser and enter `localhost:8787` as the URL:port and login with credential `rstudio` for the user name and and `rstudiojh` as the password.
 
 Use Control-C to stop the containers.
 
@@ -70,6 +71,8 @@ Then you can run an interactive bash shell by the `docker exec` command by speci
 docker exec -it rspark_rstudio_1 bash
 
 which provides you root access.
+
+You can also run the bash shell built into the `rstudio` container directly from the terminal in RStudio.
 
 ### Building `rspark` from the DockerHub Images.
 
@@ -110,12 +113,12 @@ Detailed instructions for running `rspark` an AWS are available here:
 
 [rspark on AWS](https://github.com/jharner/rspark/blob/master/AWS/README.md)
 
-The pre-built image on AWS is called `rsparkbox` and it contains the `rspark-tutorial`. Once you follow the steps in the README, connect to your `rspark` server through a web browser.
+The pre-built image on AWS is called `rsparkbox3` and it contains the `rspark-tutorial`. Once you follow the steps in the README, connect to your `rspark` server through a web browser.
 
 **Note** If you are given an IP address for you instance, enter it into your browser's URL bar as 'http://0.0.0.0:8787' replacing '0.0.0.0' with the IP address of your instance. In this case you do not need an AWS account. Log into RStudio with the credentials:
 
 		username: rstudio
-		password: rstudio
+		password: rstudiojh
 
 **IMPORTANT:** When you have finished using `rspark`, you need to stop or terminate your EC2 instance. If you neglect to do this, you will be charged by Amazon for the duration it is left running.
 
