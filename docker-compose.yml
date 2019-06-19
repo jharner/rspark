@@ -3,7 +3,7 @@ services:
   postgres:
     build: ./postgres
     restart: always
-    image: rsprk-postgres
+    image: rspark-postgres
     ports:
       - "5432:5432"
     volumes:
@@ -11,7 +11,7 @@ services:
   hive:
     build: ./hive
     restart: always
-    image: rsprk-hive
+    image: rspark-hive
     ports:
       - "10000:10000"
     depends_on:
@@ -19,7 +19,7 @@ services:
   hadoop:
     build: ./hadoop
     restart: always
-    image: rsprk-hadoop
+    image: rspark-hadoop
     volumes:
       - rspark_hadoopdata:/opt/hadoop
     ports:
@@ -28,7 +28,7 @@ services:
   rstudio:
     build: ./rstudio
     restart: always
-    image: rsprk-rstudio
+    image: rspark-rstudio
     environment:
       - PASSWORD=rstudiojh
     ports:
