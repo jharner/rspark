@@ -2,9 +2,10 @@
 DISCLAIMER: 
 Amazon Web Services (AWS) allows users the ability to, among other services, create virtual machines in the AWS cloud.  Using AWS services will cost the user a rate based upon computing power and reservation duration.  In order to use RSpark with AWS, you will need to be prepared to pay for the cloud services you utilize.
 
-Prerequisites:
+Prerequisites:  
+
 	-	Amazon Web Services Account  
-	-	Modern Browser (Chrome, Edge, Firefox, or Safari)
+	-	Modern Browser (Chrome, Edge, Firefox, or Safari)  
 
 1. Navigate to [Amazon Web Servces](https://aws.amazon.com/)
 
@@ -53,11 +54,12 @@ Prerequisites:
 ![Step 10](https://github.com/jharner/rspark/blob/master/AWS/image14.jpg)
 
 
-11. Ensure that 'Create a new security group' is selected. Then, in the bottom left corner click the dropdown labelled `ssh` and select `Custom TCP Rule`, which is the first item.
+11. Ensure that `Create a new security group` is selected. Then, in the bottom left corner click the dropdown labelled `ssh` and select `Custom TCP Rule`, which is the first item.
 
  ![Step 13](https://github.com/jharner/rspark/blob/master/AWS/image15.jpg)
 
-12. Change the options for this rule.
+12. Change the options for this rule.  
+
 		- Enter `8787` for the Port Range.  
 		- Select `Anywhere` under the `Source` column dropdown.  
 
@@ -85,10 +87,10 @@ You may now connect to your Rspark server through a web browser:
 
 17. Into a browser's URL bar, enter `http://0.0.0.0:8787` replacing `0.0.0.0` with the IP address of your instance copied from step 16
 
-18. Log into Rstudio with the credentials:
+18. Log into Rstudio with the credentials:  
 
-		username: rstudio
-		password: rstudiojh
+		username: rstudio  
+		password: rstudiojh  
 		
 Note: `rspark-tutorial` is included in the instance of RStudio Server when it is launched. However, it will usually be slightly out of date and you may want to upload a new version from `jharner/rspark-tutorial` from `github.com` by downloading a zipped version.
 
@@ -98,34 +100,35 @@ Note: `rspark-tutorial` is included in the instance of RStudio Server when it is
 You have two primary options when shutting down an AWS instance of RSpark. The difference between the two options is determined by your need to preserve the workspace. 
 
 #### Preserve RSpark Workspace ####
-In order to preserve your workspace and leave your files on the instance itself:
+In order to preserve your workspace and leave your files on the instance itself:  
 
-1. Return to the [AWS instance screen](https://console.aws.amazon.com/ec2)
-2. Ensure your rspark instance is selected
-3. Click `Actions`
-4. Click `Instance State`
-5. Select `Stop`
+1. Return to the [AWS instance screen](https://console.aws.amazon.com/ec2)  
+2. Ensure your rspark instance is selected  
+3. Click `Actions`  
+4. Click `Instance State`  
+5. Select `Stop`  
 
 This will suspend your instance, rather than terminate it.  You will be charged a small amount per hour that your instance remains suspended (typically fractions of a cent per day.)
 
 Next time you are ready to work again:
 
-1. Return to the [AWS instance screen](https://console.aws.amazon.com/ec2)
-2. Ensure your rspark instance is selected
-3. Click `Actions`
-4. Click `Instance State`
-5. Select `Start`
+1. Return to the [AWS instance screen](https://console.aws.amazon.com/ec2)  
+2. Ensure your rspark instance is selected  
+3. Click `Actions`  
+4. Click `Instance State`  
+5. Select `Start`  
+
 The IP address of your instance will have changed after being restarted. Repeat step 17 from the guide above to connect to your instance using this new IP address.
 
 #### Dispose of Workspace ####
 
 If you instead do not need to preserve the state and workspace of your Rspark instance, be sure to fully terminate the instance when you are finished with the following steps:
 
-_IMPORTANT: Be sure to download all important files to your local computer and follow these steps to suspend the machine so that you are not charged for server runtime while it is not actively being used._  
+_IMPORTANT: Be sure to download all important files to your local computer and follow these steps to suspend the machine so that you are not charged for server runtime while it is not actively being used.  
 
-1. Return to your [personal AWS Instances Dashboard](https://console.aws.amazon.com/ec2)
-2. Select your running Rspark instance
-3. Once your instance is selected, click `Action` above the Instances list.
+1. Return to your [personal AWS Instances Dashboard](https://console.aws.amazon.com/ec2)  
+2. Select your running Rspark instance.  
+3. Once your instance is selected, click `Action` above the Instances list.  
 
 ![Step 19](https://github.com/jharner/rspark/blob/master/AWS/image17.jpg)
 
