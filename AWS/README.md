@@ -76,7 +76,7 @@ NOTE: If you receieve any warning messages regarding SSH, disregard them, as we 
 
  ![Step 18](https://github.com/jharner/rspark/blob/master/AWS/image16.jpg)
  
-If you have multiple instances, make sure you select the most recently created instance and deselect previously terminated instances. Wait until the `Instate Stete` is `Running` and the `Status Checks` are `2/2 checks` before proceeding to Step 16.``
+If you have multiple instances, make sure you select the most recently created instance and deselect previously terminated instances. Wait until the `Instate Stete` is `Running` and the `Status Checks` are `2/2 checks` before proceeding to Step 16.
 
 
 16. On the instances screen, click on your newly created instance and copy down the IP address listed for your instance under the `IPv4 Public IP`, which can be found on the lower half of the screen.
