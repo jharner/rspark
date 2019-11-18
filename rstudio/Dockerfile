@@ -4,8 +4,8 @@ MAINTAINER Jim Harner <ejharner@gmail.com>
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 ARG pgversion=9.6
-ARG hadoopversion=2.9.1
-ARG sparkversion=2.4.3
+ARG hadoopversion=2.9.2
+ARG sparkversion=2.4.4
 ARG hiveversion=2.1.1
 
 

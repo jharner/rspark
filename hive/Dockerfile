@@ -1,7 +1,7 @@
 FROM library/ubuntu:xenial
 MAINTAINER Mark Lilback <mark@lilback.com>
 
-ARG hadoopversion=2.9.1
+ARG hadoopversion=2.9.2
 ARG hiveversion=2.1.1
 
 RUN apt-get update && \
