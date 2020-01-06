@@ -1,11 +1,12 @@
-FROM rocker/verse:3.6.2
+FROM rocker/verse:3.6.1
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
-ARG jvmversion=11
 ARG pgversion=11
 ARG hadoopversion=2.9.2
 ARG sparkversion=2.4.4
 ARG hiveversion=2.1.1
+
+ENV JAVA_HOME /usr/lib/jvm/default-java
 
 RUN apt-get update && apt-get install -y gnupg
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdb.list && \
@@ -14,18 +15,6 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc
 # Update machine and install 
 # RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 RUN apt-get update && apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev && apt-get clean
-
-####################
-# JAVA
-####################
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
-RUN echo "deb http://http.debian.net/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list
-RUN apt-get update && apt-get install -y -t stretch-backports openjdk-${jvmversion}-jdk
-# config Java within R for rJava installation
-RUN sudo R CMD javareconf
-# Install Google Protocol Buffer
-# ADD protobuf-2.5.0.tar.gz /tmp
-# RUN cd /tmp/protobuf-2.5.0 && ./configure && make -j4 && make install && cd .. && rm -rf protobuf-*
 
 ####################
 # HADOOP
@@ -69,8 +58,7 @@ RUN cd /opt && \
 # Set environment variable for rJava package installation
 ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 # Install R packages
-RUN Rscript -e "install.packages(c(\"rJava\"), repos = 'http://cran.rstudio.com')"
-RUN Rscript -e "install.packages(c(\"rjson\", \"RJSONIO\", \"jsonlite\", \"bit64\", \"bit\", \"functional\", \"R.methodsS3\", \"reshape2\", \"httr\", \"rvest\", \"datadr\", \"trelliscope\", \"DBI\", \"RPostgreSQL\", \"RJDBC\", \"dbplyr\", \"testthat\", \"roxygen2\", \"XML\", \"xml2\", \"housingData\", \"Lahman\", \"nycflights13\", \"flexdashboard\", \"sparklyr\", \"glmnet\"), repos = 'http://cran.rstudio.com')"
+RUN Rscript -e "install.packages(c(\"rjson\", \"RJSONIO\", \"jsonlite\", \"functional\", \"R.methodsS3\", \"datadr\", \"trelliscope\", \"RPostgreSQL\", \"RJDBC\", \"housingData\", \"Lahman\", \"nycflights13\", \"flexdashboard\", \"sparklyr\", \"glmnet\", \"reticulate\", \"tensorflow\"), repos = 'http://cran.rstudio.com')"
 # Copy repository packages to filesystem
 ADD rhdfs.tar.gz rmr.tar.gz /tmp/pkgs/
 # Install repository packages
@@ -93,25 +81,9 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 
 # Add path to profile so commands are found if attach to the container
 RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
-# this is useless because it only sets it for the following commands in the Dockerfile
-#ENV PATH /opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin::$PATH
-
-# Install Python3
-# NOTE: python 3 uses the command 'python3'
-#RUN easy_install pip && apt-get install -y python3 && pip install virtualenv
-ARG pythonVer="3.6.8"
-ARG PBuild_Dir="/tmp/pbuild"
-WORKDIR ${PBuild_Dir}
-
-RUN wget --quiet https://www.python.org/ftp/python/${pythonVer}/Python-${pythonVer}.tgz && \
-	tar zxf Python-${pythonVer}.tgz && \
-	cd Python-${pythonVer} && \
-	./configure && \
-	make install > /dev/null 2>&1 && \
-	rm -rf ${PBuild_Dir}
 
 # Install TensorFlow Package
-RUN R -e "install.packages(\"tensorflow\")"
+#RUN R -e "install.packages(\"tensorflow\")"
 
 # USER rstudio
 ADD rspark-tests /home/rstudio/
@@ -119,7 +91,6 @@ RUN chown -R rstudio:rstudio /home/rstudio
 
 # USER root
 EXPOSE 8787
-# VOLUME /home/rstudio
 
 CMD ["/init"]
 
