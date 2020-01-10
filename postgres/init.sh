@@ -10,6 +10,8 @@ createdb -O rstudio rstudio
 createdb -O hive hive
 createdb -O rstudio dataexpo
 createdb -O rstudio testdb
+createdb -O rstudio nycflights13
 psql -U rstudio dataexpo < /opt/dataexpo.sql  > /dev/null
+gunzip -c /opt/nycflights13.sql.gz | psql -U rstudio nycflights13 > /dev/null
 service postgresql stop
 

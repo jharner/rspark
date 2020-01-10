@@ -26,7 +26,7 @@ RUN pg_dropcluster ${pgversion} main
 #RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Copy data file
-COPY dataexpo.sql init.sh /opt/
+COPY dataexpo.sql nycflights13.sql.gz init.sh /opt/
 
 # Become user Postgres (superuser)
 USER postgres
