@@ -3,8 +3,8 @@ MAINTAINER Jim Harner <ejharner@gmail.com>
 
 ARG pgversion=11
 ARG hadoopversion=2.9.2
-ARG sparkversion=2.4.4
 ARG hiveversion=2.1.1
+ARG sparkversion=2.4.4
 
 ENV JAVA_HOME /usr/lib/jvm/default-java
 
@@ -29,6 +29,16 @@ RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${
 ENV HADOOP_CMD=/opt/hadoop/bin/hadoop HADOOP_HOME=/opt/hadoop HADOOP_BIN=/opt/hadoop/bin HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 
 ####################
+# HIVE
+####################
+RUN cd /opt && \
+	wget --quiet http://archive.apache.org/dist/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
+	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
+	ln -s apache-hive-${hiveversion}-bin hive && \
+	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
+	rm apache-hive-${hiveversion}-bin.tar.gz
+
+####################
 # SPARK
 ####################
 # Install Spark
@@ -38,17 +48,6 @@ RUN cd /opt && \
 	mv spark-${sparkversion}-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.2.jar:$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
-
-
-####################
-# HIVE
-####################
-RUN cd /opt && \
-	wget --quiet http://archive.apache.org/dist/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
-	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
-	ln -s apache-hive-${hiveversion}-bin hive && \
-	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
-	rm apache-hive-${hiveversion}-bin.tar.gz
 
 ####################
 # R PACKAGES
@@ -65,7 +64,7 @@ ADD rhdfs.tar.gz rmr.tar.gz /tmp/pkgs/
 RUN cd /tmp/pkgs && R CMD INSTALL rmr2 rhdfs
 
 ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
-RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. && rm -rf protobuf-* && \
+RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. 	&& rm -rf protobuf-* && \
 	cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 
 ADD postgresql-42.2.2.jar /opt
@@ -83,10 +82,10 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
 
 # Install TensorFlow Package
-#RUN R -e "install.packages(\"tensorflow\")"
+# RUN R -e "install.packages(\"tensorflow\")"
 
 # USER rstudio
-ADD rspark-tests /home/rstudio/
+# ADD rspark-tests/ /home/rstudio/
 RUN chown -R rstudio:rstudio /home/rstudio
 
 # USER root

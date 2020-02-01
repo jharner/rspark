@@ -1,13 +1,25 @@
 version: '2'
 services:
+
   postgres:
     build: ./postgres
     restart: always
     image: rspark-postgres
     ports:
-      - "5432:5432"
+      - "5432:5432"     # Postgres
     volumes:
       - rspark_pgdata:/opt/pg-data
+
+  hadoop:
+    build: ./hadoop
+    restart: always
+    image: rspark-hadoop
+    ports:
+      - "9000:9000"     # Hadoop
+      - "50070:50070"   # Hadoop UI
+    volumes:
+      - rspark_hadoopdata:/opt/hadoop
+
   hive:
     build: ./hive
     restart: always
@@ -16,15 +28,7 @@ services:
       - "10000:10000"
     depends_on:
       - hadoop
-  hadoop:
-    build: ./hadoop
-    restart: always
-    image: rspark-hadoop
-    volumes:
-      - rspark_hadoopdata:/opt/hadoop
-    ports:
-      - "9000:9000" # Hadoop
-      - "50070:50070" # HadoopUI Access
+
   rstudio:
     build: ./rstudio
     restart: always
@@ -32,10 +36,8 @@ services:
     environment:
       - PASSWORD=rstudiojh
     ports:
-      - "8787:8787" # RstudioUI
-    links:
-      - hadoop
-      - postgres
+      - "8787:8787"     # RStudio UI
+      - "4040:4040"     # Spark Web UI
     volumes:
       - rspark_rstudio:/home/rstudio
     depends_on: 

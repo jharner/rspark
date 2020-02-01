@@ -25,11 +25,14 @@ if [ ! -d "${PGDATA}/base" ]; then
 	psql -p ${tmpport} --command "CREATE USER hive"
 	createdb -p ${tmpport} -O hive hive
 	createdb -p ${tmpport} -O rstudio dataexpo
+	createdb -p ${tmpport} -O rstudio nycflights13
 	createdb -p ${tmpport} -O rstudio testdb
 
 	psql -p ${tmpport} -U rstudio dataexpo </opt/dataexpo.sql >/dev/null
+	psql -p ${tmpport} -U rstudio nycflights13 </opt/nycflights.sql >/dev/null
 	#just to be sure, as there were problems accessing this once
 	psql -p ${tmpport} --command "GRANT ALL PRIVILEGES ON DATABASE dataexpo TO rstudio"
+	psql -p ${tmpport} --command "GRANT ALL PRIVILEGES ON DATABASE nycflights13 TO rstudio"
 	psql -p ${tmpport} --command "GRANT ALL PRIVILEGES ON DATABASE testdb TO rstudio"
 	service postgresql stop
 	cd /usr/share/postgresql/${pgversion}
