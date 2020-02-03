@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
   postgres:
@@ -38,6 +38,7 @@ services:
     ports:
       - "8787:8787"     # RStudio UI
       - "4040:4040"     # Spark Web UI
+      - "4041:4041"
     volumes:
       - rspark_rstudio:/home/rstudio
     depends_on: 

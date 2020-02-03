@@ -85,12 +85,20 @@ RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/pro
 # RUN R -e "install.packages(\"tensorflow\")"
 
 # USER rstudio
-ADD rspark-tests.zip/ /home/rstudio/
+# Install rspark test files
+# ADD rspark-tests.tar.gz /home/rstudio
+RUN mkdir /home/rstudio/rspark-tests && \
+git clone https://github.com/jharner/rspark-tests.git /tmp/foo && \
+cd /tmp/foo && \
+git archive master | tar -x -C /home/rstudio/rspark-tests  && \
+cd && \
+rm -rf /tmp/foo
 RUN chown -R rstudio:rstudio /home/rstudio
 
 # USER root
 EXPOSE 8787
 EXPOSE 4040
+EXPOSE 4041
 
 CMD ["/init"]
 
