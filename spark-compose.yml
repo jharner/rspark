@@ -1,12 +1,25 @@
-version: '2'
+version: '3'
 services:
+
   postgres:
     build: ./postgres
     image: rsprk-postgres
     ports:
-      - "5432:5432"
+      - "5432:5432"     # Postgres
     volumes:
       - rspark_pgdata:/opt/pg-data
+      
+  hadoop:
+    build: ./hadoop
+    image: rsprk-hadoop
+    volumes:
+      - rspark_hadoopdata:/opt/hadoop
+    ports:
+      - "9000:9000"     # Hadoop
+      - "50070:50070"   # HadoopUI Web UI
+    volumes:
+      - rspark_hadoopdata:/opt/hadoop
+      
   hive:
     build: ./hive
     image: rsprk-hive
@@ -14,14 +27,7 @@ services:
       - "10000:10000"
     depends_on:
       - hadoop
-  hadoop:
-    build: ./hadoop
-    image: rsprk-hadoop
-    volumes:
-      - rspark_hadoopdata:/opt/hadoop
-    ports:
-      - "9000:9000" # Hadoop
-      - "50070:50070" # HadoopUI Access
+      
   rstudio:
     build: ./rstudio
     restart: always
@@ -39,30 +45,43 @@ services:
     depends_on: 
       - hadoop
       - hive
+      
   master:
     build: ./spark/sprk_master
     image: rsprk-sprkmaster
-    volumes:
-      - rspark_sparkdata:/opt/hdfs
     ports:
       - "6066:6066"
       - "7070:7070"
       - "7077:7077"
-      - "8080:8080"
-#      - "50070:50070"
-  worker:
-#    build: ./spark/sprk_worker
+      - "8080:8080"     # Master Web UI
+    volumes:
+      - rspark_sparkdata:/opt/hdfs
+
+  worker1:
     image: rsprk-sprkmaster
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
-    ports:
-      - "8081:8081"
     environment:
       SPARK_CONF_DIR: /conf
-      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
-      #SPARK_WORKER_PORT: 8881
-      #SPARK_WORKER_WEBUI_PORT: 8081
-      #SPARK_PUBLIC_DNS: localhost
+      # SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+      # SPARK_PUBLIC_DNS: localhost
+    links:
+      - master
+    depends_on:
+      - master
+      
+  worker2:
+    image: rsprk-sprkmaster
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 2g
+      # SPARK_WORKER_PORT: 8881
+      # SPARK_WORKER_WEBUI_PORT: 8081
+      # SPARK_PUBLIC_DNS: localhost
     links:
       - master
     depends_on:
