@@ -1,94 +1,30 @@
 version: '3'
 services:
-
-  postgres:
-    build: ./postgres
-    image: rsprk-postgres
-    ports:
-      - "5432:5432"     # Postgres
-    volumes:
-      - rspark_pgdata:/opt/pg-data
-      
-  hadoop:
-    build: ./hadoop
-    image: rsprk-hadoop
-    volumes:
-      - rspark_hadoopdata:/opt/hadoop
-    ports:
-      - "9000:9000"     # Hadoop
-      - "50070:50070"   # HadoopUI Web UI
-    volumes:
-      - rspark_hadoopdata:/opt/hadoop
-      
-  hive:
-    build: ./hive
-    image: rsprk-hive
-    ports:
-      - "10000:10000"
-    depends_on:
-      - hadoop
-      
-  rstudio:
-    build: ./rstudio
-    restart: always
-    image: rsprk-rstudio
-    environment:
-      - PASSWORD=rstudiojh
-    ports:
-      - "8787:8787" # RstudioUI
-    links:
-      - hadoop
-      - postgres
-      - master
-    volumes:
-      - rspark_rstudio:/home/rstudio
-    depends_on: 
-      - hadoop
-      - hive
-      
+    
   master:
-    build: ./spark/sprk_master
-    image: rsprk-sprkmaster
+    build: ./spark/spark_master
+    image: rspark-sparkmaster
     ports:
-      - "6066:6066"
-      - "7070:7070"
       - "7077:7077"
       - "8080:8080"     # Master Web UI
-    volumes:
-      - rspark_sparkdata:/opt/hdfs
 
   worker1:
-    image: rsprk-sprkmaster
+    image: rspark-sparkmaster
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
-      # SPARK_WORKER_PORT: 8881
-      SPARK_WORKER_WEBUI_PORT: 8081
-      # SPARK_PUBLIC_DNS: localhost
-    links:
-      - master
     depends_on:
       - master
       
   worker2:
-    image: rsprk-sprkmaster
+    image: rspark-sparkmaster
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
-      # SPARK_WORKER_PORT: 8881
-      # SPARK_WORKER_WEBUI_PORT: 8081
-      # SPARK_PUBLIC_DNS: localhost
-    links:
-      - master
     depends_on:
       - master
 
-volumes:
-  rspark_hadoopdata:
-  rspark_rstudio:
-  rspark_pgdata:
-  rspark_sparkdata:

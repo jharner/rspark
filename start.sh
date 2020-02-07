@@ -16,5 +16,6 @@ esac
 shift
 done 
 
-docker-compose up
+docker-compose up -d
+
 

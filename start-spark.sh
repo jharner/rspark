@@ -14,6 +14,6 @@ case $key in
 	;;
 esac
 shift
-done 
+done
 
-docker-compose -f spark-compose.yml up
+docker-compose -f docker-compose.yml -f spark-compose.yml up -d

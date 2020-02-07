@@ -13,12 +13,12 @@ Operating Systems Requirements:
 
 Versions built:  
 
-* R			3.5.3  
+* R			3.6.1  
 * Java		OpenJDK 8  
-* Hadoop 	2.9.1  
+* Hadoop 	2.9.2
 * Hive 		2.1.1  
 * Postgres	9.6   
-* Spark		2.4.3 (for Hadoop 2.7.1 or greater)  
+* Spark		2.4.4 (for Hadoop 2.7.1 or greater)  
 
 ### Building `rspark` from this repo
 
