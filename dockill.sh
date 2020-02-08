@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 echo "\n"
 
 PS3='Docker Image Manager: '
