@@ -8,13 +8,15 @@ ARG sparkversion=2.4.4
 
 ENV JAVA_HOME /usr/lib/jvm/default-java
 
-RUN apt-get update && apt-get install -y gnupg
+RUN apt-get update && apt-get install -y  apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdb.list && \
-	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+	wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+	wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
 
 # Update machine and install 
 # RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-RUN apt-get update && apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev && apt-get clean
+RUN apt-get update && apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && apt-get clean
 
 ####################
 # HADOOP
