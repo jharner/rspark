@@ -1,22 +1,24 @@
-FROM rocker/verse:3.6.1
+FROM rocker/verse:3.6.2
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
 ARG pgversion=11
 ARG hadoopversion=2.9.2
 ARG hiveversion=2.1.1
 ARG sparkversion=2.4.4
+ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 ENV JAVA_HOME /usr/lib/jvm/default-java
 
-RUN apt-get update && apt-get install -y  apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdb.list && \
-	wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
-	wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
-	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+COPY postgresKey.asc openjdkKey.asc /tmp/
+RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
+RUN add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' && \
+	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
+	apt-key add /tmp/postgresKey.asc && \
+	apt-key add /tmp/openjdkKey.asc 
 
 # Update machine and install 
 # RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-RUN apt-get update && apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && apt-get clean
+RUN apt-get update && apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && apt-get clean && update-java-alternatives -s adoptopenjdk-8-hotspot-amd64
 
 ####################
 # HADOOP

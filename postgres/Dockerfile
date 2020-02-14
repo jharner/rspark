@@ -3,19 +3,22 @@ MAINTAINER Mark Lilback <mark@lilback.com>
 
 # Define Postgres Versions
 ARG pgversion=9.6
+ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 ENV PGDATA /opt/pg-data
 ENV PGDIR /usr/lib/postgresql/${pgversion}/bin/
 ENV PGVERSION ${pgversion}
 
 # Add the PostgreSQL PGP key to verify their Debian packages.
-RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+COPY postgresKey.asc /tmp/
 
-# Add PostgreSQL's repository.
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certificates \
+	wget dirmngr gnupg software-properties-common && \
+	add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' && \
+	apt-key add /tmp/postgresKey.asc && apt-get update
 
 # Install packages and Postgres
-RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
+RUN apt-get install -y python-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
 
 RUN mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data
 
