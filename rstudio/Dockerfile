@@ -1,4 +1,4 @@
-FROM rocker/verse:3.6.2
+FROM rocker/verse:3.6.1
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
 ARG pgversion=11
