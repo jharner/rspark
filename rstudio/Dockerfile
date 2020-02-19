@@ -122,6 +122,7 @@ RUN apt-get update </dev/null \
                --enable-memory-profiling \
                --with-readline \
                --with-blas \
+               --enable-java \
                --with-tcltk \
                --disable-nls \
                --with-recommended-packages \
@@ -220,3 +221,41 @@ RUN (\
           \nsaveAction="0"' \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio ) >/dev/null
+
+COPY contrib/userconf.sh /etc/cont-init.d/userconf
+
+## running with "-e ADD=shiny" adds shiny server
+COPY contrib/add_shiny.sh /etc/cont-init.d/add
+COPY contrib/disable_auth_rserver.conf /etc/rstudio/disable_auth_rserver.conf
+COPY contrib/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
+
+EXPOSE 8787
+
+## automatically link a shared volume for kitematic users
+#VOLUME /home/rstudio/kitematic
+
+CMD ["/init"]
+
+RUN apt-get update -qq && apt-get -y --no-install-recommends install \
+  libxml2-dev \
+  libcairo2-dev \
+  libsqlite-dev \
+  libmariadbd-dev \
+  libmariadbclient-dev \
+  libpq-dev \
+  libssh2-1-dev \
+  unixodbc-dev \
+  libsasl2-dev \
+  && install2.r --error \
+    --deps TRUE \
+    tidyverse \
+    dplyr \
+    devtools \
+    formatR \
+    remotes \
+    selectr \
+    caTools \
+    BiocManager \
+ ## And some nice R packages for publishing-related stuff
+  && install2.r --error --deps TRUE \
+    bookdown rticles rmdshower #rJava
