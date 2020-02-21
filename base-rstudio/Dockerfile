@@ -22,7 +22,7 @@ ENV R_VERSION=${R_VERSION:-3.6.2} \
     LANGUAGE=en_US.UTF-8 \
     TERM=xterm
 
-ENV JAVA_HOME /usr/lib/jvm/default-java
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 
 RUN apt-get update </dev/null \
   	&& (apt-get install -y --no-install-recommends \
@@ -258,4 +258,4 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     BiocManager \
  ## And some nice R packages for publishing-related stuff
   && install2.r --error --deps TRUE \
-    bookdown rticles rmdshower #rJava
+    bookdown rticles rmdshower rJava
