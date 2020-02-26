@@ -85,6 +85,9 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 # Add path to profile so commands are found if attach to the container
 RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
 
+# setup default path for java
+RUN cd /usr/lib/jvm && ln -s java-8-openjdk-amd64 default-java
+
 # Install TensorFlow Package
 # RUN R -e "install.packages(\"tensorflow\")"
 
