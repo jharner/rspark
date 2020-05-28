@@ -15,7 +15,7 @@ ENV S6_VERSION=${S6_VERSION:-v1.21.7.0}
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 ENV PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.9}
-ENV R_VERSION=${R_VERSION:-3.6.2} \
+ENV R_VERSION=${R_VERSION:-3.6.3} \
     CRAN=${CRAN:-https://cran.rstudio.com} \ 
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
@@ -158,7 +158,7 @@ RUN apt-get update </dev/null \
 #  && apt-get remove --purge -y $BUILDDEPS \
 #  && apt-get autoremove -y \
 #  && apt-get autoclean -y \
-&& echo "postR:" `ls -1 /usr/bin/gi*` >&2 \
+  && echo "postR:" `ls -1 /usr/bin/gi*` >&2 \
   && rm -rf /var/lib/apt/lists/* ) > /dev/null  
 RUN (if [ -z "$RSTUDIO_VERSION" ]; \
     then RSTUDIO_URL="https://www.rstudio.org/download/latest/stable/server/bionic/rstudio-server-latest-amd64.deb"; \
@@ -168,7 +168,7 @@ RUN (if [ -z "$RSTUDIO_VERSION" ]; \
   && dpkg -i rstudio-server-*-amd64.deb \
   && rm rstudio-server-*-amd64.deb \
   && echo "rstudio installed" >&2 ) >/dev/null 
-  # Symlink pandoc & standard pandoc templates for use system-wide
+# Symlink pandoc & standard pandoc templates for use system-wide
 RUN ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin \
   && ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin \
   && ls /usr/bin/g* \
