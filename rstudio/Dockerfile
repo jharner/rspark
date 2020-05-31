@@ -97,6 +97,12 @@ cd /tmp/foo && \
 git archive master | tar -x -C /home/rstudio/rspark-tests  && \
 cd && \
 rm -rf /tmp/foo
+RUN mkdir /home/rstudio/rspark-tutorial && \
+git clone https://github.com/jharner/rspark-tutorial.git /tmp/foo && \
+cd /tmp/foo && \
+git archive master | tar -x -C /home/rstudio/rspark-tutorial  && \
+cd && \
+rm -rf /tmp/foo
 RUN chown -R rstudio:rstudio /home/rstudio
 
 # USER root
