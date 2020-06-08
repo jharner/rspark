@@ -10,6 +10,25 @@ services:
     volumes:
       - rspark_pgdata:/opt/pg-data
 
+  hadoop:
+    build: ./hadoop
+    restart: always
+    image: rspark-hadoop
+    ports:
+      - "9000:9000"     # Hadoop
+      - "50070:50070"   # Hadoop UI
+    volumes:
+      - rspark_hadoopdata:/opt/hadoop
+
+  hive:
+    build: ./hive
+    restart: always
+    image: rspark-hive
+    ports:
+      - "10000:10000"
+    depends_on:
+      - hadoop
+
   rstudio:
     build: ./rstudio
     restart: always
@@ -22,7 +41,12 @@ services:
       - "4041:4041"
     volumes:
       - rspark_rstudio:/home/rstudio
+    depends_on: 
+      - hadoop
+      - hive
 
 volumes:
-  rspark_pgdata:
+  rspark_hadoopdata:
   rspark_rstudio:
+  rspark_pgdata:
+  rspark_sparkdata:
