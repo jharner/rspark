@@ -9,7 +9,7 @@ ARG javaversion_number=1.${javaversion}.0
 
 RUN apt-get update && \
 	apt-get install -y apt-utils wget openjdk-${javaversion}-jdk libpostgresql-jdbc-java postgresql-client && \
-	update-java-alternatives -s /usr/lib/jvm/java-${javaversion_number}-openjdk-amd64
+	update-java-alternatives -s /usr/lib/jvm/java-${javaversion_number}-openjdk-amd64 && \
 	apt-get clean
 
 RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
