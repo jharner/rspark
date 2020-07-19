@@ -1,11 +1,14 @@
-FROM library/ubuntu:xenial
+FROM library/ubuntu:bionic
 MAINTAINER Mark Lilback <mark@lilback.com>
 
 ARG hadoopversion=2.9.2
 ARG hiveversion=2.1.1
+ARG javaversion=8
+ARG javaversion_number=1.${javaversion}.0
+
 
 RUN apt-get update && \
-	apt-get install -y wget default-jre libpostgresql-jdbc-java postgresql-client && \
+	apt-get install -y wget openjdk-${javaversion}-jdk libpostgresql-jdbc-java postgresql-client && \
 	apt-get clean
 
 RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
@@ -33,8 +36,7 @@ COPY waitfor.sh /scripts/
 RUN chmod 777 /scripts/waitfor.sh
 
 RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar" >> /.bashrc && \
-	echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /.bashrc && \
+	echo "export JAVA_HOME=/usr/lib/jvm/java-${javaversion}-openjdk-amd64" >> /.bashrc && \
 	echo "export PATH=/opt/hive/bin:/opt/hadoop/bin:$PATH" >> /.bashrc
-
 
 CMD ["/startup.sh"]
