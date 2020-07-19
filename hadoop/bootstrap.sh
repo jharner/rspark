@@ -12,7 +12,7 @@ echo "starting run"
 chmod +x $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 DATA_DIR=/opt/hadoop
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 
 rm /tmp/*.pid
 
