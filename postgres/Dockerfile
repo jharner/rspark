@@ -4,7 +4,7 @@ MAINTAINER Mark Lilback <mark@lilback.com>
 # Define Postgres Versions
 ARG pgversion=9.6
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
-
+ARG DEBIAN_FRONTEND=noninteractive
 ENV PGDATA /opt/pg-data
 ENV PGDIR /usr/lib/postgresql/${pgversion}/bin/
 ENV PGVERSION ${pgversion}
