@@ -1,4 +1,4 @@
-FROM rocker/verse:3.6.1
+FROM rocker/verse:3.6.3-ubuntu18.04
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
 ARG pgversion=11
