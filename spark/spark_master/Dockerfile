@@ -1,9 +1,11 @@
-FROM debian:stretch
+FROM ubuntu:bionic
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
 ARG hadoopversion=2.9.2
 ARG hiveversion=2.1.1
 ARG sparkversion=2.4.4
+ARG javaversion=8
+ARG javaversion_number=1.${javaversion}.0
 
 RUN apt-get update \
  && apt-get install -y locales \
