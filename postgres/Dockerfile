@@ -14,8 +14,9 @@ COPY postgresKey.asc /tmp/
 
 RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certificates \
 	wget dirmngr gnupg software-properties-common && \
-	add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' && \
-	apt-key add /tmp/postgresKey.asc && apt-get update
+	apt-key add /tmp/postgresKey.asc && \
+	add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
+	apt-get update
 
 # Install packages and Postgres
 RUN apt-get install -y python-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
