@@ -12,53 +12,55 @@ ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 ####  ENV JAVA_HOME /usr/lib/jvm/java-${java_version}-openjdk-amd64
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 COPY postgresKey.asc openjdkKey.asc /tmp/
-RUN apt-get update && apt-get install -y apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
-RUN apt-key add /tmp/postgresKey.asc && \
+RUN apt-get update && \
+    apt-get install -y apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common && \
+    apt-key add /tmp/postgresKey.asc && \
     apt-key add /tmp/openjdkKey.asc && \
     add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
-	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
 # Update machine and install
-RUN apt-get update && \
+    apt-get update && \
     apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && \
-    apt-get clean && \
     update-java-alternatives -s adoptopenjdk-8-hotspot-amd64 && \
-    R CMD javareconf
+    R CMD javareconf && \
+    apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 ####################
 # HADOOP
 ####################
 # Download and Install Hadoop and set Hadoop environment variable
+ENV HADOOP_CMD=/opt/hadoop/bin/hadoop
+ENV HADOOP_HOME=/opt/hadoop
+ENV HADOOP_BIN=/opt/hadoop/bin
+ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 RUN cd /opt && \
     wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	ln -s hadoop-${hadoopversion} hadoop && \
 	rm hadoop-${hadoopversion}.tar.gz && \
 	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar) && \
-	chown -R rstudio:rstudio /opt/hadoop
-ENV HADOOP_CMD=/opt/hadoop/bin/hadoop
-ENV HADOOP_HOME=/opt/hadoop
-ENV HADOOP_BIN=/opt/hadoop/bin
-ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
-
+	chown -R rstudio:rstudio /opt/hadoop && \
 ####################
 # HIVE
 ####################
-RUN cd /opt && \
+    cd /opt && \
 	wget --quiet http://archive.apache.org/dist/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
 	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
 	ln -s apache-hive-${hiveversion}-bin hive && \
 	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
-	rm apache-hive-${hiveversion}-bin.tar.gz
-
+	rm apache-hive-${hiveversion}-bin.tar.gz && \
 ####################
 # SPARK
 ####################
 # Install Spark
-RUN cd /opt && \
+    cd /opt && \
 	wget --quiet http://archive.apache.org/dist/spark/spark-${sparkversion}/spark-${sparkversion}-bin-hadoop2.7.tgz && \
 	tar zxf spark-${sparkversion}-bin-hadoop2.7.tgz && \
 	mv spark-${sparkversion}-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
-	echo "export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.2.jar:$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
+	echo "export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.2.jar:$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 ####################
 # R PACKAGES
 ####################
