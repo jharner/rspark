@@ -4,9 +4,9 @@ ARG hadoopversion=2.9.2
 ARG javaversion=8
 ARG javaversion_number=1.${javaversion}.0
 
-COPY ../postgresKey.asc ../openjdkKey.asc /tmp/
+COPY postgresKey.asc openjdkKey.asc /tmp/
 RUN apt-get update && \
-    apt-get install -y apt-utils apt-transport-https ca-certificates dirmngr gnupg software-properties-common && \
+    apt-get install -y apt-utils apt-transport-https ca-certificates dirmngr gnupg wget curl software-properties-common && \
     apt-key add /tmp/postgresKey.asc && \
     apt-key add /tmp/openjdkKey.asc && \
     add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
