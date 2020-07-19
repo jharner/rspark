@@ -15,7 +15,7 @@ COPY postgresKey.asc openjdkKey.asc /tmp/
 RUN apt-get update && apt-get install -y apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
 RUN apt-key add /tmp/postgresKey.asc && \
     apt-key add /tmp/openjdkKey.asc && \
-    add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' && \
+    add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
 	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
 # Update machine and install
 RUN apt-get update && \
