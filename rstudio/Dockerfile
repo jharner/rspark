@@ -5,32 +5,39 @@ ARG pgversion=11
 ARG hadoopversion=2.9.2
 ARG hiveversion=2.1.1
 ARG sparkversion=2.4.4
+ARG javaversion=8
+ARG javaversion_number=1.${javaversion}.0
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
-ENV JAVA_HOME /usr/lib/jvm/default-java
-
+####  ENV JAVA_HOME /usr/lib/jvm/java-${java_version}-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 COPY postgresKey.asc openjdkKey.asc /tmp/
-RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
-RUN add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' && \
-	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
-	apt-key add /tmp/postgresKey.asc && \
-	apt-key add /tmp/openjdkKey.asc 
-
-# Update machine and install 
-# RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-RUN apt-get update && apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && apt-get clean && update-java-alternatives -s adoptopenjdk-8-hotspot-amd64
-
+RUN apt-get update && apt-get install -y apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common
+RUN apt-key add /tmp/postgresKey.asc && \
+    apt-key add /tmp/openjdkKey.asc && \
+    add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' && \
+	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+# Update machine and install
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && \
+    apt-get clean && \
+    update-java-alternatives -s adoptopenjdk-8-hotspot-amd64 && \
+    R CMD javareconf
 ####################
 # HADOOP
 ####################
 # Download and Install Hadoop and set Hadoop environment variable
-RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
+RUN cd /opt && \
+    wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	ln -s hadoop-${hadoopversion} hadoop && \
 	rm hadoop-${hadoopversion}.tar.gz && \
 	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar) && \
 	chown -R rstudio:rstudio /opt/hadoop
-ENV HADOOP_CMD=/opt/hadoop/bin/hadoop HADOOP_HOME=/opt/hadoop HADOOP_BIN=/opt/hadoop/bin HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+ENV HADOOP_CMD=/opt/hadoop/bin/hadoop
+ENV HADOOP_HOME=/opt/hadoop
+ENV HADOOP_BIN=/opt/hadoop/bin
+ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 
 ####################
 # HIVE
@@ -52,7 +59,6 @@ RUN cd /opt && \
 	mv spark-${sparkversion}-bin-hadoop2.7 spark && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
 	echo "export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.2.jar:$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh
-
 ####################
 # R PACKAGES
 ####################
@@ -84,10 +90,8 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 
 # Add path to profile so commands are found if attach to the container
 RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
-
 # Install TensorFlow Package
 # RUN R -e "install.packages(\"tensorflow\")"
-
 # USER rstudio
 # Install rspark test files
 # ADD rspark-tests.tar.gz /home/rstudio
