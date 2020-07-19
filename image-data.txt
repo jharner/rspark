@@ -1,2 +1,4 @@
 docker images
 REPOSITORY TAG IMAGE ID CREATED SIZE rocker 3.6.3 2fd37a8fbc30 10 minutes ago 5.35GB hive 2.1.1 1e4bfe269263 27 minutes ago 1.55GB hadoop 2.9.2 15815437219b 34 minutes ago 1.41GB postgres 9.6 35153beccb3a 49 minutes ago 496MB ubuntu bionic d27b9ffc5667 12 days ago 64.2MB rocker/verse 3.6.3-ubuntu18.04 4cdb21d74b90 2 weeks ago 3.38GB
+docker images
+REPOSITORY TAG IMAGE ID CREATED SIZE rspark-rstudio latest cdfbf323f8d7 14 minutes ago 5.32GB rspark-hive latest 02300f24aaad 22 minutes ago 1.55GB rspark-hadoop latest c5e52e28aa83 24 minutes ago 1.41GB rspark-postgres latest f5dc6c83a555 25 minutes ago 496MB ubuntu bionic d27b9ffc5667 12 days ago 64.2MB rocker/verse 3.6.3-ubuntu18.04 4cdb21d74b90 2 weeks ago 3.38GB
