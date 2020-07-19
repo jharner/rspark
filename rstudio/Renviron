@@ -53,7 +53,7 @@ R_LIBS_SITE=${R_LIBS_SITE-'/opt/spark/R/lib:/usr/local/lib/R/site-library:/usr/l
 ### sh-indentation: 2 ***
 ### End: ***
 R_LIBS='/opt/spark/R/lib'
-JAVA_HOME=/usr/lib/jvm/default-java
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 SPARK_HOME=/opt/spark
 HADOOP_CMD=/opt/hadoop/bin/hadoop
 HADOOP_BIN=/opt/hadoop/bin
