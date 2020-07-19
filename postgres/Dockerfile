@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certi
 	apt-get update
 
 # Install packages and Postgres
-RUN apt-get install -y python-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
+RUN apt-get install -y python3-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
 
 RUN mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data
 
