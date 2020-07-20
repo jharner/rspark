@@ -1,0 +1,141 @@
+version: "3"
+services:
+
+  proxy:
+    build: ./proxy
+    networks:
+      - frontend
+  app:
+    build: ./app
+    networks:
+      - frontend
+      - backend
+  db:
+    image: postgres
+    networks:
+      - backend
+
+networks:
+  frontend:
+    # Use a custom driver
+    driver: custom-driver-1
+  backend:
+    # Use a custom driver which takes special options
+    driver: custom-driver-2
+    driver_opts:
+      foo: "1"
+      bar: "2"
+
+version: "3"
+services:
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+
+networks:
+  default:
+    # Use a custom driver
+    driver: custom-driver-1
+
+networks:
+  default:
+    external:
+      name: my-pre-existing-network
+
+version: "3"
+services:
+
+  web:
+    build: .
+    links:
+      - "db:database"
+  db:
+    image: postgres
+
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+    ports:
+      - "8001:5432"
+
+version: "2"
+services:
+  web:
+    build: .
+    ports:
+      - "80:8000"
+    depends_on:
+      - "db"
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "app.py"]
+  db:
+    image: postgres
+
+
+web:
+  image: example/my_web_app:latest
+  depends_on:
+    - db
+    - cache
+
+db:
+  image: postgres:latest
+
+cache:
+  image: redis:latest
+
+web:
+  build: .
+  volumes:
+    - '.:/code'
+  ports:
+    - 8883:80
+  environment:
+    DEBUG: 'true'
+
+db:
+  command: '-d'
+  ports:
+    - 5432:5432
+
+cache:
+  ports:
+    - 6379:6379
+
+web:
+  ports:
+    - 80:80
+  environment:
+    PRODUCTION: 'true'
+
+cache:
+  environment:
+    TTL: '500'
+
+webapp:
+  extends:
+    file: common.yml
+    service: app
+  command: /code/run_web_app
+  ports:
+    - 8080:8080
+  depends_on:
+    - queue
+    - db
+
+queue_worker:
+  extends:
+    file: common.yml
+    service: app
+  command: /code/run_worker
+  depends_on:
+    - queue
+
