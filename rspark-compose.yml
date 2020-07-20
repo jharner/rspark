@@ -1,0 +1,30 @@
+version: '3'
+services:
+    
+  master:
+    build: ./spark/spark_master
+    image: rspark-sparkmaster
+    ports:
+      - "7077:7077"
+      - "8080:8080"     # Master Web UI
+
+  worker1:
+    image: rspark-sparkmaster
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 2g
+    depends_on:
+      - master
+      
+  worker2:
+    image: rspark-sparkmaster
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 2g
+    depends_on:
+      - master
+

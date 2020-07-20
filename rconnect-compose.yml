@@ -4,19 +4,19 @@ services:
   postgres:
     build: ./postgres
     restart: always
-    image: rspark-postgres
+    image: rconnect-postgres
     ports:
       - "5432:5432"     # Postgres
     networks:
       rconnect-network:
-#        ipv4_address: 10.5.0.5
+        ipv4_address: 10.5.0.2
     volumes:
       - rconnect_pgdata:/opt/pg-data
 
   rstudio:
     build: ./rstudio
     restart: always
-    image: rspark-rstudio
+    image: rconnect-rstudio
     environment:
       - PASSWORD=rstudiojh
     ports:
@@ -25,7 +25,7 @@ services:
       - "4041:4041"
     networks:
       rconnect-network:
-#        ipv4_address: 10.5.0.5
+        ipv4_address: 10.5.0.1
     volumes:
       - rconnect_rstudio:/home/rstudio
 #    depends_on:
@@ -41,5 +41,5 @@ networks:
     driver: bridge
     ipam:
       driver: default
-#      config:
-#        - subnet: 10.5.0.0/16
+      config:
+        - subnet: 10.5.0.0/16
