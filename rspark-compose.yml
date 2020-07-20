@@ -15,6 +15,8 @@ services:
       rconnect-network:
 #        ipv4_address: 10.5.0.5
       rspark-network:
+#    volumes:
+#      - rsparkdata:/opt/sparkdata
 
   worker1:
     image: rspark-master
@@ -29,11 +31,13 @@ services:
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
     networks:
-#      rconnect-network:
+      rconnect-network:
 #        ipv4_address: 10.5.0.6
       rspark-network:
     depends_on:
       - master
+#    volumes:
+#      - rsparkdata:/opt/sparkdata
       
   worker2:
     image: rspark-master
@@ -48,11 +52,13 @@ services:
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
     networks:
-#      rconnect-network:
+      rconnect-network:
 #        ipv4_address: 10.5.0.7
       rspark-network:
     depends_on:
       - master
+#    volumes:
+#      - rsparkdata:/opt/sparkdata
 
 networks:
   rconnect-network:

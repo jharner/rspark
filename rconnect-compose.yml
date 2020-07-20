@@ -5,6 +5,8 @@ services:
     build: ./postgres
     restart: always
     image: rconnect-postgres
+    container_name: rpsql
+    hostname: rpsql
     ports:
       - "5432:5432"     # Postgres
     networks:
@@ -17,6 +19,8 @@ services:
     build: ./rstudio
     restart: always
     image: rconnect-rstudio
+    container_name: rconnect
+    hostname: rconnect
     environment:
       - PASSWORD=rstudiojh
     ports:

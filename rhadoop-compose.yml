@@ -5,6 +5,8 @@ services:
     build: ./hadoop
     restart: always
     image: rhadoop-hadoop
+    container_name: rhadoop
+    hostname: rhadoop
     ports:
       - "9000:9000"     # Hadoop
       - "50070:50070"   # Hadoop UI
@@ -19,6 +21,8 @@ services:
     build: ./hive
     restart: always
     image: rhadoop-hive
+    container_name: rhive
+    hostname: rhive
     ports:
       - "10000:10000"
     networks:
