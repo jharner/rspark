@@ -7,6 +7,9 @@ services:
     ports:
       - "7077:7077"
       - "8080:8080"     # Master Web UI
+    networks:
+      rconnect-network:
+        ipv4_address: 10.5.0.5
 
   worker1:
     image: rspark-sparkmaster
@@ -15,6 +18,9 @@ services:
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
+    networks:
+      rconnect-network:
+        ipv4_address: 10.5.0.6
     depends_on:
       - master
       
@@ -25,6 +31,9 @@ services:
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
+    networks:
+      rconnect-network:
+        ipv4_address: 10.5.0.7
     depends_on:
       - master
 

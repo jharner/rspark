@@ -59,10 +59,10 @@ RUN apt-get update && \
 ####################
 ENV HADOOP_VERSION 2.9.2
 ENV HADOOP_HOME /usr/hadoop-${HADOOP_VERSION}
-ENV HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+ENV HADOOP_CONF_DIR ${HADOOP_HOME}/etc/hadoop
 ENV PATH ${HADOOP_HOME}/bin:${PATH}
-ENV HADOOP_CMD=${HADOOP_HOME}/bin/hadoop
-ENV HADOOP_BIN=${HADOOP_HOME}/bin
+ENV HADOOP_CMD ${HADOOP_HOME}/bin/hadoop
+ENV HADOOP_BIN ${HADOOP_HOME}/bin
 RUN curl -sL --retry 3 \
 "http://archive.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz" \
   | gunzip \
@@ -74,7 +74,7 @@ RUN curl -sL --retry 3 \
 ENV SPARK_VERSION 2.4.4
 ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
 ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
-ENV SPARK_DIST_CLASSPATH="${HADOOP_HOME}/etc/hadoop/*:${HADOOP_HOME}/share/hadoop/common/lib/*:${HADOOP_HOME}/share/hadoop/common/*:${HADOOP_HOME}/share/hadoop/hdfs/*:${HADOOP_HOME}/share/hadoop/hdfs/lib/*:${HADOOP_HOME}/share/hadoop/hdfs/*:${HADOOP_HOME}/share/hadoop/yarn/lib/*:${HADOOP_HOME}/share/hadoop/yarn/*:${HADOOP_HOME}/share/hadoop/mapreduce/lib/*:${HADOOP_HOME}/share/hadoop/mapreduce/*:${HADOOP_HOME}/share/hadoop/tools/lib/*"
+ENV SPARK_DIST_CLASSPATH "${HADOOP_HOME}/etc/hadoop/*:${HADOOP_HOME}/share/hadoop/common/lib/*:${HADOOP_HOME}/share/hadoop/common/*:${HADOOP_HOME}/share/hadoop/hdfs/*:${HADOOP_HOME}/share/hadoop/hdfs/lib/*:${HADOOP_HOME}/share/hadoop/hdfs/*:${HADOOP_HOME}/share/hadoop/yarn/lib/*:${HADOOP_HOME}/share/hadoop/yarn/*:${HADOOP_HOME}/share/hadoop/mapreduce/lib/*:${HADOOP_HOME}/share/hadoop/mapreduce/*:${HADOOP_HOME}/share/hadoop/tools/lib/*"
 ENV PATH ${SPARK_HOME}/bin:${PATH}
 RUN curl -sL --retry 3 \
   "http://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz" \
@@ -94,7 +94,7 @@ RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD
 ## Also set a default CRAN repo, and make sure littler knows about it too
     apt-get update && \
 ###     apt-get install -y --no-install-recommends littler r-cran-littler r-base-${R_BASE_VERSION} r-base-dev-${R_BASE_VERSION} r-recommended=${R_BASE_VERSION} && \
-    apt-get install -y --no-install-recommends littler r-cran-littler r-base r-base-dev r-recommended && \
+    apt-get install -y --no-install-recommends littler r-cran-littler r-base-${R_BASE_VERSION} r-base-dev-${R_BASE_VERSION} r-recommended-${R_BASE_VERSION} && \
     echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site && \
     echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r && \
     ln -s /usr/share/doc/littler/examples/install.r /usr/local/bin/install.r && \
