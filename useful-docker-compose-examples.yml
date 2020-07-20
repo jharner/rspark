@@ -293,3 +293,110 @@ volumes:
 
 networks:
   overlay:
+
+
+version: "3.8"
+
+services:
+  web:
+    image: "nginx:alpine"
+    networks:
+      - new
+
+  worker:
+    image: "my-worker-image:latest"
+    networks:
+      - legacy
+
+  db:
+    image: mysql
+    networks:
+      new:
+        aliases:
+          - database
+      legacy:
+        aliases:
+          - mysql
+
+networks:
+  new:
+  legacy:
+version: "3.8"
+
+services:
+  app:
+    image: nginx:alpine
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+        ipv6_address: 2001:3984:3989::10
+
+networks:
+  app_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+        - subnet: "2001:3984:3989::/64"
+
+pid: "host"
+
+ports:
+  - target: 80
+    published: 8080
+    protocol: tcp
+    mode: host
+
+restart: "no"
+restart: always
+restart: on-failure
+restart: unless-stopped
+
+
+version: "3.8"
+services:
+  redis:
+    image: redis:latest
+    deploy:
+      replicas: 1
+    secrets:
+      - source: my_secret
+        target: redis_secret
+        uid: '103'
+        gid: '103'
+        mode: 0440
+secrets:
+  my_secret:
+    file: ./my_secret.txt
+  my_other_secret:
+    external: true
+
+
+version: "3.8"
+services:
+  redis:
+    image: redis:latest
+    deploy:
+      replicas: 1
+    secrets:
+      - my_secret
+      - my_other_secret
+secrets:
+  my_secret:
+    file: ./my_secret.txt
+  my_other_secret:
+    external: true
+
+
+services:
+  some-service:
+    networks:
+      some-network:
+        aliases:
+          - alias1
+          - alias3
+      other-network:
+        aliases:
+          - alias2
+
+

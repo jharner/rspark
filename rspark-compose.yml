@@ -3,7 +3,11 @@ services:
     
   master:
     build: ./spark/spark_master
-    image: rspark-sparkmaster
+    image: rspark-master
+    container_name: rspark-master
+    hostname: rspark-master
+    environment:
+      - "SPARK_LOCAL_IP=rspark-master"
     ports:
       - "7077:7077"
       - "8080:8080"     # Master Web UI
@@ -13,9 +17,14 @@ services:
       rspark-network:
 
   worker1:
-    image: rspark-sparkmaster
+    image: rspark-master
+    container_name: rspark-worker-1
+    hostname: rspark-worker-1
+    ports:
+      - "8081:8081"     # Worker Web UI
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:
+      SPARK_LOCAL_IP: rspark-worker-1
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
@@ -27,9 +36,14 @@ services:
       - master
       
   worker2:
-    image: rspark-sparkmaster
+    image: rspark-master
+    container_name: rspark-worker-2
+    hostname: rspark-worker-2
+    ports:
+      - "8082:8081"     # Worker Web UI
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:
+      SPARK_LOCAL_IP: rspark-worker-2
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g

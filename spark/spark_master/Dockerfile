@@ -112,6 +112,7 @@ CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
 EXPOSE 7077
 EXPOSE 8080
 EXPOSE 8081
+EXPOSE 8082
 
 
 
