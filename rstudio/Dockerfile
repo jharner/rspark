@@ -110,8 +110,8 @@ rm -rf /tmp/foo
 RUN chown -R rstudio:rstudio /home/rstudio
 # USER root
 EXPOSE 8787
-EXPOSE 4040
-EXPOSE 4041
+#EXPOSE 4040
+#EXPOSE 4041
 
 CMD ["/init"]
 

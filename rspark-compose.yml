@@ -12,6 +12,7 @@ services:
       - "7077:7077"
       - "8080:8080"     # Master Web UI
       - "4040:4040"
+      - "4041:4041"
     networks:
       rconnect-network:
 #        ipv4_address: 10.5.0.5

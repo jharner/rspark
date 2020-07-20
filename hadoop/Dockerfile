@@ -46,3 +46,8 @@ VOLUME ["/data"]
 RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
 
 CMD ["/etc/bootstrap.sh", "-d"]
+
+EXPOSE 9000
+EXPOSE 8088
+EXPOSE 50070
+EXPOSE 50075

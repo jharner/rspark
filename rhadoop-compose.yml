@@ -10,6 +10,8 @@ services:
     ports:
       - "9000:9000"     # Hadoop
       - "50070:50070"   # Hadoop UI
+      - "50075:50075"
+      - "8088:8088"
     networks:
       rconnect-network:
 #        ipv4_address: 10.5.0.3
@@ -25,6 +27,8 @@ services:
     hostname: rhive
     ports:
       - "10000:10000"
+      - "9999:9999"  ##Hive UI
+      - "9083:9083"  ## Hive Metastore
     networks:
       rconnect-network:
 #        ipv4_address: 10.5.0.4
