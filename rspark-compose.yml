@@ -9,7 +9,8 @@ services:
       - "8080:8080"     # Master Web UI
     networks:
       rconnect-network:
-        ipv4_address: 10.5.0.5
+#        ipv4_address: 10.5.0.5
+      rspark-network:
 
   worker1:
     image: rspark-sparkmaster
@@ -19,8 +20,9 @@ services:
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
     networks:
-      rconnect-network:
-        ipv4_address: 10.5.0.6
+#      rconnect-network:
+#        ipv4_address: 10.5.0.6
+      rspark-network:
     depends_on:
       - master
       
@@ -32,15 +34,17 @@ services:
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
     networks:
-      rconnect-network:
-        ipv4_address: 10.5.0.7
+#      rconnect-network:
+#        ipv4_address: 10.5.0.7
+      rspark-network:
     depends_on:
       - master
 
 networks:
   rconnect-network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.5.0.0/16
+  rspark-network:
+#    driver: bridge
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 10.5.0.0/16

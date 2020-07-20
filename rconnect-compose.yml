@@ -25,6 +25,7 @@ services:
       - "4041:4041"
     networks:
       rconnect-network:
+      rspark-network:
 #        ipv4_address: 0.0.0.1
     volumes:
       - rconnect_rstudio:/home/rstudio
@@ -38,8 +39,9 @@ volumes:
 
 networks:
   rconnect-network:
-    driver: bridge
-    ipam:
-      driver: default
-#      config:
-#        - subnet: 0.0.0.0/8
+  rspark-network:
+#    driver: bridge
+#    ipam:
+#      driver: default
+##      config:
+##        - subnet: 0.0.0.0/8
