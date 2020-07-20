@@ -14,7 +14,6 @@ services:
       - "8088:8088"
     networks:
       rconnect-network:
-#        ipv4_address: 10.5.0.3
       rspark-network:
     volumes:
       - hadoopdata:/opt/hadoop
@@ -31,7 +30,6 @@ services:
       - "9083:9083"  ## Hive Metastore
     networks:
       rconnect-network:
-#        ipv4_address: 10.5.0.4
       rspark-network:
     depends_on:
       - hadoop
@@ -41,14 +39,4 @@ volumes:
 
 networks:
   rconnect-network:
-#    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet: 10.5.0.0/16
   rspark-network:
-#    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet:

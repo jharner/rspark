@@ -11,7 +11,6 @@ services:
       - "5432:5432"     # Postgres
     networks:
       rconnect-network:
-#        ipv4_address: 0.0.0.2
     volumes:
       - rconnect_pgdata:/opt/pg-data
 
@@ -30,7 +29,6 @@ services:
     networks:
       rconnect-network:
       rspark-network:
-#        ipv4_address: 0.0.0.1
     volumes:
       - rconnect_rstudio:/home/rstudio
 #    depends_on:
@@ -44,8 +42,3 @@ volumes:
 networks:
   rconnect-network:
   rspark-network:
-#    driver: bridge
-#    ipam:
-#      driver: default
-##      config:
-##        - subnet: 0.0.0.0/8

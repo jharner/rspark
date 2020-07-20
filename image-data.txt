@@ -10,3 +10,4 @@ REPOSITORY TAG IMAGE ID CREATED SIZE spark test 5f17d83ecfca 54 seconds ago 1.5G
 
 
 
+REPOSITORY TAG IMAGE ID CREATED SIZE rconnect-postgres latest 72806f2cc285 2 hours ago 496MB rconnect-rstudio latest 2a732c938155 2 hours ago 5.09GB rspark-master latest fb397cafb8ee 3 hours ago 1.5GB rhadoop-hive latest e3b4b259cd4f 3 hours ago 1.59GB rhadoop-hadoop latest 39c6f3197f4e 3 hours ago 1.42GB ubuntu bionic d27b9ffc5667 2 weeks ago 64.2MB rocker/verse 3.6.3-ubuntu18.04 4cdb21d74b90 2 weeks ago 3.38GB

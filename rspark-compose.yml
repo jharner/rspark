@@ -15,10 +15,7 @@ services:
       - "4041:4041"
     networks:
       rconnect-network:
-#        ipv4_address: 10.5.0.5
       rspark-network:
-#    volumes:
-#      - rsparkdata:/opt/sparkdata
 
   worker1:
     image: rspark-master
@@ -34,13 +31,10 @@ services:
       SPARK_WORKER_MEMORY: 2g
     networks:
       rconnect-network:
-#        ipv4_address: 10.5.0.6
       rspark-network:
     depends_on:
       - master
-#    volumes:
-#      - rsparkdata:/opt/sparkdata
-      
+
   worker2:
     image: rspark-master
     container_name: rspark-worker-2
@@ -55,18 +49,10 @@ services:
       SPARK_WORKER_MEMORY: 2g
     networks:
       rconnect-network:
-#        ipv4_address: 10.5.0.7
       rspark-network:
     depends_on:
       - master
-#    volumes:
-#      - rsparkdata:/opt/sparkdata
 
 networks:
   rconnect-network:
   rspark-network:
-#    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet: 10.5.0.0/16
