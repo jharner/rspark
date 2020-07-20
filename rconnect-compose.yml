@@ -1,0 +1,45 @@
+version: '3'
+services:
+
+  postgres:
+    build: ./postgres
+    restart: always
+    image: rspark-postgres
+    ports:
+      - "5432:5432"     # Postgres
+    networks:
+      rconnect-network:
+#        ipv4_address: 10.5.0.5
+    volumes:
+      - rconnect_pgdata:/opt/pg-data
+
+  rstudio:
+    build: ./rstudio
+    restart: always
+    image: rspark-rstudio
+    environment:
+      - PASSWORD=rstudiojh
+    ports:
+      - "8787:8787"     # RStudio UI
+      - "4040:4040"     # Spark Web UI
+      - "4041:4041"
+    networks:
+      rconnect-network:
+#        ipv4_address: 10.5.0.5
+    volumes:
+      - rconnect_rstudio:/home/rstudio
+#    depends_on:
+#      - hadoop
+#      - hive
+
+volumes:
+  rconnect_rstudio:
+  rconnect_pgdata:
+
+networks:
+  rconnect-network:
+    driver: bridge
+    ipam:
+      driver: default
+#      config:
+#        - subnet: 10.5.0.0/16

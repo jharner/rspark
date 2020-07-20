@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  hadoop:
+    build: ./hadoop
+    restart: always
+    image: rspark-hadoop
+    ports:
+      - "9000:9000"     # Hadoop
+      - "50070:50070"   # Hadoop UI
+    networks:
+      rconnect-network:
+#        ipv4_address: 10.5.0.5
+    volumes:
+      - rspark_hadoopdata:/opt/hadoop
+
+  hive:
+    build: ./hive
+    restart: always
+    image: rspark-hive
+    ports:
+      - "10000:10000"
+    networks:
+      rconnect-network:
+#        ipv4_address: 10.5.0.5
+    depends_on:
+      - hadoop
+
+volumes:
+  rspark_hadoopdata:
+
+networks:
+  rconnect-network:
+    driver: bridge
+    ipam:
+      driver: default
+#      config:
+#        - subnet: 10.5.0.0/16
