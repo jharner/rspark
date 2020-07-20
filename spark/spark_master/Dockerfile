@@ -94,7 +94,7 @@ RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD
 ## Also set a default CRAN repo, and make sure littler knows about it too
     apt-get update && \
 ###     apt-get install -y --no-install-recommends littler r-cran-littler r-base-${R_BASE_VERSION} r-base-dev-${R_BASE_VERSION} r-recommended=${R_BASE_VERSION} && \
-    apt-get install -y --no-install-recommends littler r-cran-littler r-base-${R_BASE_VERSION} r-base-dev-${R_BASE_VERSION} r-recommended-${R_BASE_VERSION} && \
+    apt-get install -y --no-install-recommends littler r-cran-littler r-base r-base-dev r-recommended && \
     echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site && \
     echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r && \
     ln -s /usr/share/doc/littler/examples/install.r /usr/local/bin/install.r && \
@@ -111,6 +111,7 @@ CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
 
 EXPOSE 7077
 EXPOSE 8080
+EXPOSE 8081
 
 
 
