@@ -81,7 +81,9 @@ RUN curl -sL --retry 3 \
   | gunzip \
   | tar x -C /usr/ \
  && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
- && chown -R root:root $SPARK_HOME
+ && chown -R root:root $SPARK_HOME \
+ && mkdir /opt/spark-data \
+ && chown -R root:root /opt/spark-data
 ## Use Debian unstable via pinning -- new style via APT::Default-Release
 #RUN echo "deb http://http.debian.net/debian sid main" > /etc/apt/sources.list.d/debian-unstable.list \
 #    && echo 'APT::Default-Release "testing";' > /etc/apt/apt.conf.d/default
