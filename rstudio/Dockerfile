@@ -90,6 +90,7 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript
 
 # Add path to profile so commands are found if attach to the container
 RUN echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile
+RUN export PATH=/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH
 # Install TensorFlow Package
 # RUN R -e "install.packages(\"tensorflow\")"
 # USER rstudio
