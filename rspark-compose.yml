@@ -1,9 +1,9 @@
-version: '3'
+version: '3.5'
 services:
     
   master:
     build: ./spark/spark_master
-    image: rspark-master
+    image: rspark:2.4.4
     container_name: rspark-master
     hostname: rspark-master
     environment:
@@ -15,10 +15,11 @@ services:
       - "4041:4041"
     networks:
       rconnect-network:
-      rspark-network:
+    volumes:
+      - sparkdata:/opt/spark-data
 
   worker1:
-    image: rspark-master
+    image: rspark:2.4.4
     container_name: rspark-worker-1
     hostname: rspark-worker-1
     ports:
@@ -31,12 +32,13 @@ services:
       SPARK_WORKER_MEMORY: 2g
     networks:
       rconnect-network:
-      rspark-network:
     depends_on:
       - master
+    volumes:
+      - sparkdata:/opt/spark-data
 
   worker2:
-    image: rspark-master
+    image: rspark:2.4.4
     container_name: rspark-worker-2
     hostname: rspark-worker-2
     ports:
@@ -49,10 +51,15 @@ services:
       SPARK_WORKER_MEMORY: 2g
     networks:
       rconnect-network:
-      rspark-network:
     depends_on:
       - master
+    volumes:
+      - sparkdata:/opt/spark-data
+
+volumes:
+  sparkdata:
 
 networks:
   rconnect-network:
-  rspark-network:
+    name: rconnect
+    driver: bridge

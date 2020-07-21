@@ -1,10 +1,10 @@
-version: '3'
+version: '3.5'
 services:
 
   hadoop:
     build: ./hadoop
     restart: always
-    image: rhadoop-hadoop
+    image: rhadoop:2.9.2
     container_name: rhadoop
     hostname: rhadoop
     ports:
@@ -14,14 +14,13 @@ services:
       - "8088:8088"
     networks:
       rconnect-network:
-      rspark-network:
     volumes:
       - hadoopdata:/opt/hadoop
 
   hive:
     build: ./hive
     restart: always
-    image: rhadoop-hive
+    image: rhive:2.1.1
     container_name: rhive
     hostname: rhive
     ports:
@@ -30,13 +29,16 @@ services:
       - "9083:9083"  ## Hive Metastore
     networks:
       rconnect-network:
-      rspark-network:
     depends_on:
       - hadoop
+    volumes:
+      - hivedata:/opt/hive
 
 volumes:
   hadoopdata:
+  hivedata:
 
 networks:
   rconnect-network:
-  rspark-network:
+    name: rconnect
+    driver: bridge
