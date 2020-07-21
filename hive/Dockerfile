@@ -35,7 +35,9 @@ RUN cd /opt && \
 	ln -s apache-hive-${hiveversion}-bin hive && \
 	ln -s /usr/share/java/postgresql-jdbc4.jar /opt/hive/lib/postgresql-jdbc4.jar && \
 	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
-	rm apache-hive-${hiveversion}-bin.tar.gz
+	rm apache-hive-${hiveversion}-bin.tar.gz && \
+	mkdir /opt/hive-data && \
+    chown -R root:root /opt/hive-data
 
 ADD core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
 ADD startup.sh /
@@ -52,6 +54,5 @@ RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.ja
 	echo "export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> /.bashrc && \
 	echo "export PATH=/opt/hive/bin:/opt/hadoop/bin:$PATH" >> /.bashrc && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> /etc/profile
-
 
 CMD ["/startup.sh"]
