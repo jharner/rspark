@@ -1,10 +1,10 @@
-version: '3'
+version: '3.5'
 services:
 
   postgres:
     build: ./postgres
     restart: always
-    image: rconnect-postgres
+    image: rpsql:9.6
     container_name: rpsql
     hostname: rpsql
     ports:
@@ -12,12 +12,12 @@ services:
     networks:
       rconnect-network:
     volumes:
-      - rconnect_pgdata:/opt/pg-data
+      - pgdata:/opt/pg-data
 
   rstudio:
     build: ./rstudio
     restart: always
-    image: rconnect-rstudio
+    image: rconnect:3.6.3
     container_name: rconnect
     hostname: rconnect
     environment:
@@ -28,17 +28,17 @@ services:
 #      - "4041:4041"
     networks:
       rconnect-network:
-      rspark-network:
     volumes:
-      - rconnect_rstudio:/home/rstudio
+      - rconnect:/home/rstudio
 #    depends_on:
 #      - hadoop
 #      - hive
 
 volumes:
-  rconnect_rstudio:
-  rconnect_pgdata:
+  rconnect:
+  pgdata:
 
 networks:
   rconnect-network:
-  rspark-network:
+    name: rconnect
+    driver: bridge
