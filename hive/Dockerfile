@@ -16,20 +16,16 @@ RUN apt-get update && \
 	apt-get update && \
     apt-get install --no-install-recommends -y postgresql-client-${pgversion} openssh-client openssh-server libpostgresql-jdbc-java libicu-dev adoptopenjdk-8-hotspot && \
     update-java-alternatives -s adoptopenjdk-8-hotspot-amd64 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
 #RUN apt-get update && \
 #	apt-get install -y apt-utils wget openjdk-${javaversion}-jdk libpostgresql-jdbc-java postgresql-client && \
 #	update-java-alternatives -s /usr/lib/jvm/java-${javaversion_number}-openjdk-amd64 && \
 #	apt-get clean
-
-RUN cd /opt && wget --quiet http://archive.apache.org/dist/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
+    cd /opt && \
+    wget --quiet http://archive.apache.org/dist/hadoop/common/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	ln -s hadoop-${hadoopversion} hadoop && \
-	rm hadoop-${hadoopversion}.tar.gz
-
-RUN cd /opt && \
+	rm hadoop-${hadoopversion}.tar.gz && \
+    cd /opt && \
 	wget --quiet http://archive.apache.org/dist/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
 	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
 	ln -s apache-hive-${hiveversion}-bin hive && \
@@ -37,20 +33,20 @@ RUN cd /opt && \
 	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
 	rm apache-hive-${hiveversion}-bin.tar.gz && \
 	mkdir /opt/hive-data && \
-    chown -R root:root /opt/hive-data
+    mkdir /scripts && \
+    chown -R root:root /opt/hive-data && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ADD core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
 ADD startup.sh /
 ADD hive-env.sh /etc/profile.d/
 ADD hive-site.xml /opt/hive/conf/
-
-RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
-
-RUN mkdir /scripts
 COPY waitfor.sh /scripts/
-RUN chmod 777 /scripts/waitfor.sh
 
-RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar" >> /.bashrc && \
+RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio && \
+    chmod 777 /scripts/waitfor.sh && \
+    echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar" >> /.bashrc && \
 	echo "export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> /.bashrc && \
 	echo "export PATH=/opt/hive/bin:/opt/hadoop/bin:$PATH" >> /.bashrc && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> /etc/profile
