@@ -16,19 +16,17 @@ RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certi
 	wget dirmngr gnupg software-properties-common && \
 	apt-key add /tmp/postgresKey.asc && \
 	add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
-	apt-get update
-
+	apt-get update && \
 # Install packages and Postgres
-RUN apt-get install -y python3-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
-
-RUN mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data
-
-RUN locale-gen en_US.UTF-8
-
+    apt-get install -y python3-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev && \
+    mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data && \
+    locale-gen en_US.UTF-8 && \
 # Delete default cluster and create new cluster
-RUN pg_dropcluster ${pgversion} main
-#RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
+    pg_dropcluster ${pgversion} main && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
+#RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 # Copy data file
 COPY dataexpo.sql nycflights13.sql.gz init.sh /opt/
 
