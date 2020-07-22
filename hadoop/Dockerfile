@@ -18,6 +18,7 @@ RUN apt-get update && \
     cd /usr/local && \
     ln -s ./hadoop-${hadoopversion} hadoop && \
     mkdir -p /scripts /opt/hadoop && \
+    mkdir -p /opt/hadoop-data; chown -R root:root /opt/hadoop-data; chmod 700 /opt/hadoop-data && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -43,8 +44,7 @@ RUN chmod 777 /scripts/waitfor.sh && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh && \
     useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
 
-
-VOLUME ["/data"]
+VOLUME ["/opt/hadoop-data"]
 
 CMD ["/etc/bootstrap.sh", "-d"]
 
