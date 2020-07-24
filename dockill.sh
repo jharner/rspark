@@ -29,7 +29,7 @@ do
               break
               ;;
           "Remove Unused Networks")
-              docker network prune
+              docker network prune -f
               break
               ;;
           "Quit")
