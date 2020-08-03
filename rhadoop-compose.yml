@@ -15,7 +15,7 @@ services:
     networks:
       rconnect-network:
     volumes:
-      - hadoopdata:/opt/hadoop
+      - hadoopdata:/opt/hadoop-data
 
   hive:
     build: ./hive
@@ -32,7 +32,7 @@ services:
     depends_on:
       - hadoop
     volumes:
-      - hivedata:/opt/hive
+      - hivedata:/opt/hive-data
 
 volumes:
   hadoopdata:
