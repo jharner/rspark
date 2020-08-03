@@ -51,4 +51,9 @@ RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio && \
 	echo "export PATH=/opt/hive/bin:/opt/hadoop/bin:$PATH" >> /.bashrc && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> /etc/profile
 
+EXPOSE 9083
+EXPOSE 9999
+EXPOSE 10000
+
+VOLUME ["/opt/hive-data"]
 CMD ["/startup.sh"]
