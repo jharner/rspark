@@ -1,0 +1,51 @@
+name=graalvm-ce-java8-20.1.0
+alias=graalvm-8
+priority=1110
+section=main
+
+hl rmid /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/rmid
+hl java /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/java
+hl keytool /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/keytool
+hl jjs /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/jjs
+hl pack200 /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/pack200
+hl rmiregistry /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/rmiregistry
+hl unpack200 /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/unpack200
+hl orbd /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/orbd
+hl servertool /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/servertool
+hl tnameserv /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/tnameserv
+hl jexec /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/lib/jexec
+jre policytool /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/bin/policytool
+jdkhl idlj /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/idlj
+jdkhl jdeps /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jdeps
+jdkhl wsimport /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/wsimport
+jdkhl rmic /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/rmic
+jdkhl jinfo /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jinfo
+jdkhl jsadebugd /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jsadebugd
+jdkhl native2ascii /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/native2ascii
+jdkhl jstat /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jstat
+jdkhl javadoc /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/javadoc
+jdkhl javah /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/javah
+jdkhl clhsdb /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/clhsdb
+jdkhl jstack /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jstack
+jdkhl jrunscript /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jrunscript
+jdkhl javac /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/javac
+jdkhl javap /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/javap
+jdkhl jar /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jar
+jdkhl extcheck /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/extcheck
+jdkhl hsdb /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/hsdb
+jdkhl schemagen /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/schemagen
+jdkhl jps /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jps
+jdkhl xjc /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/xjc
+jdkhl jmap /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jmap
+jdkhl jstatd /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jstatd
+jdkhl jhat /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jhat
+jdkhl jdb /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jdb
+jdkhl serialver /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/serialver
+jdkhl wsgen /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/wsgen
+jdkhl jcmd /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jcmd
+jdkhl jarsigner /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jarsigner
+jdk appletviewer /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/appletviewer
+jdk jconsole /usr/lib/jvm/graalvm-ce-java8-20.1.0/bin/jconsole
+plugin mozilla-javaplugin.so /usr/lib/jvm/graalvm-ce-java8-20.1.0/jre/lib/amd64/IcedTeaPlugin.so
+
+
