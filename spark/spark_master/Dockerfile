@@ -40,11 +40,19 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends curl unzip python3 python3-setuptools python3-pip apt-utils wget ca-certificates apt-transport-https dirmngr gnupg software-properties-common lsb-release && \
     ln -s /usr/bin/python3 /usr/bin/python && \
 # JAVA
-	wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+    apt-key add /tmp/postgresKey.asc && \
+    apt-key add /tmp/openjdkKey.asc && \
+    add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
 	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
-	apt-get update && \
-	apt-get install -y adoptopenjdk-8-hotspot && \
-	update-java-alternatives -s /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64 && \
+# Update machine and install
+    apt-get update && \
+    apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && \
+    update-java-alternatives -s adoptopenjdk-8-hotspot-amd64 && \
+#	wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+#	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
+#	apt-get update && \
+#	apt-get install -y adoptopenjdk-8-hotspot && \
+#	update-java-alternatives -s /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64 && \
 	cd /opt && \
     wget https://apache.bintray.com/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-archive-keyring-latest-$(lsb_release --codename --short).deb && \
     apt-get install -y -V ./apache-arrow-archive-keyring-latest-$(lsb_release --codename --short).deb && \
@@ -108,9 +116,11 @@ RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD
     rm -rf /tmp/downloaded_packages/ /tmp/*.rds && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
 RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. 	&& rm -rf protobuf-* && \
 	cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
+
 ADD postgresql-42.2.2.jar /opt
 ADD Renviron /usr/local/lib/R/etc/
 ADD hdfs-site.xml core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
