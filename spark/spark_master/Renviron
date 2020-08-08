@@ -1,0 +1,76 @@
+### etc/Renviron.  Generated from Renviron.in by configure.
+###
+### ${R_HOME}/etc/Renviron
+###
+### Record R system environment variables.
+
+R_PLATFORM=${R_PLATFORM-'x86_64-pc-linux-gnu'}
+## Default printer paper size: first record if user set R_PAPERSIZE
+R_PAPERSIZE_USER=${R_PAPERSIZE-'letter'}
+R_PAPERSIZE=${R_PAPERSIZE-'letter'}
+## Default print command
+R_PRINTCMD=${R_PRINTCMD-'/usr/bin/lpr'}
+# for Rd2pdf, reference manual
+R_RD4PDF=${R_RD4PDF-'times,inconsolata,hyper'}
+## used for options("texi2dvi")
+R_TEXI2DVICMD=${R_TEXI2DVICMD-${TEXI2DVI-'/usr/bin/texi2dvi'}}
+## used by INSTALL, untar() and installing grDevices
+R_GZIPCMD=${R_GZIPCMD-'/bin/gzip -n'}
+## Default zip/unzip commands
+R_UNZIPCMD=${R_UNZIPCMD-'/usr/bin/unzip'}
+R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}
+R_BZIPCMD=${R_BZIPCMD-'/bin/bzip2'}
+## Default browser
+R_BROWSER=${R_BROWSER-'xdg-open'}
+## Default editor
+EDITOR=${EDITOR-${VISUAL-vi}}
+## Default pager
+PAGER=${PAGER-'/usr/bin/pager'}
+## Default PDF viewer
+R_PDFVIEWER=${R_PDFVIEWER-'/usr/bin/xdg-open'}
+## Used by libtool
+LN_S='ln -s'
+MAKE=${MAKE-'make'}
+## Prefer a POSIX-compliant sed on e.g. Solaris
+SED=${SED-'/bin/sed'}
+## Prefer a tar that can automagically read compressed archives
+## Used in R CMD INSTALL for binary packages
+TAR=${TAR-'/bin/tar'}
+
+## System and compiler types.
+R_SYSTEM_ABI='linux,gcc,gxx,gfortran,?'
+
+R_LIBS_USER=${R_LIBS_USER-'~/R/x86_64-pc-linux-gnu-library/3.6'}
+# R_LIBS_USER=${R_LIBS_USER-'~/Library/R/3.6/library'}
+
+# edd Apr 2003  Allow local install in /usr/local, also add a directory for
+#               Debian packaged CRAN packages, and finally the default dir 
+# edd Jul 2007  Now use R_LIBS_SITE, not R_LIBS
+R_LIBS_SITE=${R_LIBS_SITE-'/opt/spark/R/lib:/usr/local/lib/R/site-library:/usr/lib/R/site-library:/usr/lib/R/library'}
+
+### Local Variables: ***
+### mode: sh ***
+### sh-indentation: 2 ***
+### End: ***
+R_LIBS='/opt/spark/R/lib'
+### JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
+SPARK_HOME=/opt/spark
+HADOOP_CMD=/opt/hadoop/bin/hadoop
+HADOOP_BIN=/opt/hadoop/bin
+HADOOP_HOME=/opt/hadoop
+HADOOP_PREFIX=/opt/hadoop
+HADOOP_COMMON_HOME=/opt/hadoop
+HADOOP_LIBS=/opt/hadoop/etc/hadoop:/opt/hadoop-2.9.2/share/hadoop/common/lib/:/opt/hadoop-2.9.2/share/hadoop/common/:/opt/hadoop-2.9.2/share/hadoop/hdfs:/opt/hadoop-2.9.2/share/hadoop/hdfs/lib/:/opt/hadoop-2.9.2/share/hadoop/hdfs/:/opt/hadoop-2.9.2/share/hadoop/yarn/lib/:/opt/hadoop-2.9.2/share/hadoop/yarn/:/opt/hadoop-2.9.2/share/hadoop/mapreduce/lib/:/opt/hadoop-2.9.2/share/hadoop/mapreduce/:/opt/hadoop/contrib/capacity-scheduler/.jar
+HADOOP_HDFS_HOME=/opt/hadoop
+HADOOP_MAPRED_HOME=/opt/hadoop
+HADOOP_YARN_HOME=/opt/hadoop
+HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+YARN_CONF_DIR=$HADOOP_PREFIX/etc/hadoop
+HADOOP_USER_NAME=rstudio
+HADOOP_STREAMING=/opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.9.2.jar
+CLASSPATH='/opt/postgresql-42.2.2.jar:/opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar:/opt/hadoop/share/hadoop/common/hadoop-common-2.9.2.jar'
+
+PATH=/opt/hive/bin:/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Sys.setenv(PATH="/opt/hive/bin:/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
