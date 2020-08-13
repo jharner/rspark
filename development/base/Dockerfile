@@ -1,87 +1,151 @@
 FROM ubuntu:bionic
 MAINTAINER Chris Grant <chrisgrant.datascience@gmail.com>
 
-ENV pgversion=9.6
-ENV hadoopversion=2.9.2
-ENV hiveversion=2.1.1
-ENV sparkversion=2.4.6
-ENV javaversion=8
-ENV javaversion_number=1.${javaversion}.0
-ENV rversion=3.6.3
-ENV PGDATA /opt/pg-data
-ENV PGDIR /usr/lib/postgresql/${pgversion}/bin/
-ENV PGVERSION ${pgversion}
-ENV HADOOP_PREFIX /opt/hadoop
-ENV HADOOP_COMMON_HOME /opt/hadoop
-ENV HADOOP_HDFS_HOME /opt/hadoop
-ENV HADOOP_MAPRED_HOME /opt/hadoop
-ENV HADOOP_YARN_HOME /opt/hadoop
-ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
-ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
-ENV JAVA_HOME /usr/lib/jvm/graalvm-ce-java8-20.1.0
-
-ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
-ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
-ARG DEBIAN_FRONTEND=noninteractive
-ENV HADOOP_CMD=/opt/hadoop/bin/hadoop
-ENV HADOOP_HOME=/opt/hadoop
-ENV HADOOP_BIN=/opt/hadoop/bin
-ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
-ENV SPARK_VERSION 2.4.6
+ARG hadoopversion=2.9.2
+ARG hiveversion=2.1.1
+ARG sparkversion=2.4.6
+ARG javaversion=8
+ARG javaversion_number=1.${javaversion}.0
+# Users with other locales should set this in their derivative image
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+# http://blog.stuart.axelbrooke.com/python-3-on-spark-return-of-the-pythonhashseed
+ENV PYTHONHASHSEED 0
+ENV PYTHONIOENCODING UTF-8
+ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+ENV HADOOP_VERSION hadoopversion
+ENV HADOOP_HOME /opt/hadoop
+ENV HADOOP_CONF_DIR ${HADOOP_HOME}/etc/hadoop
+ENV PATH ${HADOOP_HOME}/bin:${PATH}
+ENV HADOOP_CMD ${HADOOP_HOME}/bin/hadoop
+ENV HADOOP_BIN ${HADOOP_HOME}/bin
+ENV SPARK_VERSION sparkversion
 ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
 ENV SPARK_HOME /opt/spark
-COPY postgresKey.asc /tmp/
+ENV SPARK_DIST_CLASSPATH "${HADOOP_HOME}/etc/hadoop/*:${HADOOP_HOME}/share/hadoop/common/lib/*:${HADOOP_HOME}/share/hadoop/common/*:${HADOOP_HOME}/share/hadoop/hdfs/*:${HADOOP_HOME}/share/hadoop/hdfs/lib/*:${HADOOP_HOME}/share/hadoop/hdfs/*:${HADOOP_HOME}/share/hadoop/yarn/lib/*:${HADOOP_HOME}/share/hadoop/yarn/*:${HADOOP_HOME}/share/hadoop/mapreduce/lib/*:${HADOOP_HOME}/share/hadoop/mapreduce/*:${HADOOP_HOME}/share/hadoop/tools/lib/*"
+ENV PATH ${SPARK_HOME}/bin:${PATH}
+ENV R_BASE_VERSION 3.6.3
+ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
+ENV PATH=/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH
+ARG DEBIAN_FRONTEND=noninteractive
 
-RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
+RUN apt-get update && \
+    apt-get install -y locales && \
+    dpkg-reconfigure -f noninteractive locales && \
+    locale-gen en_US.UTF-8 && \
+    /usr/sbin/update-locale LANG=en_US.UTF-8 && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    locale-gen && \
+# Install Python 3
+    apt-get install -y --no-install-recommends curl unzip python3 python3-setuptools python3-pip apt-utils wget ca-certificates apt-transport-https dirmngr gnupg software-properties-common lsb-release && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+# JAVA
+    apt-key add /tmp/postgresKey.asc && \
+    apt-key add /tmp/openjdkKey.asc && \
+    add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
+	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
+# Update machine and install
     apt-get update && \
-    apt-get install -y --no-install-recommends apt-utils wget curl ca-certificates apt-transport-https ca-certificates \
-                                               dirmngr gnupg software-properties-common lsb-release \
-                                               gcc zlib1g-dev build-essential unzip git java-common gfortran gcc g++ && \
-	apt-key add /tmp/postgresKey.asc && \
-	add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
-    gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
-    gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | apt-key add - && \
-    add-apt-repository -s 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' && \
+    apt-get install --no-install-recommends -y postgresql-client-${pgversion} libicu-dev adoptopenjdk-8-hotspot && \
+    update-java-alternatives -s adoptopenjdk-8-hotspot-amd64 && \
+#	wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+#	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
+#	apt-get update && \
+#	apt-get install -y adoptopenjdk-8-hotspot && \
+#	update-java-alternatives -s /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64 && \
+	cd /opt && \
+    wget https://apache.bintray.com/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-archive-keyring-latest-$(lsb_release --codename --short).deb && \
+    apt-get install -y -V ./apache-arrow-archive-keyring-latest-$(lsb_release --codename --short).deb && \
     apt-get update && \
-    apt-get install -y --no-install-recommends python3-software-properties python3-all-dev python3-dev python3-pip postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev && \
-    cd /opt && \
-    wget --quiet https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-20.1.0/graalvm-ce-java8-linux-amd64-20.1.0.tar.gz && \
-    git clone https://github.com/chrishantha/install-java && \
-    yes | ./install-java/install-java.sh -f graalvm-ce-java8-linux-amd64-20.1.0.tar.gz && \
-#    source ~/.bashrc && \
-    export JAVA_HOME=/usr/lib/jvm/graalvm-ce-java8-20.1.0 && \
-    rm graalvm-ce-java8-linux-amd64-20.1.0.tar.gz && \
+    apt-get install -y -V libarrow-dev libarrow-glib-dev libarrow-dataset-dev libarrow-flight-dev libplasma-dev libplasma-glib-dev libgandiva-dev libgandiva-glib-dev libparquet-dev libparquet-glib-dev && \
+    rm ./apache-arrow-archive-keyring-latest-$(lsb_release --codename --short).deb && \
+    python -m pip install py4j pyarrow && \
+    wget --quiet https://jdbc.postgresql.org/download/postgresql-42.2.14.jar && \
+    echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> /etc/profile && \
+    echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
+    export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64 && \
+	apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+####################
 # HADOOP
+####################
+RUN cd /opt && \
     wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	mv hadoop-${hadoopversion} hadoop && \
+    rm -rf $HADOOP_HOME/share/doc  && \
 	rm hadoop-${hadoopversion}.tar.gz && \
 	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar) && \
+    chown -R root:root $HADOOP_HOME && \
+####################
 # HIVE
+####################
+    cd /opt && \
 	wget --quiet http://archive.apache.org/dist/hive/hive-${hiveversion}/apache-hive-${hiveversion}-bin.tar.gz && \
 	tar zxf apache-hive-${hiveversion}-bin.tar.gz && \
-	mv apache-hive-${hiveversion}-bin hive && \
+	ln -s apache-hive-${hiveversion}-bin hive && \
 	ln -s /opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar /opt/hive/lib/ && \
 	rm apache-hive-${hiveversion}-bin.tar.gz && \
 # SPARK
+    cd /opt && \
 	wget --quiet http://archive.apache.org/dist/spark/spark-${sparkversion}/${SPARK_PACKAGE}.tgz && \
 	tar zxf ${SPARK_PACKAGE}.tgz && \
 	mv ${SPARK_PACKAGE} spark && \
 	rm ${SPARK_PACKAGE}.tgz && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
-	wget --quiet https://jdbc.postgresql.org/download/postgresql-42.2.14.jar && \
 	echo "export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.14.jar:$(/opt/hadoop/bin/hadoop classpath)" >> spark/conf/spark-env.sh && \
-    apt-get install -y --no-install-recommends r-base-dev r-recommended && \
-    R CMD javareconf && \
+    chown -R root:root $SPARK_HOME && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
+## Use Debian unstable via pinning -- new style via APT::Default-Release
+#RUN echo "deb http://http.debian.net/debian sid main" > /etc/apt/sources.list.d/debian-unstable.list \
+#    && echo 'APT::Default-Release "testing";' > /etc/apt/apt.conf.d/default
+RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+    gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | apt-key add - && \
+    add-apt-repository -s 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' && \
+## Now install R and littler, and create a link for littler in /usr/local/bin
+## Also set a default CRAN repo, and make sure littler knows about it too
+    apt-get update && \
+###     apt-get install -y --no-install-recommends littler r-cran-littler r-base-${R_BASE_VERSION} r-base-dev-${R_BASE_VERSION} r-recommended=${R_BASE_VERSION} && \
+    apt-get install -y --no-install-recommends littler r-cran-littler r-base r-base-dev r-recommended && \
+    echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site && \
+    echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r && \
+    ln -s /usr/share/doc/littler/examples/install.r /usr/local/bin/install.r && \
+    ln -s /usr/share/doc/littler/examples/install2.r /usr/local/bin/install2.r && \
+    ln -s /usr/share/doc/littler/examples/installGithub.r /usr/local/bin/installGithub.r && \
+    ln -s /usr/share/doc/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r && \
+    install.r docopt && \
+    Rscript -e "install.packages(c(\"arrow\", \"rjson\", \"RJSONIO\", \"jsonlite\", \"functional\", \"R.methodsS3\", \"caTools\", \"trelliscopejs\", \"RPostgreSQL\", \"RJDBC\", \"housingData\", \"Lahman\", \"nycflights13\", \"flexdashboard\", \"sparklyr\", \"glmnet\", \"reticulate\", \"tensorflow\"), repos = 'http://cran.rstudio.com')"
+#    Rscript -e "install.packages(c(\"arrow\"), repos = 'http://cran.rstudio.com')" && \
+    rm -rf /tmp/downloaded_packages/ /tmp/*.rds && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
+ADD Renviron /usr/local/lib/R/etc/
+ADD hdfs-site.xml core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
+ADD rhdfs.tar.gz rmr.tar.gz /tmp/pkgs/
+ADD protobuf-2.5.0.tar.gz Rhipe_0.75.2_hadoop-2.tar.gz /tmp/
 
+# Install repository packages
+RUN cd /tmp/pkgs && R CMD INSTALL rmr2 rhdfs
+RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. 	&& rm -rf protobuf-* && \
+	cd /tmp/Rhipe && R CMD INSTALL . && cd .. && rm -rf Rhipe
 
-#      apt-get install apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common  apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common tzdata gpg file libexpat1 libmagic-mgc libmagic1 libmpdec2 libreadline7 libsqlite3-0 libssl1.1 mime-support readline-common xz-utils  && \
+#ADD postgresql-42.2.2.jar /opt
+RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript && \
+# Add path to profile so commands are found if attach to the container
+    echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /etc/profile && \
+    export PATH=/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH && \
+    echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /home/rstudio/.bashrc
 
-#   apt-transport-https apt-utils ca-certificates dirmngr gnupg gnupg-l10n gnupg-utils gpg gpg-agent gpg-wks-client gpg-wks-server gpgconf gpgsm libapt-inst2.0
-  #  libasn1-8-heimdal libassuan0 libgssapi3-heimdal libhcrypto4-heimdal libheimbase1-heimdal libheimntlm0-heimdal libhx509-5-heimdal libkrb5-26-heimdal libksba8
-  #  libldap-2.4-2 libldap-common libnpth0 libpsl5 libreadline7 libroken18-heimdal libsasl2-2 libsasl2-modules-db libsqlite3-0 libssl1.1 libwind0-heimdal openssl
-  #  pinentry-curses readline-common wget
+## No need for ports to be exposed.
+#WORKDIR $SPARK_HOME
+#CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
+#
+#EXPOSE 7077
+#EXPOSE 8080
+#EXPOSE 8081
+#EXPOSE 4040
+
