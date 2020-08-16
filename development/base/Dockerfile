@@ -30,6 +30,7 @@ ENV LD_LIBRARY_PATH $JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/server
 ENV PATH=/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH
 ARG DEBIAN_FRONTEND=noninteractive
 
+COPY postgresKey.asc openjdkKey.asc /tmp/
 RUN apt-get update && \
     apt-get install -y locales && \
     dpkg-reconfigure -f noninteractive locales && \
@@ -63,7 +64,6 @@ RUN apt-get update && \
     python -m pip install py4j pyarrow && \
     wget --quiet https://jdbc.postgresql.org/download/postgresql-42.2.14.jar && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> /etc/profile && \
-    echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
     export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64 && \
 	apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -74,6 +74,7 @@ RUN cd /opt && \
     wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
 	mv hadoop-${hadoopversion} hadoop && \
+    echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
     rm -rf $HADOOP_HOME/share/doc  && \
 	rm hadoop-${hadoopversion}.tar.gz && \
 	(cd /opt/hadoop; ln -s share/hadoop/tools/lib/hadoop-streaming-${hadoopversion}.jar hadoop-streaming.jar) && \
@@ -90,7 +91,7 @@ RUN cd /opt && \
 # SPARK
     cd /opt && \
 	wget --quiet http://archive.apache.org/dist/spark/spark-${sparkversion}/${SPARK_PACKAGE}.tgz && \
-	tar zxf ${SPARK_PACKAGE}.tgz && \
+	tar zxvf ${SPARK_PACKAGE}.tgz && \
 	mv ${SPARK_PACKAGE} spark && \
 	rm ${SPARK_PACKAGE}.tgz && \
 	cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh && \
@@ -117,7 +118,7 @@ RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD
     ln -s /usr/share/doc/littler/examples/installGithub.r /usr/local/bin/installGithub.r && \
     ln -s /usr/share/doc/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r && \
     install.r docopt && \
-    Rscript -e "install.packages(c(\"arrow\", \"rjson\", \"RJSONIO\", \"jsonlite\", \"functional\", \"R.methodsS3\", \"caTools\", \"trelliscopejs\", \"RPostgreSQL\", \"RJDBC\", \"housingData\", \"Lahman\", \"nycflights13\", \"flexdashboard\", \"sparklyr\", \"glmnet\", \"reticulate\", \"tensorflow\"), repos = 'http://cran.rstudio.com')"
+    Rscript -e "install.packages(c(\"arrow\", \"rjson\", \"RJSONIO\", \"jsonlite\", \"functional\", \"R.methodsS3\", \"caTools\", \"trelliscopejs\", \"RPostgreSQL\", \"RJDBC\", \"housingData\", \"Lahman\", \"nycflights13\", \"flexdashboard\", \"sparklyr\", \"glmnet\", \"reticulate\", \"tensorflow\"), repos = 'http://cran.rstudio.com')" && \
 #    Rscript -e "install.packages(c(\"arrow\"), repos = 'http://cran.rstudio.com')" && \
     rm -rf /tmp/downloaded_packages/ /tmp/*.rds && \
     apt-get clean && \
