@@ -11,3 +11,5 @@ metastore_db
 vagrant/.vagrant
 vagrant-dist/.vagrant
 *.bbprojectd
+
+
