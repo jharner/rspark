@@ -2,7 +2,7 @@
 
 #while true; do sleep 1000; done
 
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 export HIVE_HOME=/opt/hive
 export HADOOP_HOME=/opt/hadoop 
 export HADOOP=/opt/hadoop/bin/hadoop

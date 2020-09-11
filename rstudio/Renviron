@@ -53,23 +53,25 @@ R_LIBS_SITE=${R_LIBS_SITE-'/opt/spark/R/lib:/usr/local/lib/R/site-library:/usr/l
 ### sh-indentation: 2 ***
 ### End: ***
 R_LIBS='/opt/spark/R/lib'
-JAVA_HOME=/usr/lib/jvm/default-java
+### JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 SPARK_HOME=/opt/spark
 HADOOP_CMD=/opt/hadoop/bin/hadoop
 HADOOP_BIN=/opt/hadoop/bin
 HADOOP_HOME=/opt/hadoop
 HADOOP_PREFIX=/opt/hadoop
 HADOOP_COMMON_HOME=/opt/hadoop
-HADOOP_LIBS=/opt/hadoop/etc/hadoop:/opt/hadoop-2.9.2/share/hadoop/common/lib/:/opt/hadoop-2.9.2/share/hadoop/common/:/opt/hadoop-2.9.2/share/hadoop/hdfs:/opt/hadoop-2.9.2/share/hadoop/hdfs/lib/:/opt/hadoop-2.9.2/share/hadoop/hdfs/:/opt/hadoop-2.9.2/share/hadoop/yarn/lib/:/opt/hadoop-2.9.2/share/hadoop/yarn/:/opt/hadoop-2.9.2/share/hadoop/mapreduce/lib/:/opt/hadoop-2.9.2/share/hadoop/mapreduce/:/opt/hadoop/contrib/capacity-scheduler/.jar
+HADOOP_LIBS=/opt/hadoop/etc/hadoop:/opt/hadoop/share/hadoop/common/lib/:/opt/hadoop/share/hadoop/common/:/opt/hadoop/share/hadoop/hdfs:/opt/hadoop/share/hadoop/hdfs/lib/:/opt/hadoop/share/hadoop/hdfs/:/opt/hadoop/share/hadoop/yarn/lib/:/opt/hadoop/share/hadoop/yarn/:/opt/hadoop/share/hadoop/mapreduce/lib/:/opt/hadoop/share/hadoop/mapreduce/:/opt/hadoop/contrib/capacity-scheduler/.jar
 HADOOP_HDFS_HOME=/opt/hadoop
 HADOOP_MAPRED_HOME=/opt/hadoop
 HADOOP_YARN_HOME=/opt/hadoop
 HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
-YARN_CONF_DIR=$HADOOP_PREFIX/etc/hadoop
+YARN_CONF_DIR=/opt/hadoop/etc/hadoop
 HADOOP_USER_NAME=rstudio
-HADOOP_STREAMING=/opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.9.2.jar
-CLASSPATH='/opt/postgresql-42.2.2.jar:/opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar:/opt/hadoop/share/hadoop/common/hadoop-common-2.9.2.jar'
+HADOOP_STREAMING=/opt/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.10.0.jar
+HIVE_HOME=/opt/hive
+CLASSPATH='/opt/postgresql-42.2.14.jar:/opt/hive/jdbc/hive-jdbc-2.1.1-standalone.jar:/opt/hadoop/share/hadoop/common/hadoop-common-2.10.0.jar'
 
-PATH=/opt/hive/bin:/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/opt/spark/bin:/opt/hive/bin:/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-Sys.setenv(PATH="/opt/hive/bin:/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
+# # Sys.setenv(PATH="/opt/hive/bin:/opt/hadoop/bin/:/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")

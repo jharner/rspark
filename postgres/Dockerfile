@@ -1,10 +1,10 @@
-FROM library/ubuntu:xenial
+FROM library/ubuntu:bionic
 MAINTAINER Mark Lilback <mark@lilback.com>
 
 # Define Postgres Versions
-ARG pgversion=9.6
+ARG pgversion=12
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
-
+ARG DEBIAN_FRONTEND=noninteractive
 ENV PGDATA /opt/pg-data
 ENV PGDIR /usr/lib/postgresql/${pgversion}/bin/
 ENV PGVERSION ${pgversion}
@@ -14,24 +14,22 @@ COPY postgresKey.asc /tmp/
 
 RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certificates \
 	wget dirmngr gnupg software-properties-common && \
-	add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' && \
-	apt-key add /tmp/postgresKey.asc && apt-get update
-
+	apt-key add /tmp/postgresKey.asc && \
+	add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
+	apt-get update && \
 # Install packages and Postgres
-RUN apt-get install -y python-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev
-
-RUN mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data
-
-RUN locale-gen en_US.UTF-8
-
+    apt-get install -y python3-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev && \
+    mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data && \
+    locale-gen en_US.UTF-8 && \
 # Delete default cluster and create new cluster
-RUN pg_dropcluster ${pgversion} main
+    pg_dropcluster ${pgversion} main && \
 #RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
-
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 # Copy data file
 COPY dataexpo.sql nycflights13.sql.gz init.sh /opt/
 
-# Become user Postgres (superuser)
+# Become user postgres (superuser)
 USER postgres
 
 # Copy connection configuration file

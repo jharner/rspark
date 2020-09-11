@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH=/usr/lib/postgresql/9.6/bin:$PATH
+export PATH=/usr/lib/postgresql/12/bin:$PATH
 initdb -D /opt/pg-data
 pg_ctl -D /opt/pg-data start
 sleep 10
