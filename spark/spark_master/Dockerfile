@@ -100,13 +100,16 @@ RUN cd /opt  && \
 
 ## Now install R and littler, and create a link for littler in /usr/local/bin
 ## Also set a default CRAN repo, and make sure littler knows about it too
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-    littler \
-    r-cran-littler \
-    r-base=${R_BASE_VERSION}* \
-    r-base-dev=${R_BASE_VERSION}* \
-    r-recommended=${R_BASE_VERSION}* \
+RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+    gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | apt-key add - && \
+    add-apt-repository -s 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' && \
+    apt-get update \
+    && apt-get install -y -V --no-install-recommends \
+        littler \
+        r-cran-littler \
+        r-base=${R_BASE_VERSION}* \
+        r-base-dev=${R_BASE_VERSION}* \
+        r-recommended=${R_BASE_VERSION}* \
         && echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /etc/R/Rprofile.site \
         && echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r \
   && ln -s /usr/share/doc/littler/examples/install.r /usr/local/bin/install.r \
