@@ -43,11 +43,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ## Install Python 3
+COPY postgresKey.asc openjdkKey.asc /tmp/
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl unzip python3 python3-setuptools python3-pip apt-utils wget ca-certificates apt-transport-https dirmngr gnupg software-properties-common lsb-release unzip && \
     ln -s /usr/bin/python3 /usr/bin/python && \
 # JAVA
-	COPY postgresKey.asc openjdkKey.asc /tmp/
     apt-key add /tmp/postgresKey.asc && \
     apt-key add /tmp/openjdkKey.asc && \
     add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
