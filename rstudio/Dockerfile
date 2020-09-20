@@ -11,6 +11,13 @@ ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 #  ENV JAVA_HOME /usr/lib/jvm/java-${java_version}-openjdk-amd64
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 
+ENV HADOOP_CMD=/opt/hadoop/bin/hadoop
+ENV HADOOP_HOME=/opt/hadoop
+ENV HADOOP_BIN=/opt/hadoop/bin
+ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+ENV HIVE_HOME=/opt/hive
+ENV SPARK_HOME=/opt/spark
+
 ## OpenJDK, Postgres client, and Arrow
 COPY postgresKey.asc openjdkKey.asc /tmp/
 RUN apt-get update && \
@@ -39,12 +46,6 @@ RUN apt-get update && \
 
 ## HADOOP
 # Download and Install Hadoop and set Hadoop environment variable
-ENV HADOOP_CMD=/opt/hadoop/bin/hadoop
-ENV HADOOP_HOME=/opt/hadoop
-ENV HADOOP_BIN=/opt/hadoop/bin
-ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
-ENV HIVE_HOME=/opt/hive
-ENV SPARK_HOME=/opt/spark
 RUN cd /opt && \
     wget --quiet http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz && \
 	tar zxf hadoop-${hadoopversion}.tar.gz && \
@@ -86,10 +87,6 @@ RUN Rscript -e "install.packages(c(\"microbenchmark\", \"arrow\", \"rjson\", \"R
 ADD rhdfs.tar.gz rmr.tar.gz /tmp/pkgs/
 # Install repository packages
 RUN cd /tmp/pkgs && R CMD INSTALL rmr2 rhdfs
-
-# Add Protobuf
-ADD protobuf-all-3.13.0.tar.gz /tmp/
-RUN cd /tmp/protobuf-all-3.13.0 && ./configure --prefix=/usr && make && make install && cd .. 	&& rm -rf protobuf-*
 
 RUN echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /etc/profile
 RUN echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh
