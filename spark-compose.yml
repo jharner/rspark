@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 services:
     
   master:
@@ -19,6 +19,16 @@ services:
       - master
       
   worker2:
+    image: rspark-sparkmaster
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 2g
+    depends_on:
+      - master
+      
+  worker3:
     image: rspark-sparkmaster
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:

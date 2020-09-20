@@ -88,8 +88,8 @@ ADD rhdfs.tar.gz rmr.tar.gz /tmp/pkgs/
 RUN cd /tmp/pkgs && R CMD INSTALL rmr2 rhdfs
 
 # Add Protobuf
-ADD protobuf-2.5.0.tar.gz /tmp/
-RUN cd /tmp/protobuf-2.5.0 && ./configure --prefix=/usr && make && make install && cd .. 	&& rm -rf protobuf-*
+ADD protobuf-all-3.13.0.tar.gz /tmp/
+RUN cd /tmp/protobuf-all-3.13.0 && ./configure --prefix=/usr && make && make install && cd .. 	&& rm -rf protobuf-*
 
 RUN echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /etc/profile
 RUN echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh
