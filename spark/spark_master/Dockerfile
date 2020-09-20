@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
-ARG hadoopversion=2.10.0
+ARG hadoopversion=2.9.2
 ARG hiveversion=2.1.1
 ARG sparkversion=3.0.0
 ARG javaversion=8
@@ -17,8 +17,8 @@ ENV PYTHONHASHSEED 0
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
-ENV HADOOP_VERSION 2.10.0
-ENV HADOOP_HOME /0pt/hadoop-$HADOOP_VERSION
+ENV HADOOP_VERSION 2.9.2
+ENV HADOOP_HOME /opt/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 ENV PATH $PATH:$HADOOP_HOME/bin
 
