@@ -1,30 +1,25 @@
 FROM ubuntu:bionic
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
-ARG hadoopversion=2.9.2
+ARG hadoopversion=2.10.0
 ARG hiveversion=2.1.1
 ARG sparkversion=3.0.0
 ARG javaversion=8
 ARG pgversion=12
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Users with other locales should set this in their derivative image
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
 ENV PYTHONHASHSEED 0
 ENV PYTHONIOENCODING UTF-8
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
-ENV HADOOP_VERSION 2.9.2
-ENV HADOOP_HOME /opt/hadoop-$HADOOP_VERSION
+ENV HADOOP_VERSION 2.10.0
+ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 ENV PATH $PATH:$HADOOP_HOME/bin
 
 ENV SPARK_VERSION 3.0.0
 ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
-ENV SPARK_HOME /opt/spark-${SPARK_VERSION}
+ENV SPARK_HOME /opt/spark
 ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
 ENV PATH $PATH:${SPARK_HOME}/bin
 
@@ -41,6 +36,11 @@ RUN apt-get update && \
     locale-gen && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+# Users with other locales should set this in their derivative image
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 ## Install Python 3
 COPY postgresKey.asc openjdkKey.asc /tmp/
