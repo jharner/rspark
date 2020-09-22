@@ -93,10 +93,14 @@ RUN cd /opt  && \
     chown -R root:root /opt/spark-data && \
 	cp /opt/spark/conf/spark-env.sh.template /opt/spark/conf/spark-env.sh  && \
 	echo 'export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.14.jar:$(/opt/hadoop/bin/hadoop classpath)' >> /opt/spark/conf/spark-env.sh && \
-    chown -R root:root $SPARK_HOME && \
+    mkdir /entrypoint && \
+    chown -R root:root $SPARK_HOME /entrypoint && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /opt/hadoop/etc/hadoop/hadoop-env.sh && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
+
+ADD entrypoint-spark-master.sh /entrypoint
+ADD entrypoint-spark-worker.sh /entrypoint
 
 ## Now install R and littler, and create a link for littler in /usr/local/bin
 ## Also set a default CRAN repo, and make sure littler knows about it too
@@ -120,11 +124,13 @@ RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
   && rm -rf /var/lib/apt/lists/*
 
-WORKDIR $SPARK_HOME
-CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
 
-EXPOSE 7077
-EXPOSE 8080
+
+#WORKDIR $SPARK_HOME
+#CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
+#
+#EXPOSE 7077
+#EXPOSE 8080
 
 
 

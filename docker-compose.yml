@@ -7,8 +7,9 @@ services:
     image: rspark-postgres
     container_name: postgres
     hostname: postgres
-    ports:
-      - "5432:5432"     # Postgres
+    command: /entrypoint/entrypoint-postgres.sh
+#    ports:
+#      - "5432:5432"     # Postgres
     networks:
       rconnect_network:
     volumes:
@@ -20,11 +21,12 @@ services:
     image: rspark-hadoop
     container_name: hadoop
     hostname: hadoop
-    ports:
-      - "9000:9000"     # Hadoop
-      - "50070:50070"   # Hadoop UI
-      - "50075:50075"
-      - "8088:8088"
+    command: /entrypoint/entrypoint-hadoop.sh -d
+#    ports:
+#      - "9000:9000"     # Hadoop
+#      - "50070:50070"   # Hadoop UI
+#      - "50075:50075"
+#      - "8088:8088"
     networks:
       rconnect_network:
     volumes:
@@ -36,10 +38,11 @@ services:
     image: rspark-hive
     container_name: hive
     hostname: hive
-    ports:
-      - "10000:10000"
-      - "9999:9999"    # Hive UI
-      - "9083:9083"     # Hive Metastore
+    command: /entrypoint/entrypoint-hive.sh
+#    ports:
+#      - "10000:10000"
+#      - "9999:9999"    # Hive UI
+#      - "9083:9083"     # Hive Metastore
     networks:
       rconnect_network:
     depends_on:
@@ -52,12 +55,13 @@ services:
     image: rspark-rstudio
     container_name: rstudio
     hostname: rstudio
+    command: /init
     environment:
       - PASSWORD=rstudiojh
     ports:
       - "8787:8787"     # RStudio UI
-      - "4040:4040"     # Spark Web UI
-      - "4041:4041"
+#      - "4040:4040"     # Spark Web UI
+#      - "4041:4041"
     networks:
       rconnect_network:
     volumes:
@@ -71,7 +75,6 @@ volumes:
   rspark_rstudio:
   rspark_pgdata:
   rspark_sparkdata:
-
 
 networks:
   rconnect_network:

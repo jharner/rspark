@@ -3,14 +3,23 @@ services:
     
   master:
     build: ./spark/spark_master
-    image: rspark-sparkmaster
-    ports:
-      - "7077:7077"
-      - "8080:8080"     # Master Web UI
+    image: rspark-base
+    restart: always
+    container_name: rspark-master
+    hostname: rspark-master
+    command: /entrypoint/entrypoint-spark-master.sh
+#    ports:
+#      - "7077:7077"
+#      - "8080:8080"     # Master Web UI
+    networks:
+      rconnect_network:
 
   worker1:
-    image: rspark-sparkmaster
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    image: rspark-base
+    restart: always
+    container_name: rspark-worker-1
+    hostname: rspark-worker-1
+    command: /entrypoint/entrypoint-spark-worker.sh
     environment:
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
@@ -21,8 +30,11 @@ services:
       rconnect_network:
       
   worker2:
-    image: rspark-sparkmaster
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    image: rspark-base
+    restart: always
+    container_name: rspark-worker-2
+    hostname: rspark-worker-2
+    command: /entrypoint/entrypoint-spark-worker.sh
     environment:
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1
@@ -33,8 +45,11 @@ services:
       rconnect_network:
       
   worker3:
-    image: rspark-sparkmaster
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    image: rspark-base
+    restart: always
+    container_name: rspark-worker-3
+    hostname: rspark-worker-3
+    command: /entrypoint/entrypoint-spark-worker.sh
     environment:
       SPARK_CONF_DIR: /conf
       SPARK_WORKER_CORES: 1

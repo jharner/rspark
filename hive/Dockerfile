@@ -35,12 +35,14 @@ RUN cd /opt && \
 	chown -R root:root /opt/hive && \
 	mkdir /opt/hive-data && \
     mkdir /scripts && \
-    chown -R root:root /opt/hive-data && \
+    mkdir /entrypoint && \
+    chown -R root:root /opt/hive-data /entrypoint && \
     chmod 700 /opt/hive-data
 
 # Set Configuration for Hive service.
 ADD core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
 ADD startup.sh /
+ADD entrypoint-hive.sh /entrypoint
 ADD hive-env.sh /etc/profile.d/
 ADD hive-site.xml /opt/hive/conf/
 
@@ -55,5 +57,5 @@ RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.ja
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /etc/profile && \
     . /.bashrc
 
-
-CMD ["/startup.sh"]
+#
+#CMD ["/startup.sh"]
