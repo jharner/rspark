@@ -12,8 +12,10 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
+  
   config.vm.box = "bento/ubuntu-16.04"
-
+  # config.vm.box = "ubuntu/bionic64"
+  
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -52,16 +54,18 @@ Vagrant.configure("2") do |config|
   # config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
-  #
   #   # Customize the amount of memory on the VM:
-  #	  vb.memory = “4096”
+	  # vb.memory = “4096”
   # end
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
+    vb.customize ["modifyvm", :id, "--memory", 4096]
     # Display the VirtualBox GUI when booting the machine
     #    vb.name = rspark
   end
+  
+  # config.disksize.size = "20GB"
 
   #
   # View the documentation for the provider you are using for more
