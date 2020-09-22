@@ -17,6 +17,8 @@ services:
       SPARK_WORKER_MEMORY: 2g
     depends_on:
       - master
+    networks:
+      rconnect_network:
       
   worker2:
     image: rspark-sparkmaster
@@ -27,6 +29,8 @@ services:
       SPARK_WORKER_MEMORY: 2g
     depends_on:
       - master
+    networks:
+      rconnect_network:
       
   worker3:
     image: rspark-sparkmaster
@@ -37,4 +41,11 @@ services:
       SPARK_WORKER_MEMORY: 2g
     depends_on:
       - master
+    networks:
+      rconnect_network:
+
+networks:
+  rconnect_network:
+    name: rconnect
+    driver: bridge
 

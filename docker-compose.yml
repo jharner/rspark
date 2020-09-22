@@ -9,6 +9,8 @@ services:
     hostname: postgres
     ports:
       - "5432:5432"     # Postgres
+    networks:
+      rconnect_network:
     volumes:
       - rspark_pgdata:/opt/pg-data
 
@@ -23,6 +25,8 @@ services:
       - "50070:50070"   # Hadoop UI
       - "50075:50075"
       - "8088:8088"
+    networks:
+      rconnect_network:
     volumes:
       - rspark_hadoopdata:/opt/hadoop
 
@@ -36,6 +40,8 @@ services:
       - "10000:10000"
       - "9999:9999"    # Hive UI
       - "9083:9083"     # Hive Metastore
+    networks:
+      rconnect_network:
     depends_on:
       - hadoop
       - postgres
@@ -52,6 +58,8 @@ services:
       - "8787:8787"     # RStudio UI
       - "4040:4040"     # Spark Web UI
       - "4041:4041"
+    networks:
+      rconnect_network:
     volumes:
       - rspark_rstudio:/home/rstudio
     depends_on: 
@@ -63,3 +71,9 @@ volumes:
   rspark_rstudio:
   rspark_pgdata:
   rspark_sparkdata:
+
+
+networks:
+  rconnect_network:
+    name: rconnect
+    driver: bridge
