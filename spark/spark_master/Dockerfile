@@ -94,7 +94,7 @@ RUN cd /opt  && \
 	cp /opt/spark/conf/spark-env.sh.template /opt/spark/conf/spark-env.sh  && \
 	echo 'export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.14.jar:$(/opt/hadoop/bin/hadoop classpath)' >> /opt/spark/conf/spark-env.sh && \
     mkdir /entrypoint && \
-    chown -R root:root $SPARK_HOME /entrypoint && \
+    chown -R root:root $SPARK_HOME && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /opt/hadoop/etc/hadoop/hadoop-env.sh && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*

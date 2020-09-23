@@ -34,7 +34,7 @@ ADD log4j.properties /usr/local/hadoop/etc/hadoop/
 
 RUN mkdir -p /scripts /opt/hadoop && \
     mkdir /entrypoint
-RUN mkdir -p /opt/hadoop-data; chown -R root:root /opt/hadoop-data /entrypoint; chmod -R 700 /opt/hadoop-data /entrypoint
+RUN mkdir -p /opt/hadoop-data; chown -R root:root /opt/hadoop-data; chmod -R 700 /opt/hadoop-data
 ADD waitfor.sh /scripts/
 ADD entrypoint-hadoop.sh /entrypoint
 RUN chmod 777 /scripts/waitfor.sh

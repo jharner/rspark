@@ -36,7 +36,7 @@ RUN cd /opt && \
 	mkdir /opt/hive-data && \
     mkdir /scripts && \
     mkdir /entrypoint && \
-    chown -R root:root /opt/hive-data /entrypoint && \
+    chown -R root:root /opt/hive-data && \
     chmod 700 /opt/hive-data
 
 # Set Configuration for Hive service.

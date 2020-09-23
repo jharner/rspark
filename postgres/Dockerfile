@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certi
     apt-get install -y python3-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev && \
     mkdir -p /opt/pg-data && \
     mkdir /entrypoint && \
-    chown -R postgres /opt/pg-data /entrypoint && \
+    chown -R postgres /opt/pg-data && \
     chmod 700 /opt/pg-data && \
     locale-gen en_US.UTF-8 && \
 # Delete default cluster and create new cluster
@@ -39,9 +39,7 @@ USER postgres
 COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
 COPY runpg.sh /var/lib/postgresql/runpg.sh
 COPY entrypoint-postgres.sh /entrypoint
-RUN /opt/init.sh && \
-    chmod -R 700 /entrypoint
-
+RUN /opt/init.sh
 # Define environment variables
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
