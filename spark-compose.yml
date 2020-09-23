@@ -21,7 +21,7 @@ services:
     hostname: rspark-worker-1
     command: /entrypoint/entrypoint-spark-worker.sh
     environment:
-      SPARK_CONF_DIR: /conf
+      SPARK_CONF_DIR: /opt/spark/conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
     depends_on:
@@ -36,7 +36,7 @@ services:
     hostname: rspark-worker-2
     command: /entrypoint/entrypoint-spark-worker.sh
     environment:
-      SPARK_CONF_DIR: /conf
+      SPARK_CONF_DIR: /opt/spark/conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
     depends_on:
@@ -51,7 +51,7 @@ services:
     hostname: rspark-worker-3
     command: /entrypoint/entrypoint-spark-worker.sh
     environment:
-      SPARK_CONF_DIR: /conf
+      SPARK_CONF_DIR: /opt/spark/conf
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
     depends_on:
