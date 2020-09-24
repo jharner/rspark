@@ -19,7 +19,10 @@ RUN apt-get update && apt-get install -y  apt-utils apt-transport-https ca-certi
 	apt-get update && \
 # Install packages and Postgres
     apt-get install -y python3-software-properties postgresql-${pgversion} postgresql-client-${pgversion} postgresql-contrib-${pgversion} libpq-dev && \
-    mkdir -p /opt/pg-data; chown -R postgres /opt/pg-data; chmod 700 /opt/pg-data && \
+    mkdir -p /opt/pg-data && \
+    mkdir /entrypoint && \
+    chown -R postgres /opt/pg-data && \
+    chmod 700 /opt/pg-data && \
     locale-gen en_US.UTF-8 && \
 # Delete default cluster and create new cluster
     pg_dropcluster ${pgversion} main && \
@@ -35,18 +38,18 @@ USER postgres
 # Copy connection configuration file
 COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
 COPY runpg.sh /var/lib/postgresql/runpg.sh
+COPY entrypoint-postgres.sh /entrypoint
 RUN /opt/init.sh
-
 # Define environment variables
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-EXPOSE 5432
-
-# Execute Postgres setup script "runpg.sh"
-CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
-
-# CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
-# CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
+#EXPOSE 5432
+#
+## Execute Postgres setup script "runpg.sh"
+#CMD ["var/lib/postgresql/runpg.sh", "${pgversion}"]
+#
+## CMD ["/usr/bin/pg_ctlcluster", "9.4", "main", "start", "--foreground"]
+## CMD ["/usr/lib/postgresql/${pgversion}/bin/postgres", "-D", "$PGDIR", "-c", "config_file=/etc/postgresql/${pg/main/postgresql.conf"]
 

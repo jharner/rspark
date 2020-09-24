@@ -32,9 +32,11 @@ ADD bootstrap.sh /etc/
 ADD core-site.xml hdfs-site.xml /usr/local/hadoop/etc/hadoop/
 ADD log4j.properties /usr/local/hadoop/etc/hadoop/
 
-RUN mkdir -p /scripts /opt/hadoop
-RUN mkdir -p /opt/hadoop-data; chown -R root:root /opt/hadoop-data; chmod 700 /opt/hadoop-data
+RUN mkdir -p /scripts /opt/hadoop && \
+    mkdir /entrypoint
+RUN mkdir -p /opt/hadoop-data; chown -R root:root /opt/hadoop-data; chmod -R 700 /opt/hadoop-data
 ADD waitfor.sh /scripts/
+ADD entrypoint-hadoop.sh /entrypoint
 RUN chmod 777 /scripts/waitfor.sh
 RUN echo "StrictHostKeyChecking no\nPasswordAuthentication yes\n" >> /etc/ssh/ssh_config
 RUN ssh-keygen -t rsa -P ""  -f $HOME/.ssh/id_rsa
@@ -46,9 +48,9 @@ VOLUME ["/data"]
 
 RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
 
-CMD ["/etc/bootstrap.sh", "-d"]
-
-EXPOSE 9000
-EXPOSE 8088
-EXPOSE 50070
-EXPOSE 50075
+#CMD ["/etc/bootstrap.sh", "-d"]
+#
+#EXPOSE 9000
+#EXPOSE 8088
+#EXPOSE 50070
+#EXPOSE 50075
