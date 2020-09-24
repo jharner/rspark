@@ -47,7 +47,7 @@ execute `PATH=$PATH:/Applications/VirtualBox.app/Contents/MacOS/` to aid in next
 
 ## transfer images to vagrant
 
-		docker save -o images.tar rsprk-hadoop rsprk-hive rsprk-postgres rsprk-rstudio
+		docker save -o images.tar rspark-hadoop rspark-hive rspark-postgres rspark-rstudio
 		vagrant up
 		vagrant ssh
 		docker load -i /vagrant/images.tar
