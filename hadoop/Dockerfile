@@ -14,39 +14,44 @@ RUN apt-get update && \
 	apt-get update && \
     apt-get install --no-install-recommends -y postgresql-client-${pgversion} openssh-client openssh-server libpostgresql-jdbc-java libicu-dev adoptopenjdk-${javaversion}-hotspot && \
     update-java-alternatives -s adoptopenjdk-${javaversion}-hotspot-amd64 && \
+    curl -s http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz | tar -xz -C /opt && \
+    cd /opt && \
+    ln -s ./hadoop-${hadoopversion} hadoop && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN curl -s http://archive.apache.org/dist/hadoop/core/hadoop-${hadoopversion}/hadoop-${hadoopversion}.tar.gz | tar -xz -C /usr/local
-RUN cd /usr/local && ln -s ./hadoop-${hadoopversion} hadoop
 
-ENV HADOOP_PREFIX /usr/local/hadoop
-ENV HADOOP_COMMON_HOME /usr/local/hadoop
-ENV HADOOP_HDFS_HOME /usr/local/hadoop
-ENV HADOOP_MAPRED_HOME /usr/local/hadoop
-ENV HADOOP_YARN_HOME /usr/local/hadoop
-ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
-ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
+
+ENV HADOOP_PREFIX /opt/hadoop
+ENV HADOOP_HOME /opt/hadoop
+ENV HADOOP_COMMON_HOME ${HADOOP_HOME}
+ENV HADOOP_HDFS_HOME ${HADOOP_HOME}
+ENV HADOOP_MAPRED_HOME ${HADOOP_HOME}
+ENV HADOOP_YARN_HOME ${HADOOP_HOME}
+ENV HADOOP_CONF_DIR ${HADOOP_HOME}/etc/hadoop
+ENV YARN_CONF_DIR ${HADOOP_HOME}/etc/hadoop
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 
 ADD bootstrap.sh /etc/
-ADD core-site.xml hdfs-site.xml /usr/local/hadoop/etc/hadoop/
-ADD log4j.properties /usr/local/hadoop/etc/hadoop/
+ADD core-site.xml hdfs-site.xml ${HADOOP_HOME}/etc/hadoop/
+ADD log4j.properties ${HADOOP_HOME}/etc/hadoop/
 
 RUN mkdir -p /scripts /opt/hadoop && \
-    mkdir /entrypoint
-RUN mkdir -p /opt/hadoop-data; chown -R root:root /opt/hadoop-data; chmod -R 700 /opt/hadoop-data
-ADD waitfor.sh /scripts/
+    mkdir /entrypoint && \
+    mkdir -p /opt/hadoop-data && \
+    chown -R root:root /opt/hadoop-data && \
+    chmod -R 700 /opt/hadoop-data
+ADD waitfor.sh /scripts/ 
 ADD entrypoint-hadoop.sh /entrypoint
-RUN chmod 777 /scripts/waitfor.sh
-RUN echo "StrictHostKeyChecking no\nPasswordAuthentication yes\n" >> /etc/ssh/ssh_config
-RUN ssh-keygen -t rsa -P ""  -f $HOME/.ssh/id_rsa
-RUN cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
-RUN echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /etc/profile
-RUN echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
+RUN chmod 777 /scripts/waitfor.sh && \
+    echo "StrictHostKeyChecking no\nPasswordAuthentication yes\n" >> /etc/ssh/ssh_config && \
+    ssh-keygen -t rsa -P ""  -f $HOME/.ssh/id_rsa && \
+    cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys && \
+    echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /etc/profile && \
+    echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh && \
+    useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
 
 VOLUME ["/data"]
 
-RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
 
 #CMD ["/etc/bootstrap.sh", "-d"]
 #
