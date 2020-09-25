@@ -2,7 +2,7 @@ version: '3.5'
 services:
     
   architect:
-    build: ./spark/spark_master
+    build: ./spark
     image: rspark-base:3.0.0
     restart: always
     container_name: rspark-architect
