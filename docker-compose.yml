@@ -30,7 +30,7 @@ services:
     networks:
       rconnect_network:
     volumes:
-      - rspark_hadoopdata:/opt/hadoop
+      - rspark_hadoopdata:/opt/hadoop-data
 
   hive:
     build: ./hive
