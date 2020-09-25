@@ -29,7 +29,7 @@ These are instructions to Create a vagrant box with the rspark docker images rea
 
 You should now be back at the macOS terminal.
 
-Steps 1--9 not needed with ubuntu-18.04 (Dick storage 64GB).
+Steps 1--9 not needed with ubuntu-18.04 (Storage now 64GB).
 
 execute `PATH=$PATH:/Applications/VirtualBox.app/Contents/MacOS/` to aid in next steps.
 
