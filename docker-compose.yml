@@ -1,26 +1,26 @@
 version: '3.5'
 services:
 
-  postgres:
+  rpsql:
     build: ./postgres
     restart: always
-    image: rspark-postgres
-    container_name: postgres
-    hostname: postgres
+    image: rpsql:12
+    container_name: rpsql
+    hostname: rpsql
     command: /entrypoint/entrypoint-postgres.sh
 #    ports:
 #      - "5432:5432"     # Postgres
     networks:
       rconnect_network:
     volumes:
-      - rspark_pgdata:/opt/pg-data
+      - rpsql_data:/opt/pg-data
 
-  hadoop:
+  rhadoop:
     build: ./hadoop
     restart: always
-    image: rspark-hadoop
-    container_name: hadoop
-    hostname: hadoop
+    image: rhadoop:2.10.0
+    container_name: rhadoop
+    hostname: rhadoop
     command: /entrypoint/entrypoint-hadoop.sh -d
 #    ports:
 #      - "9000:9000"     # Hadoop
@@ -30,14 +30,14 @@ services:
     networks:
       rconnect_network:
     volumes:
-      - rspark_hadoopdata:/opt/hadoop-data
+      - rhadoop_data:/opt/hadoop-data
 
-  hive:
+  rhive:
     build: ./hive
     restart: always
-    image: rspark-hive
-    container_name: hive
-    hostname: hive
+    image: rhive:2.1.1
+    container_name: rhive
+    hostname: rhive
     command: /entrypoint/entrypoint-hive.sh
 #    ports:
 #      - "10000:10000"
@@ -46,35 +46,35 @@ services:
     networks:
       rconnect_network:
     depends_on:
-      - hadoop
-      - postgres
+      - rhadoop
+      - rpsql
 
-  rstudio:
+  rconnector:
     build: ./rstudio
     restart: always
-    image: rspark-rstudio
-    container_name: rstudio
-    hostname: rstudio
+    image: rconnector:U.18.04.R.3.6.3
+    container_name: rconnector
+    hostname: rconnector
     command: /init
     environment:
       - PASSWORD=rstudiojh
     ports:
       - "8787:8787"     # RStudio UI
-#      - "4040:4040"     # Spark Web UI
+      - "4041:4040"     # Spark Web UI
 #      - "4041:4041"
     networks:
       rconnect_network:
     volumes:
-      - rspark_rstudio:/home/rstudio
+      - rstudio:/home/rstudio
     depends_on: 
-      - hadoop
-      - hive
+      - rhadoop
+      - rhive
 
 volumes:
-  rspark_hadoopdata:
-  rspark_rstudio:
-  rspark_pgdata:
-  rspark_sparkdata:
+  rhadoop_data:
+  rstudio:
+  rpsql_data:
+#  rspark_sparkdata:
 
 networks:
   rconnect_network:
