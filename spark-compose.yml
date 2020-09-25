@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: rspark-architect
     hostname: rspark-architect
-    command: /entrypoint/entrypoint-spark-master.sh
+    command: /entrypoint/entrypoint-spark-architect.sh
 #    ports:
 #      - "7077:7077"
 #      - "8080:8080"     # Master Web UI
@@ -19,7 +19,7 @@ services:
     restart: always
     container_name: rspark-tecton-1
     hostname: rspark-tecton-1
-    command: /entrypoint/entrypoint-spark-worker.sh
+    command: /entrypoint/entrypoint-spark-tecton.sh
     environment:
       SPARK_CONF_DIR: /opt/spark/conf
       SPARK_WORKER_CORES: 1
@@ -34,7 +34,7 @@ services:
     restart: always
     container_name: rspark-tecton-2
     hostname: rspark-tecton-2
-    command: /entrypoint/entrypoint-spark-worker.sh
+    command: /entrypoint/entrypoint-spark-tecton.sh
     environment:
       SPARK_CONF_DIR: /opt/spark/conf
       SPARK_WORKER_CORES: 1
@@ -49,7 +49,7 @@ services:
 #    restart: always
 #    container_name: rspark-tecton-3
 #    hostname: rspark-tecton-3
-#    command: /entrypoint/entrypoint-spark-worker.sh
+#    command: /entrypoint/entrypoint-spark-tecton.sh
 #    environment:
 #      SPARK_CONF_DIR: /opt/spark/conf
 #      SPARK_WORKER_CORES: 1
