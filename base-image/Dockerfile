@@ -22,30 +22,38 @@ RUN apt-get update && \
             postgresql-contrib=${pgversion}* libpq-dev openssh-client openssh-server libpostgresql-jdbc-java \
             libicu-dev adoptopenjdk-${javaversion}-hotspot python3 python3-software-properties python3-pip && \
     update-java-alternatives -s adoptopenjdk-${javaversion}-hotspot-amd64 && \
-# Install packages and Postgres
-    mkdir -p /opt/pg-data && \
-    mkdir /entrypoint && \
-    chown -R postgres /opt/pg-data && \
-    chmod 700 /opt/pg-data && \
-    locale-gen en_US.UTF-8 && \
-# Delete default cluster and create new cluster
-    pg_dropcluster ${pgversion} main && \
-#RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy data file
-COPY dataexpo.sql nycflights13.sql.gz init.sh /opt/
-# Copy connection configuration file
-COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
-COPY entrypoint-postgres.sh entrypoint-hadoop.sh entrypoint-hive.sh entrypoint-spark-architect.sh entrypoint-spark-tecton.sh /entrypoint/
 # Define environment variables
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-## Become user postgres (superuser)
-#USER postgres
-#RUN /opt/init.sh
+## This code initializes the postgresql server.
+# Install packages and Postgres
+RUN mkdir -p /opt/pg-data && \
+    mkdir /entrypoint && \
+    chown -R postgres /opt/pg-data && \
+    chmod 700 /opt/pg-data && \
+    locale-gen en_US.UTF-8 && \
+# Delete default cluster and create new cluster
+    pg_dropcluster ${pgversion} main \
+#RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
+# Define environment variables
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+# Become user postgres (superuser)
+USER postgres
+RUN /opt/init.sh
+# Copy data file
+COPY dataexpo.sql nycflights13.sql.gz init.sh /opt/
+# Copy connection configuration file
+COPY pg_hba.conf postgresql.conf /etc/postgresql/${pgversion}/main/
+COPY entrypoint-postgres.sh entrypoint-hadoop.sh entrypoint-hive.sh entrypoint-spark-architect.sh entrypoint-spark-tecton.sh /entrypoint/
+
+
+
 
 
