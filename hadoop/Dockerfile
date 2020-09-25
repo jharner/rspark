@@ -31,7 +31,6 @@ ENV HADOOP_CONF_DIR ${HADOOP_HOME}/etc/hadoop
 ENV YARN_CONF_DIR ${HADOOP_HOME}/etc/hadoop
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 
-ADD bootstrap.sh /etc/
 ADD core-site.xml hdfs-site.xml ${HADOOP_HOME}/etc/hadoop/
 ADD log4j.properties ${HADOOP_HOME}/etc/hadoop/
 
@@ -49,13 +48,3 @@ RUN chmod 777 /scripts/waitfor.sh && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /etc/profile && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh && \
     useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
-
-VOLUME ["/data"]
-
-
-#CMD ["/etc/bootstrap.sh", "-d"]
-#
-#EXPOSE 9000
-#EXPOSE 8088
-#EXPOSE 50070
-#EXPOSE 50075

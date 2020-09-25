@@ -41,7 +41,6 @@ RUN cd /opt && \
 
 # Set Configuration for Hive service.
 ADD core-site.xml log4j.properties /opt/hadoop/etc/hadoop/
-ADD startup.sh /
 ADD entrypoint-hive.sh /entrypoint
 ADD hive-env.sh /etc/profile.d/
 ADD hive-site.xml /opt/hive/conf/
@@ -49,7 +48,7 @@ ADD hive-site.xml /opt/hive/conf/
 RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio
 
 COPY waitfor.sh /scripts/
-RUN chmod 777 /scripts/waitfor.sh /startup.sh
+RUN chmod 777 /scripts/waitfor.sh
 
 RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar" >> /.bashrc && \
 	echo "export JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /.bashrc && \
@@ -57,5 +56,3 @@ RUN echo "export CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.ja
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /etc/profile && \
     . /.bashrc
 
-#
-#CMD ["/startup.sh"]
