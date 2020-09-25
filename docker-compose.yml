@@ -1,7 +1,7 @@
 version: '3.5'
 services:
 
-  rpsql:
+  postgres:
     build: ./postgres
     restart: always
     image: rpsql:12
@@ -15,7 +15,7 @@ services:
     volumes:
       - rpsql_data:/opt/pg-data
 
-  rhadoop:
+  hadoop:
     build: ./hadoop
     restart: always
     image: rhadoop:2.10.0
@@ -32,7 +32,7 @@ services:
     volumes:
       - rhadoop_data:/opt/hadoop-data
 
-  rhive:
+  hive:
     build: ./hive
     restart: always
     image: rhive:2.1.1
@@ -46,10 +46,10 @@ services:
     networks:
       rconnect_network:
     depends_on:
-      - rhadoop
-      - rpsql
+      - hadoop
+      - postgres
 
-  rconnector:
+  rstudio:
     build: ./rstudio
     restart: always
     image: rconnector:U.18.04.R.3.6.3
@@ -67,8 +67,8 @@ services:
     volumes:
       - rstudio:/home/rstudio
     depends_on: 
-      - rhadoop
-      - rhive
+      - hadoop
+      - hive
 
 volumes:
   rhadoop_data:

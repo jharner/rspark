@@ -17,8 +17,8 @@ These are instructions to Create a vagrant box with the rspark docker images rea
     gpg -a --export 58118E89F3A912897C070ADBF76221572C52609D| apt-key add - && \
     add-apt-repository -s 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
 		sudo apt-get update
-		sudo apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual
-		sudo apt-get install docker-engine
+		sudo apt-get install linux-image-extra-virtual
+		sudo apt-get install docker-engine docker-compose
 		sudo usermod -aG docker vagrant
 		sudo service docker start
 		exit
