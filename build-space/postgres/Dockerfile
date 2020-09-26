@@ -15,7 +15,7 @@ RUN mkdir -p /opt/pg-data && \
     chown -R postgres /opt/pg-data && \
     chmod 700 /opt/pg-data && \
 # Delete default cluster and create new cluster
-    pg_dropcluster ${pgversion} main \
+    pg_dropcluster ${pgversion} main
 #RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
 
 # Become user postgres (superuser)
