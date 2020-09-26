@@ -1,5 +1,6 @@
 #! /bin/bash
 
+docker build -t base-image:bionic ./base-image
 while [[ $# -gt 0 ]]
 do
 key=$1

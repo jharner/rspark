@@ -6,6 +6,7 @@ key=$1
 
 case $key in
 	-b|--build|build)
+	docker-compose -f docker-compose.yml build
 	docker-compose -f spark-compose.yml build
 	;;
 	*)

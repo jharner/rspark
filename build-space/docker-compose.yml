@@ -1,9 +1,5 @@
 version: '3.5'
 
-base_image:
-  build: ./base-image
-  image: base-image:bionic
-
 services:
   postgres:
     build: ./postgres
