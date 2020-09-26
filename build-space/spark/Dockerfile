@@ -1,4 +1,4 @@
-FROM base-image:bionic
+FROM rhive:2.1.1
 MAINTAINER Jim Harner <ejharner@gmail.com>
 
 ARG hadoopversion=2.10.0

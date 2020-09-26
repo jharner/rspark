@@ -12,6 +12,9 @@ services:
 #      - "4040:4040"
 #      - "7077:7077"
 #      - "8080:8080"     # Master Web UI
+    depends_on:
+      - hadoop
+      - hive
     networks:
       rconnect_network:
 

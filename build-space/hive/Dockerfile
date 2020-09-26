@@ -1,4 +1,4 @@
-FROM base-image:bionic
+FROM rhadoop:2.10.0
 MAINTAINER Mark Lilback <mark@lilback.com>
 
 ARG hadoopversion=2.10.0

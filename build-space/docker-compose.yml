@@ -1,6 +1,10 @@
 version: '3.5'
-services:
 
+base_image:
+  build: ./base-image
+  image: base-image:bionic
+
+services:
   postgres:
     build: ./postgres
     restart: always
