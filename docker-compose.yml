@@ -60,8 +60,8 @@ services:
       - PASSWORD=rstudiojh
     ports:
       - "8787:8787"     # RStudio UI
-      - "4041:4040"     # Spark Web UI
-#      - "4041:4041"
+#      - "4041:4040"     # Spark Web UI
+      - "4041:4041"
     networks:
       rconnect_network:
     volumes:
