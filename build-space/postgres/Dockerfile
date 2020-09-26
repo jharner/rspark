@@ -12,10 +12,8 @@ ENV PGVERSION ${pgversion}
 ## This code initializes the postgresql server.
 # Install packages and Postgres
 RUN mkdir -p /opt/pg-data && \
-    mkdir /entrypoint && \
     chown -R postgres /opt/pg-data && \
     chmod 700 /opt/pg-data && \
-    locale-gen en_US.UTF-8 && \
 # Delete default cluster and create new cluster
     pg_dropcluster ${pgversion} main \
 #RUN pg_createcluster -d $PGDATA --locale=en_US.UTF-8 ${pgversion} main
