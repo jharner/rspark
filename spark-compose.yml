@@ -8,7 +8,8 @@ services:
     container_name: rspark-architect
     hostname: rspark-architect
     command: /entrypoint/entrypoint-spark-architect.sh
-#    ports:
+    ports:
+      - "4040:4040"
 #      - "7077:7077"
 #      - "8080:8080"     # Master Web UI
     networks:
@@ -23,7 +24,7 @@ services:
     environment:
       SPARK_CONF_DIR: /opt/spark/conf
       SPARK_WORKER_CORES: 1
-      SPARK_WORKER_MEMORY: 3g
+      SPARK_WORKER_MEMORY: 4g
     depends_on:
       - architect
     networks:
@@ -38,7 +39,7 @@ services:
     environment:
       SPARK_CONF_DIR: /opt/spark/conf
       SPARK_WORKER_CORES: 1
-      SPARK_WORKER_MEMORY: 3g
+      SPARK_WORKER_MEMORY: 4g
     depends_on:
       - architect
     networks:

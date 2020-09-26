@@ -52,7 +52,7 @@ R_LIBS_SITE=${R_LIBS_SITE-'/opt/spark/R/lib:/usr/local/lib/R/site-library:/usr/l
 ### mode: sh ***
 ### sh-indentation: 2 ***
 ### End: ***
-R_LIBS='/opt/spark/R/lib'
+R_LIBS='/opt/spark/R/lib':${R_LIBS}
 ### JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 SPARK_HOME=/opt/spark

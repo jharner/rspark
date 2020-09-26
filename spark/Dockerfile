@@ -96,6 +96,7 @@ RUN cd /opt  && \
     mkdir /entrypoint && \
     chown -R root:root $SPARK_HOME && \
     echo "JAVA_HOME=/usr/lib/jvm/adoptopenjdk-${javaversion}-hotspot-amd64" >> /opt/hadoop/etc/hadoop/hadoop-env.sh && \
+    useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
