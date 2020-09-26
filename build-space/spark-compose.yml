@@ -1,7 +1,7 @@
 version: '3.5'
 services:
     
-  architect:
+  master:
     build: ./spark
     image: rspark-base:3.0.0
     restart: always
@@ -12,13 +12,10 @@ services:
 #      - "4040:4040"
 #      - "7077:7077"
 #      - "8080:8080"     # Master Web UI
-    depends_on:
-      - hadoop
-      - hive
     networks:
       rconnect_network:
 
-  tecton1:
+  worker1:
     image: rspark-base:3.0.0
     restart: always
     container_name: rspark-tecton-1
@@ -29,11 +26,11 @@ services:
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 4g
     depends_on:
-      - architect
+      - master
     networks:
       rconnect_network:
       
-  tecton2:
+  worker2:
     image: rspark-base:3.0.0
     restart: always
     container_name: rspark-tecton-2
@@ -44,7 +41,7 @@ services:
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 4g
     depends_on:
-      - architect
+      - master
     networks:
       rconnect_network:
       

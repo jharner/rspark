@@ -17,7 +17,6 @@ RUN cd /opt && \
 	rm apache-hive-${hiveversion}-bin.tar.gz && \
 	chown -R root:root /opt/hive && \
 	mkdir /opt/hive-data && \
-    mkdir /scripts && \
     chown -R root:root /opt/hive-data && \
     chmod 700 /opt/hive-data
 
@@ -27,8 +26,7 @@ ADD hive-env.sh /etc/profile.d/
 ADD hive-site.xml /opt/hive/conf/
 COPY waitfor.sh /scripts/
 
-RUN useradd -u 1000 -s /bin/bash -m -d /home/rstudio rstudio && \
-    chmod 777 /scripts/waitfor.sh && \
+RUN chmod 777 /scripts/waitfor.sh && \
     echo "CLASSPATH=/opt/hive/jdbc/hive-jdbc-${hiveversion}-standalone.jar" >> /.bashrc && \
     echo "PATH='/opt/hive/bin:$PATH'" >> /etc/profile && \
     export PATH=/opt/hive/bin:$PATH && \

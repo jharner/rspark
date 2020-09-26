@@ -24,18 +24,17 @@ RUN cd /opt  && \
     mkdir /opt/spark-data && \
     chown -R root:root /opt/spark-data && \
 	cp /opt/spark/conf/spark-env.sh.template /opt/spark/conf/spark-env.sh && \
-	echo 'export SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.14.jar:$(/opt/hadoop/bin/hadoop classpath)' >> /opt/spark/conf/spark-env.sh && \
-    mkdir /entrypoint && \
+	echo 'SPARK_DIST_CLASSPATH=/opt/postgresql-42.2.14.jar:$(/opt/hadoop/bin/hadoop classpath)' >> /opt/spark/conf/spark-env.sh && \
     chown -R root:root $SPARK_HOME && \
     echo "PATH='/opt/spark/bin:$PATH'" >> /etc/profile && \
     export PATH=/opt/spark/bin:$PATH && \
     echo "PATH='/opt/spark/bin:$PATH'" >> /.bashrc && \
-    . /.bashrc
+    . /.bashrc && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-ADD entrypoint-spark-master.sh /entrypoint
-ADD entrypoint-spark-worker.sh /entrypoint
+ADD entrypoint-spark-architect.sh /entrypoint
+ADD entrypoint-spark-tecton.sh /entrypoint
 
 #WORKDIR $SPARK_HOME
 #CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
