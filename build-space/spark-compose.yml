@@ -1,0 +1,67 @@
+version: '3.5'
+services:
+    
+  architect:
+    build: ./spark
+    image: rspark-base:3.0.0
+    restart: always
+    container_name: rspark-architect
+    hostname: rspark-architect
+    command: /entrypoint/entrypoint-spark-architect.sh
+#    ports:
+#      - "4040:4040"
+#      - "7077:7077"
+#      - "8080:8080"     # Master Web UI
+    networks:
+      rconnect_network:
+
+  tecton1:
+    image: rspark-base:3.0.0
+    restart: always
+    container_name: rspark-tecton-1
+    hostname: rspark-tecton-1
+    command: /entrypoint/entrypoint-spark-tecton.sh
+    environment:
+      SPARK_CONF_DIR: /opt/spark/conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 4g
+    depends_on:
+      - architect
+    networks:
+      rconnect_network:
+      
+  tecton2:
+    image: rspark-base:3.0.0
+    restart: always
+    container_name: rspark-tecton-2
+    hostname: rspark-tecton-2
+    command: /entrypoint/entrypoint-spark-tecton.sh
+    environment:
+      SPARK_CONF_DIR: /opt/spark/conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 4g
+    depends_on:
+      - architect
+    networks:
+      rconnect_network:
+      
+#  tecton3:
+#    image: rspark-base:3.0.0
+#    restart: always
+#    container_name: rspark-tecton-3
+#    hostname: rspark-tecton-3
+#    command: /entrypoint/entrypoint-spark-tecton.sh
+#    environment:
+#      SPARK_CONF_DIR: /opt/spark/conf
+#      SPARK_WORKER_CORES: 1
+#      SPARK_WORKER_MEMORY: 2g
+#    depends_on:
+#      - architect
+#    networks:
+#      rconnect_network:
+
+networks:
+  rconnect_network:
+    name: rconnect
+    driver: bridge
+
