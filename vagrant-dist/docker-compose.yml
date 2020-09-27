@@ -3,17 +3,26 @@ services:
 
   postgres:
     image: rspark-postgres
+    container_name: postgres
+    hostname: postgres
+    restart: always
     ports:
       - "5432:5432"     # Postgres
       
   hadoop:
     image: rspark-hadoop
+    container_name: hadoop
+    hostname: hadoop
+    restart: always
     ports:
       - "9000:9000"     # Hadoop
       - "50070:50070"   # Hadoop UI
       
   hive:
     image: rspark-hive
+    container_name: hive
+    hostname: hive
+    restart: always
     ports:
       - "10000:10000"
     depends_on:
@@ -22,6 +31,9 @@ services:
       
   rstudio:
     image: rspark-rstudio
+    container_name: rstudio
+    hostname: rstudio
+    restart: always
     environment:
       - PASSWORD=rstudiojh
     ports:

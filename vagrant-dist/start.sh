@@ -6,5 +6,5 @@ function finish {
 trap finish EXIT
 
 vagrant up
-vagrant ssh -c "docker-compose up"
+vagrant ssh -c "cd /vagrant; docker-compose up"
 
