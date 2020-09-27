@@ -100,8 +100,8 @@ RUN cd /opt  && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-ADD entrypoint-spark-architect.sh /entrypoint
-ADD entrypoint-spark-tecton.sh /entrypoint
+ADD entrypoint-spark-master.sh /entrypoint
+ADD entrypoint-spark-worker.sh /entrypoint
 
 ## Now install R and littler, and create a link for littler in /usr/local/bin
 ## Also set a default CRAN repo, and make sure littler knows about it too
