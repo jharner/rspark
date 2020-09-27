@@ -3,23 +3,19 @@ services:
     
   master:
     build: ./spark
-    image: rspark-base:3.0.0
+    image: rspark:3.0.0
     restart: always
-    container_name: rspark-master
-    hostname: rspark-master
     command: /entrypoint/entrypoint-spark-master.sh
-#    ports:
-#      - "4040:4040"
+    ports:
+      - "4040:4040"
 #      - "7077:7077"
-#      - "8080:8080"     # Master Web UI
+      - "8080:8080"     # Master Web UI
     networks:
       rconnect_network:
 
   worker1:
-    image: rspark-base:3.0.0
+    image: rspark:3.0.0
     restart: always
-    container_name: rspark-worker-1
-    hostname: rspark-worker-1
     command: /entrypoint/entrypoint-spark-worker.sh
     environment:
       SPARK_CONF_DIR: /opt/spark/conf
@@ -31,10 +27,8 @@ services:
       rconnect_network:
       
   worker2:
-    image: rspark-base:3.0.0
+    image: rspark:3.0.0
     restart: always
-    container_name: rspark-worker-2
-    hostname: rspark-worker-2
     command: /entrypoint/entrypoint-spark-worker.sh
     environment:
       SPARK_CONF_DIR: /opt/spark/conf
@@ -46,10 +40,8 @@ services:
       rconnect_network:
       
 #  worker3:
-#    image: rspark-base:3.0.0
+#    image: rspark:3.0.0
 #    restart: always
-#    container_name: rspark-worker-3
-#    hostname: rspark-worker-3
 #    command: /entrypoint/entrypoint-spark-worker.sh
 #    environment:
 #      SPARK_CONF_DIR: /opt/spark/conf

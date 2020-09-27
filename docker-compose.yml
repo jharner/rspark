@@ -5,8 +5,6 @@ services:
     build: ./postgres
     restart: always
     image: rpsql:12
-    container_name: rpsql
-    hostname: rpsql
     command: /entrypoint/entrypoint-postgres.sh
 #    ports:
 #      - "5432:5432"     # Postgres
@@ -19,14 +17,12 @@ services:
     build: ./hadoop
     restart: always
     image: rhadoop:2.10.0
-    container_name: rhadoop
-    hostname: rhadoop
     command: /entrypoint/entrypoint-hadoop.sh -d
-#    ports:
-#      - "9000:9000"     # Hadoop
-#      - "50070:50070"   # Hadoop UI
-#      - "50075:50075"
-#      - "8088:8088"
+    ports:
+      - "9000:9000"     # Hadoop
+      - "50070:50070"   # Hadoop UI
+      - "50075:50075"
+      - "8088:8088"
     networks:
       rconnect_network:
     volumes:
@@ -36,13 +32,11 @@ services:
     build: ./hive
     restart: always
     image: rhive:2.1.1
-    container_name: rhive
-    hostname: rhive
     command: /entrypoint/entrypoint-hive.sh
-#    ports:
+    ports:
 #      - "10000:10000"
-#      - "9999:9999"    # Hive UI
-#      - "9083:9083"     # Hive Metastore
+      - "9999:9999"    # Hive UI
+      - "9083:9083"     # Hive Metastore
     networks:
       rconnect_network:
     depends_on:
@@ -52,16 +46,14 @@ services:
   rstudio:
     build: ./rstudio
     restart: always
-    image: rconnector:U.18.04.R.3.6.3
-    container_name: rconnector
-    hostname: rconnector
+    image: rcompute:bionic-R.3.6.3
     command: /init
     environment:
       - PASSWORD=rstudiojh
     ports:
       - "8787:8787"     # RStudio UI
 #      - "4041:4040"     # Spark Web UI
-      - "4041:4041"
+#      - "4041:4041"
     networks:
       rconnect_network:
     volumes:
