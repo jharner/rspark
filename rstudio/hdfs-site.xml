@@ -19,11 +19,11 @@
 <configuration>
 <property>
 	<name>dfs.name.dir</name>
-	<value>/opt/hadoopdata/nn</value>
+	<value>/opt/hadoop/nn</value>
 </property>
 <property>
 	<name>dfs.data.dir</name>
-	<value>/opt/hadoopdata/dfs</value>
+	<value>/opt/hadoop-data/dfs</value>
 </property>
 </configuration>
 
