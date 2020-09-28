@@ -9,6 +9,8 @@ data
 derby.log
 metastore_db
 vagrant/.vagrant
+vagrant/images.tar
+vagrant/rspark.box
 vagrant-dist/.vagrant
 *.bbprojectd
 
