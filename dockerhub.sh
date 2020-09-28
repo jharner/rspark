@@ -4,7 +4,7 @@
 USERNAME="jharner"
 IMAGE=$1
 REPONAME=$USERNAME/$IMAGE
-TAG=1.0.1
+TAG=1.0.2
 
 docker tag $IMAGE:latest $REPONAME:$TAG
 docker push $REPONAME:$TAG
