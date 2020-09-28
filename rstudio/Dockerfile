@@ -104,12 +104,22 @@ RUN ln -s /usr/local/bin/Rscript /usr/bin/Rscript && \
     echo "PATH='/opt/hadoop/bin:/opt/spark/bin:/opt/hive/bin:$PATH'" >> /home/rstudio/.bashrc && \
     . /home/rstudio/.bashrc
 # Get tests and tutorial from Github.
-RUN cd /home/rstudio && \
-    git clone https://github.com/jharner/rspark-tests && \
-    git clone https://github.com/jharner/rspark-tutorial
-
+# USER rstudio
+RUN mkdir /home/rstudio/rspark-tests && \
+git clone https://github.com/jharner/rspark-tests.git /tmp/foo && \
+cd /tmp/foo && \
+git archive master | tar -x -C /home/rstudio/rspark-tests  && \
+cd && \
+rm -rf /tmp/foo
+RUN mkdir /home/rstudio/rspark-tutorial && \
+git clone https://github.com/jharner/rspark-tutorial.git /tmp/foo && \
+cd /tmp/foo && \
+git archive master | tar -x -C /home/rstudio/rspark-tutorial  && \
+cd && \
+rm -rf /tmp/foo
 RUN chown -R rstudio:rstudio /home/rstudio
 # USER root
+
 EXPOSE 8787
 EXPOSE 4040
 EXPOSE 4041
