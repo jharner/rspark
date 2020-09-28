@@ -21,8 +21,6 @@ services:
     ports:
       - "9000:9000"     # Hadoop
       - "50070:50070"   # Hadoop UI
-      - "50075:50075"
-      - "8088:8088"
     volumes:
       - rspark_hadoopdata:/opt/hadoop
 
@@ -34,8 +32,7 @@ services:
     hostname: hive
     ports:
       - "10000:10000"
-      - "9999:9999"    # Hive UI
-      - "9083:9083"     # Hive Metastore
+      - "9999:9999"     # Hive UI
     depends_on:
       - hadoop
       - postgres
@@ -51,7 +48,6 @@ services:
     ports:
       - "8787:8787"     # RStudio UI
       - "4040:4040"     # Spark Web UI
-      - "4041:4041"
     volumes:
       - rspark_rstudio:/home/rstudio
     depends_on: 
