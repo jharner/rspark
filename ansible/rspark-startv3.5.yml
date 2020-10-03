@@ -1,0 +1,74 @@
+---
+
+ - name: Run with inline v3.5 compose
+   hosts: webserver
+   connection: ssh
+   gather_facts: no
+   tasks:
+    - name: install base packages
+      apt: pkg={{item}} state=present update_cache=yes cache_valid_time=604800
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg2
+        - software-properties-common
+        - git
+        - cloud-init
+        - docker-compose
+
+#    - docker_service:
+#        project_source: /home/ubuntu/rspark/
+
+    - docker_service:
+        project_name: rspark
+        state: present
+        definition:
+          version: '3.5'
+          services:
+            postgres:
+#              build: /home/ubuntu/rspark/postgres
+              image: postgres
+              restart: always
+              ports:
+                - "5432:5432"   # Postgres
+
+            hadoop:
+#              build: /home/ubuntu/rspark/hadoop
+              image: hadoop
+              restart: always
+              volumes:
+                - /home/ubuntu/rspark/data/hadoop:/opt/hadoop
+              ports:
+                - "9000:9000"   # Hadoop
+                - "50070:50070" # HadoopUI Access
+
+            hive:
+#              build: /home/ubuntu/rspark/hive
+              image: hive
+              ports:
+                - "10000:10000" # Hive
+                - "9999:9999"   # Hive UI
+              depends_on:
+                - hadoop
+                - postgres
+
+            rstudio:
+#              build: /home/ubuntu/rspark/rstudio
+              image: rstudio
+              ports:
+                - "8787:8787"   # Rstudio UI
+                - "4040:4040"   # Spark Web UI
+#               links:
+#                 - hadoop
+#                 - postgres
+              volumes:
+                - /home/ubuntu/rspark/rspark-tutorial:/home/rstudio/rspark-tutorial
+                - /home/ubuntu/rspark/rspark-tests:/home/rstudio/rspark-tests
+              depends_on: 
+                - hadoop
+                - hive
+
+
+
+...
