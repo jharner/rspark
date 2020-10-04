@@ -7,6 +7,7 @@ ARG hiveversion=2.1.1
 ARG sparkversion=3.0.0
 ARG javaversion=8
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
+ARG DEBIAN_FRONTEND=noninteractive
 
 #  ENV JAVA_HOME /usr/lib/jvm/java-${java_version}-openjdk-amd64
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
@@ -18,10 +19,25 @@ ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
 ENV HIVE_HOME=/opt/hive
 ENV SPARK_HOME=/opt/spark
 
+RUN apt-get update && \
+    apt-get install -y locales && \
+    dpkg-reconfigure -f noninteractive locales && \
+    locale-gen en_US.UTF-8 && \
+    /usr/sbin/update-locale LANG=en_US.UTF-8 && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    locale-gen && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+# Users with other locales should set this in their derivative image
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 ## OpenJDK, Postgres client, and Arrow
 COPY postgresKey.asc openjdkKey.asc /tmp/
 RUN apt-get update && \
-    apt-get install -y apt-utils apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common autoconf automake libtool curl make g++ unzip && \
+    apt-get install -y apt-utils apt-transport-https tzdata ca-certificates wget dirmngr gnupg software-properties-common autoconf automake libtool curl make g++ unzip && \
     apt-key add /tmp/postgresKey.asc && \
     apt-key add /tmp/openjdkKey.asc && \
     add-apt-repository --yes 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' && \
